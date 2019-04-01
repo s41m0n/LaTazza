@@ -33,11 +33,13 @@ Version: 0.1
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|Manager           | super user of the system, can sell capsules, manage the inventory, manage credits and debts of employes | 
-|Owner         	  |  provides online system and supplies to the manager           | 
-|Employee         | drinks coffee / tea and can use it's local account | 
-|Visitor             |  drinks coffee / tea |
-|System Admin |   Manage web system          | 
-|Inventory admin |Manage LaTazza warehouse|
+|Manager           | Super user of the system, can sell capsules, manages the inventory, manages the credits and the debts of employees | 
+|Owner         	  |  Provides online system and supplies it to the manager           | 
+|Employee         | Drinks coffee / tea and can use its local account | 
+|Visitor             |  Drinks coffee / tea |
+|System Admin |   Manages web system          | 
+|Inventory Admin |Manages LaTazza warehouse|
+
+# Context Diagram
 
 
