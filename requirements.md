@@ -33,13 +33,28 @@ Version: 0.1
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|Manager           | Super user of the system, can sell capsules, manages the inventory, manages the credits and the debts of employees | 
+|Manager           | Super user of the system, sells capsules, manages the inventory, manages the credits and the debts of employees | 
 |Owner         	  |  Provides online system and supplies it to the manager           | 
 |Employee         | Drinks coffee / tea and can use its local account | 
 |Visitor             |  Drinks coffee / tea |
 |System Admin |   Manages web system          | 
 |Inventory Admin |Manages LaTazza warehouse|
 
-# Context Diagram
+# Context Diagram and Interfaces
+## Context Diagram
+
+The context diagram can be derived.
+
+- The principal actors in the system are the following:
+
+	- **Manager**
+	- **Employee**
+	- **Visitor**
+	- **Banking System**, which permits the payments to be performed.
+
+The system itself has references to the inventory for the capsules, so the latter is not needed in the representation.	
+
+![alt text] [image]
+[image]: ContextDiagram.png
 
 
