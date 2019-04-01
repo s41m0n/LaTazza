@@ -57,4 +57,23 @@ The system itself has references to the inventory for the capsules, so the latte
 ![alt text] [image]
 [image]: ContextDiagram.png
 
+## Interfaces
+The following interfaces are needed for the realization of the system.
+
+| Actor | Logical Interface | Physical Interface  |
+| ------------- |:-------------:| -----:|
+| Manager     | Access to system | GUI/Web page |
+| Employee     | Access to system | GUI/Web page |
+| Visitor     | Access to system | GUI/Web page |
+| Banking System     | Perform payments | Web Service using APIs |
+
+Each actor among Manager, Employee and Visitor will exploit a different type of account, more in particular:
+
+	1. General/Admin for Managers
+	2. Local for Employees
+	3. Visitor for Visitors
+Of course, each account will manage the users in different ways with different permissions.
+
+
+
 
