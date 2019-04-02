@@ -8,7 +8,7 @@ Authors:
 
 Date: 28/03/2019
 
-Version: 0.1
+Version: 0.2
 
 # Contents
 
@@ -50,12 +50,23 @@ The context diagram can be derived.
 	- **Manager**
 	- **Employee**
 	- **Visitor**
-	- **Banking System**, which permits the payments to be performed.
 
 The system itself has references to the inventory for the capsules, so the latter is not needed in the representation.	
 
-![alt text] [image]
-[image]: ContextDiagram.png
+```plantuml
+left to right direction
+skinparam packageStyle rectangle
+actor Employee as e
+actor Visitor as v
+actor Manager as m
+
+rectangle System {
+  (LaTazza) as lt
+  e--lt: "Service usage"
+  v--lt: "Service usage"
+  lt--m: "Service guarantee"
+}
+```
 
 ## Interfaces
 The following interfaces are needed for the realization of the system.
