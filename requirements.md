@@ -3,8 +3,8 @@
 Authors:
 - Daniele Palumbo
 - Enrico Postolov
-- Riccardo
-- Simone
+- Riccardo Marchi
+- Simone Magnani
 
 Date: 28/03/2019
 
