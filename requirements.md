@@ -86,5 +86,25 @@ Each actor among Manager, Employee and Visitor will exploit a different type of 
 Of course, each account will manage the users in different ways with different permissions.
 
 
+# Stories and Personas
 
+<Manager>
+Rachel Green
 
+46, secretary at "Senses & Feelings Corporation", mother of two children
+
+As the secretary of the company, Rachel has been picked to manage also the LaTazza system, to maintain the order in the usage of the coffee maker and to do the required actions to keep the capsules supply always available. She also has the job to sell capsules to those visitors who want make use of it.
+
+<Employee>
+Ted Mosby
+
+25, architect at "Building Stuff Association", single and living alone
+
+Being a young man at his first experiences in living alone, Ted is not used to have breakfast at home and his being late tendency does not let him have it too. So it is essential for him to have a coffee maker at work to charge the batteries in view of a long working day.
+
+<Visitor>
+Meredith Grey
+
+69, retired, widow
+
+Meredith is not a patient woman, so when she has a fixed appointment for her checkups, she does not want to wait further than the expected. The only way to make her waiting better is a hot cup of tea, her favourite beverage.
