@@ -3,8 +3,8 @@
 Authors:
 - Daniele Palumbo
 - Enrico Postolov
-- Riccardo
-- Simone
+- Riccardo Marchi
+- Simone Magnani
 
 Date: 28/03/2019
 
@@ -26,7 +26,7 @@ Version: 0.2
 	+ [Use cases](#use-cases)
 	+ [Relevant scenarios](#relevant-scenarios)
 - [(Riccardo) Glossary](#glossary)
-- [(Simone, Riccardo) (System design](#system-design)
+- [(Simone, Riccardo) System design](#system-design)
 
 # Stakeholders
 
@@ -86,6 +86,45 @@ Each actor among Manager, Employee and Visitor will exploit a different type of 
 Of course, each account will manage the users in different ways with different permissions.
 
 
+# Stories and Personas
+
+
+Rachel Green (Manager)
+
+46, secretary at "Senses & Feelings Corporation", mother of two children
+
+As the secretary of the company, Rachel has been picked to manage the LaTazza system, to maintain the order in the usage of the coffee maker and to do the required actions to keep the capsules supply always available. She also has the job to sell capsules to those visitors who want make use of it.
+
+It is the end of the week and Rachel notices from the inventory of the application that the supply of the Arabic cofee capsules is almost finished and she has to immediately put an order of some boxes of them to avoid any lack the following week.
+Once logged in, she selects the type of capsules and the quantity to order, raising up the load compared to the previous time, due to the fast consumption. Then she buys them with her own money.
+As soon as the payment has been done, she is able to keep filling the papers her boss told her to before the end of her working week.
+
+---
+
+Ted Mosby (Employee)
+
+25, architect at "Building Stuff Association", single and living alone
+
+Being a young man at his first experience in living alone, Ted is not used to have breakfast at home and his being late tendency does not let him have it too. So it is essential for him to have a coffee maker at work to charge the batteries in view of a long working day.
+
+It is monday morning.
+After a rough weekend out of town with his friends, Ted needs to gain some concentration with a coffee, but he has neither a capsule nor any cash in his account. After logging in, he recharges its balance and then he buys 15 capsules, hoping that they will be enough for the entire week. Later he drinks his daily morning coffee and chitchats with his colleague before the start of the shift.
+After the energy refill he heads to his office and he is ready to start to work on the new project commissioned.
+
+---
+
+Meredith Grey (Visitor)
+
+69, retired, widow
+
+Meredith is not a patient woman, so when she has a fixed appointment for her checkups, she does not want to wait further than the expected. The only way to make her waiting better is a hot cup of tea, her favourite beverage.
+
+It is Wednesday afternoon.
+As any other time, Meredith is on time for her monthly checkup at the private clinic, but the doctors are not ready yet. Therefore she needs a cup of tea to spend the time while waiting to be visited.
+Meredith asks for it to the front-desk girl and she sells her a Lemon-tea capsule. Once payed for it, she gets her tea and enjoys the delay in a relaxed way.
+The time lost was not so terrible with that beverage and now she is even more ready and calm to be supervised by the medical crew.
+
+
 # Functional and non functional requirements
 ## Functional requirements
 
@@ -109,15 +148,19 @@ Of course, each account will manage the users in different ways with different p
 
 | ID        | Type (efficiency, reliability, ...)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NF1     |  Domain | Accepted cash shall be only euro | FR4 |
-|  NF2     |  Legislation | Transactions shall be stored for 5 years | FR10 |
-|  NF3     |  Privacy | Private data shall be preserved | FR1, FR2, FR3, FR6 |
+|  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4 |
+|  NF2     	|  Domain 	   | Accepted cash shall be > 0.5€					 							| FR4 |
+|  NF3     	|  Domain 	   | The maximum capsules an employee can buy shall be less than 100 			| FR4 	| 
+|  NF4     	|  Domain 	   | The maximum capsules a visitor can buy shall be 1				 			| FR4 	| 
+|  NF5     	|  Reliability | Cash machine shall fail less than 2% of all the times 						| FR4 | 
+|  NF6     	|  Reliability | Log failures shall be less than 1% of all the transactions					| FR10 |
+|  NF7      |  Performance | Application startup and changing menu shall require less than 3 seconds 	| FR[1-10] | 
+|  NF8      |  Performance | Server response during transaction shall be less than 1 seconds		 	| FR[1-10] | 
+|  NF9    	|  Portability | Modules to be changed shall be less than 50% 								| FR[1-10] |
+|  NF10     |  Usability   | The software shall require less than 15 minutes to be learnt 				| FR[1-10] | 
+|  NF11     |  Security    | To break into the system a high-skilled hacker shall take more than 1 week | FR[1-10] |
+|  NF12     |  Operating   | System resources required shall be less than 1GB 							| FR[1-10] | 
+|  NF13    	|  Reliability | System downtime shall be less than 1 hour per day 							| FR[1-10] | 
+|  NF14     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR5, FR6 |
+|  NF15     |  Legislation | Transactions shall be stored for 5 years 									| FR10 |
 
-## Inverse User Requirements
-
-Following situations should be avoided.
-
-| ID        | Description  |
-| ------------- |:-------------:| 
-|  IF1     |  Payment shall not be performed in the case the required n° of capsules is not available |
-|  IF2     |  When the server is unreachable, the application should not allow users to perform any operation | 
