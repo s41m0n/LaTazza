@@ -86,5 +86,38 @@ Each actor among Manager, Employee and Visitor will exploit a different type of 
 Of course, each account will manage the users in different ways with different permissions.
 
 
+# Functional and non functional requirements
+## Functional requirements
 
+| ID        | Description  |
+| ------------- |:-------------:| 
+|  FR1    	 |  Create an account |
+|  FR2    	 |  Login |
+|  FR3    	 |  Logout |
+|  FR4       |  Sell/Buy capsules | 
+|  FR5       |  Order capsules from vendor | 
+|  FR6       |  Manage account |  
+|  FR6.1     |  Add/Remove payment method |  
+|  FR6.2     |  Buy credits |
+|  FR6.3     |  Pay off debts |
+|  FR7       |  Manage inventory |
+|  FR8       |  Manage cash account |
+|  FR9     	 |  Manage personal account |  
+|  FR10    	 |  Log each transaction  |
 
+## Non Functional Requirements
+
+| ID        | Type (efficiency, reliability, ...)           | Description  | Refers to |
+| ------------- |:-------------:| :-----:| -----:|
+|  NF1     |  Domain | Accepted cash shall be only euro | FR4 |
+|  NF2     |  Legislation | Transactions shall be stored for 5 years | FR10 |
+|  NF3     |  Privacy | Private data shall be preserved | FR1, FR2, FR3, FR6 |
+
+## Inverse User Requirements
+
+Following situations should be avoided.
+
+| ID        | Description  |
+| ------------- |:-------------:| 
+|  IF1     |  Payment shall not be performed in the case the required n° of capsules is not available |
+|  IF2     |  When the server is unreachable, the application should not allow users to perform any operation | 
