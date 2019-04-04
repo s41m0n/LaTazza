@@ -234,4 +234,25 @@ Person "1" -- "*" Capsule : buys
 |  5       |  System adds the purchase if payment succesful |
 |  6       |  System updates the inventory |
 
+---
+
+### 2. Succesful inventory management
+
+<u>PRECONDITION:</u> There must be a valid Manager account.
+
+<u>POSTCONDITION:</u> The amount of boxes ordered by the Manager should be added to the inventory and thus increase the capsule availability in the system.
+
+| SCENARIO ID: Sc2        | Corresponds to UC: Manage inventory  |
+| :-------------: |:-------------:| 
+|  Step#    	 |  Description |
+|  1    	 |  System realizes that only one box of a capsule type is present in the inventory|
+|  2    	 |  System notifies Manager about the missing|
+|  3       |  Manager orders a number of boxes from the vendor |
+|  4       |	 Pay with account credit/cash for the order |
+|  5       |  Wait for order completion |
+|  6       |  Set of boxes arrives |
+|  7       |  System records the purchase |
+|  8		 |  Boxes placed in the inventory |
+|  9		 |  System updates capsule availability for future purchases|
+
 
