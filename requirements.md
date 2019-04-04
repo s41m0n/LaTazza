@@ -168,51 +168,6 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  NF14     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR5, FR6 |
 |  NF15     |  Legislation | Transactions shall be stored for 5 years 									| FR10 |
 
-
-# Glossary
-
-
-```plantuml
-class Person {
-  fiscalCode
-  name
-  surname
-}
-
-class Manager {
-}
-
-class Employee {
-  ID
-}
-
-class Visitor {
-}
-
-class Capsule {
-  ID
-  type
-}
-
-class Box {
-  ID
-}
-
-class Vendor {
-  ID
-  companyName
-}
-
-Employee <|-- Manager
-Person <|-- Employee
-Person <|-- Visitor
-Vendor "1" -- "*" Box : owns
-Box o-- Capsule : contains
-Manager "1" -- "*" Capsule : sells
-Manager "1" -- "*" Box : orders
-Person "1" -- "*" Capsule : buys
-```
-
 # Use case diagram and use cases
 
 ## Use case diagram
@@ -320,5 +275,54 @@ bc .> lt : include
 |  4       |  Select amount of credits to buy |
 |  5       |	 Pay with the provided payment method |
 |  6       |  System adds the credits to the local account |
+
+
+# Glossary
+
+
+```plantuml
+class Person {
+  fiscalCode
+  name
+  surname
+}
+
+class Manager {
+}
+
+class Employee {
+  ID
+}
+
+class Visitor {
+}
+
+class Capsule {
+  ID
+  type
+}
+
+class Box {
+  ID
+}
+
+class Vendor {
+  ID
+  companyName
+}
+
+Employee <|-- Manager
+Person <|-- Employee
+Person <|-- Visitor
+Vendor "1" -- "*" Box : owns
+Box o-- Capsule : contains
+Manager "1" -- "*" Capsule : sells
+Manager "1" -- "*" Box : orders
+Person "1" -- "*" Capsule : buys
+```
+
+# System Design
+
+
 
 
