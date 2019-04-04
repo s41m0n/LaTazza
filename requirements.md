@@ -212,7 +212,26 @@ Person "1" -- "*" Capsule : buys
 
 ## Use case diagram
 
+
+
 ## Use cases
 
 ## Relevant scenarios
+
+### 1. Succesful capsules purchase from Employee
+
+<u>PRECONDITION:</u> The Employee should have a local account. If this is verified, it is also necessary that the user has a sufficient credit on its account or that he has sufficient cash with him to pay the capsules.
+
+<u>POSTCONDITION:</u> The caspule bought by the Employee should be removed from the Inventory and the latter should update its availability in real time.
+
+| SCENARIO ID: Sc1        | Corresponds to UC: Buy capsules  |
+| :-------------: |:-------------:| 
+|  Step#    	 |  Description |
+|  1    	 |  Login on local account|
+|  2    	 |  Select capsule type |
+|  3       |  Select amount of capsules |
+|  4       |	 Pay with account credit/cash |
+|  5       |  System adds the purchase if payment succesful |
+|  6       |  System updates the inventory |
+
 
