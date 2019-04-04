@@ -212,7 +212,46 @@ Person "1" -- "*" Capsule : buys
 
 ## Use case diagram
 
+``` plantuml
+left to right direction
+
+actor Employee as e
+actor Visitor as v
+actor Manager as m
+
+(Buy capsules) as bc
+(Sell capsules) as sc
+(Order capsules from vendor) as oc
+(Manage inventory) as mi
+(Add/Remove payment method) as pm
+(Buy credits) as b
+(Pay off debts) as p
+(Manage cash account) as mca
+(Manage personal account) as mpa
+(Update inventory) as bi
+(Log each transaction) as lt
+
+e -- bc
+bc -- v
+e -- b
+e -- p
+e -- mpa
+sc -- m
+mpa -- m
+mca -- m
+mi -- m
+bc .> sc : include
+b .> pm : include
+p .> pm : include
+bc .> bi : include
+mi .> bi : include
+mi .> oc : include
+bc .> lt : include
+```
+
 ## Use cases
+
+
 
 ## Relevant scenarios
 
