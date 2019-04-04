@@ -85,6 +85,10 @@ Each actor among Manager, Employee and Visitor will exploit a different type of 
 	3. Visitor for Visitors
 Of course, each account will manage the users in different ways with different permissions.
 
+# Use case diagram and use cases
+## Use case diagram
+## Use cases
+
 
 
 
