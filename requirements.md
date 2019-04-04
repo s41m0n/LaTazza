@@ -212,3 +212,12 @@ Manager "1" -- "*" Capsule : sells
 Manager "1" -- "*" Box : orders
 Person "1" -- "*" Capsule : buys
 ```
+
+# Use case diagram and use cases
+
+## Use case diagram
+
+## Use cases
+
+## Relevant scenarios
+
