@@ -292,4 +292,22 @@ bc .> lt : include
 |  8		 |  Boxes placed in the inventory |
 |  9		 |  System updates capsule availability for future purchases|
 
+---
+
+### 3. Credits purchase by Employee
+
+<u>PRECONDITION:</u> The Employee must have a local account on the system.
+
+<u>POSTCONDITION:</u> The amount of credits requested by the Employee should be added to its account, in order to be used for future purchases.
+
+| SCENARIO ID: Sc3        | Corresponds to UC: Buy credits  |
+| :-------------: |:-------------:| 
+|  Step#    	 |  Description |
+|  1    	 |  Login on local account|
+|  2    	 |  Add a payment method for credits if not yet present on system |
+|  3       |  System saves the selected payment method |
+|  4       |  Select amount of credits to buy |
+|  5       |	 Pay with the provided payment method |
+|  6       |  System adds the credits to the local account |
+
 
