@@ -279,7 +279,7 @@ bc .> lt : include
 |  2    	 |  Select capsule type |
 |  3       |  Select amount of capsules |
 |  4       |	 Pay with account credit/cash |
-|  5       |  System adds the purchase if payment succesful |
+|  5       |  System adds the purchase if payment succesful and decreases user credits if necessary|
 |  6       |  System updates the inventory |
 
 ---
