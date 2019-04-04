@@ -10,6 +10,11 @@ Date: 28/03/2019
 
 Version: 0.2
 
+## DA SISTEMARE
+1. massimo debito per un account
+2. cosa succede se non viene pagato
+3. Sospensione account
+
 # Contents
 
 - [(Daniele) Stakeholders](#stakeholders)
@@ -251,6 +256,12 @@ bc .> lt : include
 
 ## Use cases
 
+| ACTOR | GOAL | BRIEF |
+| --- | --- | --- |
+| Employee| Buy capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay through cash, or with credits from it's account or by doing a debts on it's account. After purchase, order is added to employee account and system inventory is automatically updated  |
+| Visitor | Buy capsules | The visitor  wants to buy one or more capsules from Manager. He can only pay by cash. System logs the sell and updates automatically the inventory|
+| Employee | Account management | Employee can modify his public and private information (validation required), he can add credits or pay debts doing a payment by cash or digital system. System logs the payment and updates account status |
+| Manager | Inventory management |  Manager is able to check inventory status and sees how many capsules remains for each type. If necessary, he can order from vendors more box of capsules. System saves transactions and update inventory. System can also notify the manager if a type of capsules is finishing. Manager can see all previous transactions and previous sells of capsules. Least, manager can administrate employees local accounts: check their credits and their purchases |
 
 
 ## Relevant scenarios
