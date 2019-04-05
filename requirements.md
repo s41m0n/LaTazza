@@ -133,7 +133,7 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  FR1    	 |  Create an account |
 |  FR2    	 |  Login |
 |  FR3    	 |  Logout |
-|  FR4       |  Sell/Buy capsules | 
+|  FR4       |  Buy capsules | 
 |  FR5       |  Order capsules from vendor | 
 |  FR6       |  Manage account |  
 |  FR6.1     |  Add/Remove payment method |  
@@ -143,19 +143,18 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  FR6.5	 |	Delete employee account |
 |  FR7       |  Manage inventory |
 |  FR8       |  Manage cash account |
-|  FR9     	 |  Manage personal account |  
-|  FR10    	 |  Log each transaction  |
+|  FR9       |  Sell capsules |  
 
 ## Non Functional Requirements
 
 | ID        | Type (efficiency, reliability, ...)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4 |
-|  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be 100			 			| FR4 	| 
+|  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4, FR9 |
+|  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be 100			 			| FR4, FR9 	| 
 |  NF3      |  Domain 	   | In the system there shall be only 1 manager 							 	| FR6.5 |
 |  NF4      |  Domain 	   | An account to be deleted shall have 0 € of debts 							| FR6.5 |
-|  NF5      |  Domain 	   | A user shall have less than 20 € of debts 									| FR4, FR6.3 |
-|  NF6     	|  Reliability | Log failures shall be less than 1% of all the transactions					| FR10 |
+|  NF5      |  Domain 	   | A user shall have less than 20 € of debts 									| FR4, FR9, FR6.3 |
+|  NF6     	|  Reliability | Log failures shall be less than 1% of the total logged activities			| FR[1-10] |
 |  NF7    	|  Reliability | System downtime shall be less than 30 minutes per day 						| FR[1-10] | 
 |  NF8      |  Performance | Application startup shall require less than 5 seconds 						| FR[1-10] | 
 |  NF9      |  Performance | Server response during transaction shall be less than 3 seconds		 	| FR[1-10] | 
@@ -163,8 +162,9 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  NF11     |  Usability   | The software shall require less than 15 minutes to be learnt 				| FR[1-10] | 
 |  NF12     |  Security    | To break into the system a high-skilled hacker shall take more than 1 week | FR[1-10] |
 |  NF13     |  Operating   | System resources required shall be less than 1GB 							| FR[1-10] | 
-|  NF14     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR5, FR6 |
-|  NF15     |  Legislation | Transactions shall be stored for 5 years 									| FR10 |
+|  NF14     |  Legislation | Transactions shall be stored for 5 years 									| FR4, FR5, FR6.2, FR8, FR9 |
+|  NF15     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR5, FR6, FR9 |
+
 
 # Use case diagram and use cases
 
@@ -177,34 +177,34 @@ actor Employee as e
 actor Visitor as v
 actor Manager as m
 
-(Buy capsules) as bc
-(Sell capsules) as sc
-(Order capsules from vendor) as oc
-(Manage inventory) as mi
-(Add/Remove payment method) as pm
-(Buy credits) as b
-(Pay off debts) as p
-(Manage cash account) as mca
-(Manage personal account) as mpa
-(Update inventory) as bi
-(Log each transaction) as lt
-
-e -- bc
-bc -- v
-e -- b
-e -- p
-e -- mpa
-sc -- m
-mpa -- m
-mca -- m
-mi -- m
-bc .> sc : include
-b .> pm : include
-p .> pm : include
-bc .> bi : include
-mi .> bi : include
-mi .> oc : include
-bc .> lt : include
+rectangle LaTazzaSystem {
+	(Buy capsules) as bc
+	(Sell capsules) as sc
+	(Add/Remove payment method) as pm
+	(Delete account) as da
+	(Leave privileges) as lp
+	(Login) as l
+	(Create an account) as ca
+	(Buy credits) as b
+	(Pay off debts) as p
+	(Manage personal account) as mpa
+	(Manage user account) as ma
+	
+	m -- bc
+	m -- sc
+	e -- ca
+	e -- bc
+	e -- mpa
+	m  -- ma
+	v -- bc
+	mpa .> l : include
+	lp .> ma : extend
+	da .> ma : extend
+	ma .> mpa : extend
+	pm .> mpa : extend
+	b .> mpa : extend
+	p .> mpa : extend
+}
 ```
 
 ## Use cases
