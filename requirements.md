@@ -281,9 +281,6 @@ bc .> lt : include
 
 ```plantuml
 class Person {
-  fiscalCode
-  name
-  surname
 }
 
 class Manager {
@@ -291,6 +288,8 @@ class Manager {
 
 class Employee {
   ID
+  name
+  surname
 }
 
 class Visitor {
