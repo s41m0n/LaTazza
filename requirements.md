@@ -151,18 +151,18 @@ The time lost was not so terrible with that beverage and now she is even more re
 | ID        | Type (efficiency, reliability, ...)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
 |  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4 |
-|  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be less than 100 			| FR4 	| 
+|  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be 100			 			| FR4 	| 
 |  NF3      |  Domain 	   | In the system there shall be only 1 manager 							 	| FR6.5 |
 |  NF4      |  Domain 	   | An account to be deleted shall have 0 € of debts 							| FR6.5 |
 |  NF5      |  Domain 	   | A user shall have less than 20 € of debts 									| FR4, FR6.3 |
 |  NF6     	|  Reliability | Log failures shall be less than 1% of all the transactions					| FR10 |
-|  NF7      |  Performance | Application startup shall require less than 3 seconds 						| FR[1-10] | 
-|  NF8      |  Performance | Server response during transaction shall be less than 1 seconds		 	| FR[1-10] | 
-|  NF9    	|  Portability | Modules to be changed shall be less than 50% 								| FR[1-10] |
-|  NF10     |  Usability   | The software shall require less than 15 minutes to be learnt 				| FR[1-10] | 
-|  NF11     |  Security    | To break into the system a high-skilled hacker shall take more than 1 week | FR[1-10] |
-|  NF12     |  Operating   | System resources required shall be less than 1GB 							| FR[1-10] | 
-|  NF13    	|  Reliability | System downtime shall be less than 1 hour per day 							| FR[1-10] | 
+|  NF7    	|  Reliability | System downtime shall be less than 30 minutes per day 						| FR[1-10] | 
+|  NF8      |  Performance | Application startup shall require less than 5 seconds 						| FR[1-10] | 
+|  NF9      |  Performance | Server response during transaction shall be less than 3 seconds		 	| FR[1-10] | 
+|  NF10    	|  Portability | Modules to be changed shall be less than 50% 								| FR[1-10] |
+|  NF11     |  Usability   | The software shall require less than 15 minutes to be learnt 				| FR[1-10] | 
+|  NF12     |  Security    | To break into the system a high-skilled hacker shall take more than 1 week | FR[1-10] |
+|  NF13     |  Operating   | System resources required shall be less than 1GB 							| FR[1-10] | 
 |  NF14     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR5, FR6 |
 |  NF15     |  Legislation | Transactions shall be stored for 5 years 									| FR10 |
 
