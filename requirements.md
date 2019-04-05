@@ -139,7 +139,8 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  FR6.1     |  Add/Remove payment method |  
 |  FR6.2     |  Buy credits |
 |  FR6.3     |  Pay off debts |
-|  FR6.4	 |	LeavePrivileges |
+|  FR6.4	 |	Leave Privileges |
+|  FR6.5	 |	Delete employee account |
 |  FR7       |  Manage inventory |
 |  FR8       |  Manage cash account |
 |  FR9     	 |  Manage personal account |  
@@ -151,7 +152,9 @@ The time lost was not so terrible with that beverage and now she is even more re
 | ------------- |:-------------:| :-----:| -----:|
 |  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4 |
 |  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be less than 100 			| FR4 	| 
-|  NF3     |  Domain 	   | In the system there shall be only 1 manager 							 	| FR10 |
+|  NF3      |  Domain 	   | In the system there shall be only 1 manager 							 	| FR6.5 |
+|  NF3      |  Domain 	   | An account to be deleted shall have 0 € of debts 							| FR6.5 |
+|  NF3      |  Domain 	   | A user shall have less than 20 € of debts 									| FR4, FR6.3 |
 |  NF4     	|  Reliability | Log failures shall be less than 1% of all the transactions					| FR10 |
 |  NF5      |  Performance | Application startup shall require less than 3 seconds 						| FR[1-10] | 
 |  NF6      |  Performance | Server response during transaction shall be less than 1 seconds		 	| FR[1-10] | 
