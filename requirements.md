@@ -341,10 +341,14 @@ class TransactionManager {
 class LoginManager {
 }
 
+Class InventoryManager {
+}
+
 LaTazzaSystem o-- "1" Server
 Server -- Software
 Software o-- "1" AccountManager
 Software o-- "1" TransactionManager
 Software o-- "1" LoginManager
+Software o-- "1" InventoryManager
 ```
 
