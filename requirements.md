@@ -1,4 +1,4 @@
-# Requirements Document Template
+# Requirements Document
 
 Authors:
 - Daniele Palumbo
@@ -8,12 +8,8 @@ Authors:
 
 Date: 28/03/2019
 
-Version: 0.2
+Version: 0.5
 
-## DA SISTEMARE
-1. massimo debito per un account
-2. cosa succede se non viene pagato
-3. Sospensione account
 
 # Contents
 
@@ -78,9 +74,9 @@ The following interfaces are needed for the realization of the system.
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-| Manager     | Access to system | GUI/Web page |
-| Employee     | Access to system | GUI/Web page |
-| Visitor     | Access to system | GUI/Web page |
+| Manager     | Access to system | GUI |
+| Employee     | Access to system | GUI |
+| Visitor     | Access to system | GUI |
 | Banking System     | Perform payments | Web Service using APIs |
 
 Each actor among Manager, Employee and Visitor will exploit a different type of account, more in particular:
@@ -281,9 +277,6 @@ bc .> lt : include
 
 ```plantuml
 class Person {
-  fiscalCode
-  name
-  surname
 }
 
 class Manager {
@@ -291,6 +284,8 @@ class Manager {
 
 class Employee {
   ID
+  name
+  surname
 }
 
 class Visitor {
