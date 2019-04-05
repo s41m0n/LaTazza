@@ -210,10 +210,10 @@ rectangle LaTazzaSystem {
 
 | ACTOR | GOAL | BRIEF |
 | --- | --- | --- |
-| Employee| Buy capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay through cash, or with credits from it's account or by doing a debts on it's account. After purchase, order is added to employee account and system inventory is automatically updated  |
-| Visitor | Buy capsules | The visitor  wants to buy one or more capsules from Manager. He can only pay by cash. System logs the sell and updates automatically the inventory|
-| Employee | Account management | Employee can modify his public and private information (validation required), he can add credits or pay debts doing a payment by cash or digital system. System logs the payment and updates account status |
-| Manager | Inventory management |  Manager is able to check inventory status and sees how many capsules remains for each type. If necessary, he can order from vendors more box of capsules. System saves transactions and update inventory. System can also notify the manager if a type of capsules is finishing. Manager can see all previous transactions and previous sells of capsules. Least, manager can administrate employees local accounts: check their credits and their purchases |
+| Employee| Buy capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay them through cash, or with credits from his account or by creating a debt on his account. After the purchase, the order is added to the employee's account and the system inventory is automatically updated.  |
+| Visitor | Buy capsules | The visitor  wants to buy one or more capsules from the Manager. He can only pay by cash. The system logs the sell and updates automatically the inventory.|
+| Employee | Account management | The Employee can modify his public and private information (validation required), he can add credits or pay debts doing a payment by cash or digital system. The system logs the payment and updates the account status. |
+| Manager | Inventory management | The Manager is able to check the inventory status and to see how many capsules remain for each beverage type. If necessary, he can order from vendors more boxes of capsules. The system saves the transaction and updates the inventory. The system can also notify the Manager when a type of capsules is finishing. He also has the ability to see all previous transactions and previous sells of capsules. As last, the Manager can administrate the employees' local accounts by checking their credits and their purchases. |
 
 
 ## Relevant scenarios
