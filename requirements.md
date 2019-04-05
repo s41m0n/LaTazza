@@ -78,9 +78,9 @@ The following interfaces are needed for the realization of the system.
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-| Manager     | Access to system | GUI/Web page |
-| Employee     | Access to system | GUI/Web page |
-| Visitor     | Access to system | GUI/Web page |
+| Manager     | Access to system | GUI |
+| Employee     | Access to system | GUI |
+| Visitor     | Access to system | GUI |
 | Banking System     | Perform payments | Web Service using APIs |
 
 Each actor among Manager, Employee and Visitor will exploit a different type of account, more in particular:
