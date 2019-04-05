@@ -1,4 +1,4 @@
-# Requirements Document Template
+# Requirements Document
 
 Authors:
 - Daniele Palumbo
@@ -8,12 +8,8 @@ Authors:
 
 Date: 28/03/2019
 
-Version: 0.2
+Version: 0.5
 
-## DA SISTEMARE
-1. massimo debito per un account
-2. cosa succede se non viene pagato
-3. Sospensione account
 
 # Contents
 
