@@ -36,7 +36,7 @@ Version: 0.5
 | ----------------- |:-----------:|
 |Manager           | Super user of the system, sells capsules, manages the inventory, manages the credits and the debts of employees | 
 |Owner         	  |  Provides online system and supplies it to the manager           | 
-|Employee         | Drinks coffee / tea and can use its local account | 
+|Employee         | Drinks coffee / tea and can use his local account | 
 |Visitor             |  Drinks coffee / tea |
 |System Admin |   Manages web system          | 
 |Inventory Admin |Manages LaTazza warehouse|
@@ -76,7 +76,7 @@ The following interfaces are needed for the realization of the system.
 | ------------- |:-------------:| -----:|
 | Manager     | Access to system | GUI |
 | Employee     | Access to system | GUI |
-| Visitor     | Access to system | GUI |
+| Visitor     | Capsule purchase | Manager |
 | Banking System     | Perform payments | Web Service using APIs |
 
 Each actor among Manager, Employee and Visitor will exploit a different type of account, more in particular:
