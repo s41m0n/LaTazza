@@ -64,9 +64,8 @@ actor Manager as m
 rectangle System {
   (LaTazza) as lt
   e--lt: "Service usage"
-  v--lt: "Service usage"
   lt--m: "Service guarantee"
-}
+  v--m: "Service usage"
 ```
 
 ## Interfaces
@@ -79,12 +78,12 @@ The following interfaces are needed for the realization of the system.
 | Visitor     | Capsule purchase | Manager |
 | Banking System     | Perform payments | Web Service using APIs |
 
-Each actor among Manager, Employee and Visitor will exploit a different type of account, more in particular:
+Each actor among Manager and Employee will exploit a different type of account, more in particular:
 
 	1. General/Admin for Managers
 	2. Local for Employees
-	3. Visitor for Visitors
 Of course, each account will manage the users in different ways with different permissions.
+For what concerns the Visitor, he doesn't own a local account on the system, thus he'll refer to the Manager anytime he wants to perform a purchase.
 
 # Stories and Personas
 
