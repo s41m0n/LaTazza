@@ -13,21 +13,21 @@ Version: 0.5
 
 # Contents
 
-- [(Daniele) Stakeholders](#stakeholders)
-- [(Enrico) Context Diagram and interfaces](#context-diagram-and-interfaces)
+- [Stakeholders](#stakeholders)
+- [Context Diagram and interfaces](#context-diagram-and-interfaces)
 	+ [Context Diagram](#context-diagram)
 	+ [Interfaces](#interfaces) 
 	
-- [(Riccardo) Stories and personas](#stories-and-personas)
-- [(Simone) Functional and non functional requirements](#functional-and-non-functional-requirements)
+- [Stories and personas](#stories-and-personas)
+- [Functional and non functional requirements](#functional-and-non-functional-requirements)
 	+ [Functional Requirements](#functional-requirements)
 	+ [Non functional requirements](#non-functional-requirements)
-- [(Daniele, Enrico) Use case diagram and use cases](#use-case-diagram-and-use-cases)
+- [Use case diagram and use cases](#use-case-diagram-and-use-cases)
 	+ [Use case diagram](#use-case-diagram)
 	+ [Use cases](#use-cases)
 	+ [Relevant scenarios](#relevant-scenarios)
-- [(Riccardo) Glossary](#glossary)
-- [(Simone, Riccardo) System design](#system-design)
+- [Glossary](#glossary)
+- [System design](#system-design)
 
 # Stakeholders
 
@@ -189,7 +189,7 @@ rectangle LaTazzaSystem {
 	(Pay off debts) as p
 	(Manage personal account) as mpa
 	(Manage user account) as ma
-	
+
 	m -- bc
 	m -- sc
 	e -- ca
