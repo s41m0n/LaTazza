@@ -235,7 +235,7 @@ rectangle LaTazzaSystem {
 | SCENARIO ID: Sc1        | Corresponds to UC: Buy capsules  |
 | :-------------: |:-------------:| 
 |  Step#    	 |  Description |
-|  1    	 |  Login on local account|
+|  1    	 |  Login into local account|
 |  2    	 |  Select capsule type |
 |  3       |  Select amount of capsules |
 |  4       |	 Pay with account credit/cash |
@@ -253,15 +253,16 @@ rectangle LaTazzaSystem {
 | SCENARIO ID: Sc2        | Corresponds to UC: Manage inventory  |
 | :-------------: |:-------------:| 
 |  Step#    	 |  Description |
-|  1    	 |  System realizes that only one box of a capsule type is present in the inventory|
-|  2    	 |  System notifies Manager about the missing|
-|  3       |  Manager orders a number of boxes from the vendor |
-|  4       |	 Pay with account credit/cash for the order |
-|  5       |  Wait for order completion |
-|  6       |  Set of boxes arrives |
-|  7       |  System records the purchase |
-|  8		 |  Boxes placed in the inventory |
-|  9		 |  System updates capsule availability for future purchases|
+|  1    	|  System realizes that only one box of a capsule type is present in the inventory|
+|  2    	|  System notifies Manager about the missing|
+|  3    	|  Login into local account|
+|  4       	|  Manager orders a number of boxes from the vendor |
+|  5        |  Pay with account credit/cash for the order |
+|  6		|  Wait for order completion |
+|  7		|  Set of boxes arrives |
+|  8		|  System records the purchase |
+|  9		|  Boxes placed in the inventory |
+|  10		|  System updates capsule availability for future purchases|
 
 ---
 
@@ -274,7 +275,7 @@ rectangle LaTazzaSystem {
 | SCENARIO ID: Sc3        | Corresponds to UC: Buy credits  |
 | :-------------: |:-------------:| 
 |  Step#    	 |  Description |
-|  1    	 |  Login on local account|
+|  1    	 |  Login into local account|
 |  2    	 |  Add a payment method for credits if not yet present on system |
 |  3       |  System saves the selected payment method |
 |  4       |  Select amount of credits to buy |
