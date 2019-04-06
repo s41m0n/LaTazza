@@ -200,6 +200,9 @@ rectangle LaTazzaSystem {
 	(Pay off debts) as p
 	(Manage personal account) as mpa
 	(Manage user account) as ma
+	(Manage Inventory) as mi
+	(Order capsules) as oc
+
 
 	m -- bc
 	m -- sc
@@ -207,8 +210,10 @@ rectangle LaTazzaSystem {
 	e -- bc
 	e -- mpa
 	m  -- ma
+	m -- mi
 	v -- bc
 	mpa .> l : include
+	oc .> mi : extend
 	lp .> ma : extend
 	da .> ma : extend
 	ma .> mpa : extend
@@ -222,11 +227,15 @@ rectangle LaTazzaSystem {
 
 | ACTOR | GOAL | BRIEF |
 | --- | --- | --- |
-| Employee| Buy capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay them through cash, or with credits from his account or by creating a debt on his account. After the purchase, the order is added to the employee's account and the system inventory is automatically updated.  |
-| Visitor | Buy capsules | The visitor  wants to buy one or more capsules from the Manager. He can only pay by cash. The system logs the sell and updates automatically the inventory.|
+| Visitor | Buy capsules | The visitor  wants to buy one or more capsules from the Manager. He can only pay by cash. The system logs the sell (the manager has to perform the sale using the application) and updates automatically the inventory.|
+| Employee | Create an account | Before enjoying LaTazza system, the employee shall create his own account using his company ID. |
+| Employee | Buy capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay them through cash, or with credits from his account or by creating a debt (max 20 €) on his account. After the purchase, the order is added to the employee's account and the system inventory is automatically updated.  |
 | Employee | Account management | The Employee can modify his public and private information (validation required), he can add credits or pay debts doing a payment by cash or digital system. The system logs the payment and updates the account status. |
-| Manager | Inventory management | The Manager is able to check the inventory status and to see how many capsules remain for each beverage type. If necessary, he can order from vendors more boxes of capsules. The system saves the transaction and updates the inventory. The system can also notify the Manager when a type of capsules is finishing. He also has the ability to see all previous transactions and previous sells of capsules. As last, the Manager can administrate the employees' local accounts by checking their credits and their purchases. |
-
+| Manager | Buy capsules | The manager wants to buy one or more capsules from LaTazza system. Since when he orders capsules from vendors he shall pay with his own bank account, he theoretically already earns them, but to make the system work properly he shall use his application (he will not pay for them) in order to automatically update the inventory state. |
+| Manager | Sell capsules | The manager is the only one who can physically send the capsules to visitors. Since the inventory need to be updated, his desktop application is provived with a generical sell function that will be used in those cases.
+| Manager | Inventory management | The Manager is able to check the inventory status and to see how many capsules remain for each beverage type. If necessary, he can order from vendors more boxes of capsules. The system saves the transaction and updates the inventory. The system can also notify the Manager when a type of capsules is finishing. He also has the ability to see all previous transactions and previous sells of capsules. |
+| Manager | Account management | As all the other users, the manager can modify his own account and data. |
+| Manager | User Account Management | The manager has the privileges to manage other users account. He not only can delete an account (ex. if an employee is fired), but also leave his privileges to another user (ex. if the manager wants to quit). Finally, when an employees pays off his debt using cash, the manager can update his account by zeroing the debt. |
 
 ## Relevant scenarios
 
