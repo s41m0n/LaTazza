@@ -41,7 +41,7 @@ All the assumption are available in this document: [Assumptions.md](Assumptions.
 |Visitor             |  Drinks coffee / tea |
 |System Admin |   Manages web system          | 
 |Inventory Admin |Manages LaTazza warehouse|
-|Capsules vendor  | Sell capsules |
+|Capsules Vendor  | Sell capsules |
 
 # Context Diagram and Interfaces
 ## Context Diagram
@@ -177,8 +177,9 @@ The time lost was not so terrible with that beverage and now she is even more re
 left to right direction
 
 actor Employee as e
-actor Visitor as v
 actor Manager as m
+actor "Credit Card System" as ccs
+actor "Capsules Vendor" as cv
 
 rectangle LaTazzaSystem {
 	(Buy capsules) as bc
@@ -186,7 +187,6 @@ rectangle LaTazzaSystem {
 	(Add/Remove payment method) as pm
 	(Delete account) as da
 	(Leave privileges) as lp
-	(Login) as l
 	(Create an account) as ca
 	(Buy credits) as b
 	(Pay off debts) as p
@@ -194,24 +194,30 @@ rectangle LaTazzaSystem {
 	(Manage user account) as ma
 	(Manage Inventory) as mi
 	(Order capsules) as oc
+        (Perform order payment) as pop
+        (Perform purchase payment) as ppp
 
+	mi <.. oc : extend
+	ma <.. lp : extend
+	ma <. da : extend
+	ma .> mpa : extend
+	mpa <.. pm : extend
+	mpa <.. b : extend
+        b <. ppp : extend
+	mpa <.. p : extend
+        oc .> pop : include
+        bc <.. ppp : extend
 
 	m -- bc
 	m -- sc
+	m -- ma
+	m -- mi
 	e -- ca
 	e -- bc
 	e -- mpa
-	m  -- ma
-	m -- mi
-	v -- bc
-	mpa .> l : include
-	oc .> mi : extend
-	lp .> ma : extend
-	da .> ma : extend
-	ma .> mpa : extend
-	pm .> mpa : extend
-	b .> mpa : extend
-	p .> mpa : extend
+        ppp -- ccs
+        pop -- ccs
+        pop -- cv
 }
 ```
 
