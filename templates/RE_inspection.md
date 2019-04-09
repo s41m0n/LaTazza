@@ -1,5 +1,52 @@
 # Inspection log
 
+- [Inspection 8th April 2019](#inspection-8th-april-2019)
+- [Inspection 8th April 2019](#inspection-5th-april-2019)
+
+## Inspection 8th April 2019
+
+| Attribute  | Value | 
+| ----------------- |:-----------:|
+| Date  | 8th April, 2019  |
+| Place  | Politecnico di Torino  |
+| Object of inspection  | Requirements document  |
+| Moderator  | Daniele Palumbo  |
+| Author  | Enrico Postolov  | 
+| Reader  | Francesco Pavan  |
+| Reader  | Giulia Milan  |
+| Reader  | Riccardo Marchi |
+| Scribe  | Simone Magnani |
+| Start time  | 17:30  |
+| End time  | 18:30  |
+
+
+| Problem ID  | Location | Problem description | Status | Type | Gravity |
+|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|
+| 1 | Context Diagram | Visitor is defined as actor but has no interaction with the system itself | Closed  | Inconsistency/Contradiction | Major |
+| 2 | Context Diagram | Missing APIs suppliers as actors in the context diagram | Closed  | Omission/Incompleteness | Major |
+| 3 | UC 			  | Use cases format is not compliant with the given template  | Closed  | Omission/Incompleteness | Major |
+| 4 | Stakeholders 	  | Missing capsules vendor in the stakeholder section | Closed  | Omission/Incompleteness | Minor |
+| 5 | UCD			  | Missing actors and actions in the use case diagram | Closed  | Omission/Incompleteness | Major |
+| 6 | System Design   | Software modules shall not be represented in this section (but in the software design)| Closed | Extraneous Information  |  Normal |
+
+
+Domains of interest:
+
+* Location: where in the document/code
+* Status: open, assigned or closed
+* Type:
+	- Omission/incompleteness
+	- Incorrect Fact
+	- Inconsistency/contradiction
+	- Ambiguity
+	- Extraneous Information (overspecification/underspecification)
+	- Un-reality
+	- Un-verifiability
+	- Un-traceability
+* Gravity: minor, normal or major.
+
+## Inspection 5th April 2019
+
 | Attribute  | Value | 
 | ----------------- |:-----------:|
 | Date  | 5th April, 2019  |
