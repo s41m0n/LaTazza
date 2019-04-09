@@ -10,6 +10,8 @@ Date: 28/03/2019
 
 Version: 0.5
 
+All the assumption are available in this document: [Assumptions.md](Assumptions.md)
+
 # Contents
 
 - [Stakeholders](#stakeholders)
