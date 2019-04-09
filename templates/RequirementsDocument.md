@@ -41,6 +41,7 @@ All the assumption are available in this document: [Assumptions.md](Assumptions.
 |Visitor             |  Drinks coffee / tea |
 |System Admin |   Manages web system          | 
 |Inventory Admin |Manages LaTazza warehouse|
+|Capsules vendor  | Sell capsules |
 
 # Context Diagram and Interfaces
 ## Context Diagram
@@ -51,22 +52,24 @@ The context diagram can be derived.
 
 	- **Manager**
 	- **Employee**
-	- **Visitor**
 
 The system itself has references to the inventory for the capsules, so the latter is not needed in the representation.	
 
 ```plantuml
 left to right direction
 skinparam packageStyle rectangle
-actor Employee as e
-actor Visitor as v
-actor Manager as m
+actor "Employee" as e
+actor "Manager" as m
+actor "Capsules Vendor" as cv
+actor "Credit Card System" as ccs
 
 rectangle System {
   (LaTazza) as lt
-  e--lt: "Service usage"
-  lt--m: "Service guarantee"
-  v--m: "Service usage"
+  e--lt
+  m--lt
+  lt--cv
+  lt--ccs
+}
 ```
 
 ## Interfaces
@@ -74,17 +77,17 @@ The following interfaces are needed for the realization of the system.
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-| Manager     | Access to system | GUI |
-| Employee     | Access to system | GUI |
-| Visitor     | Capsule purchase | Manager |
-| Banking System     | Perform payments | Web Service using APIs |
+| Manager     | GUI | Computer |
+| Employee     | GUI | Computer |
+| Capsules Vendor | APIs for orders  | Internet Connection |
+| Credit Card System     | APIs to allow payments | Internet Connection |
 
 Each actor among Manager and Employee will exploit a different type of account, more in particular:
 
 	1. General/Admin for Managers
 	2. Local for Employees
 Of course, each account will manage the users in different ways with different permissions.
-For what concerns the Visitor, he doesn't own a local account on the system, thus he'll refer to the Manager anytime he wants to perform a purchase.
+For what concerns a visitor, he must refer to the Manager anytime he wants to perform a purchase.
 
 # Stories and Personas
 
