@@ -8,9 +8,7 @@ Authors:
 
 Date: 28/03/2019
 
-Version: 0.8
-
-All the assumption are available in this document: [Assumptions.md](Assumptions.md)
+Version: 0.9
 
 # Contents
 
@@ -65,7 +63,6 @@ In this section we insert all the assumptions we made in order to avoid incohere
 
 # Stakeholders
 
-
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
 |Manager           | Super user of the system, sells capsules, manages the inventory, manages the credits and the debts of employees | 
@@ -81,12 +78,16 @@ In this section we insert all the assumptions we made in order to avoid incohere
 
 The context diagram can be derived.
 
-- The principal actors in the system are the following:
+- The actors in the system are the following:
 
+	- Capsules vendor
+	- Credit Card System
 	- **Manager**
 	- **Employee**
 
 The system itself has references to the inventory for the capsules, so the latter is not needed in the representation.	
+While the manager and the employees are the main actors which uses the system, the first two are essential for their APIs they expone. In fact all the orders and purchases payed using a payment method different than cash involve these entities.
+When we refer to a payment in this document (ex. in the scenarios or UC) it is implied that these two entities acts only when required (ex. if an employee pays using his card and not his cash).
 
 ```plantuml
 left to right direction
@@ -117,8 +118,8 @@ The following interfaces are needed for the realization of the system.
 
 Each actor among Manager and Employee will exploit a different type of account, more in particular:
 
-	1. General/Admin for Managers
-	2. Local for Employees
+	1. Admin for Managers (base + privileges)
+	2. Base for Employees (base only)
 Of course, each account will manage the users in different ways with different permissions.
 For what concerns a visitor, he must refer to the Manager anytime he wants to perform a purchase.
 
@@ -170,7 +171,7 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  FR2    	 |  Login |
 |  FR3    	 |  Logout |
 |  FR4       |  Buy capsules | 
-|  FR5       |  Order capsules from vendor | 
+|  FR5       |  Sell capsules |  
 |  FR6       |  Manage account |  
 |  FR6.1     |  Add/Remove payment method |  
 |  FR6.2     |  Buy credits |
@@ -178,28 +179,33 @@ The time lost was not so terrible with that beverage and now she is even more re
 |  FR6.4	 |	Leave Privileges |
 |  FR6.5	 |	Delete employee account |
 |  FR7       |  Manage inventory |
+|  FR7.1     |  Order capsules from vendor | 
 |  FR8       |  Manage cash account |
-|  FR9       |  Sell capsules |  
 
 ## Non Functional Requirements
 
 | ID        | Type (efficiency, reliability, ...)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4, FR9 |
-|  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be 100			 			| FR4, FR9 	| 
+|  NF1     	|  Domain 	   | Accepted currency shall be only €				 							| FR4, FR5 |
+|  NF2     	|  Domain 	   | The maximum capsules an employee can buy shall be 100			 			| FR4, FR5 	| 
 |  NF3      |  Domain 	   | In the system there shall be only 1 manager 							 	| FR6.5 |
 |  NF4      |  Domain 	   | An account to be deleted shall have 0 € of debts 							| FR6.5 |
-|  NF5      |  Domain 	   | A user shall have less than 20 € of debts 									| FR4, FR9, FR6.3 |
-|  NF6     	|  Reliability | Log failures shall be less than 1% of the total logged activities			| FR[1-10] |
-|  NF7    	|  Reliability | System downtime shall be less than 30 minutes per day 						| FR[1-10] | 
-|  NF8      |  Performance | Application startup shall require less than 5 seconds 						| FR[1-10] | 
-|  NF9      |  Performance | Server response during transaction shall be less than 3 seconds		 	| FR[1-10] | 
-|  NF10    	|  Portability | Modules to be changed shall be less than 50% 								| FR[1-10] |
-|  NF11     |  Usability   | The software shall require less than 15 minutes to be learnt 				| FR[1-10] | 
-|  NF12     |  Security    | To break into the system a high-skilled hacker shall take more than 1 week | FR[1-10] |
-|  NF13     |  Operating   | System resources required shall be less than 1GB 							| FR[1-10] | 
-|  NF14     |  Legislation | Transactions shall be stored for 5 years 									| FR4, FR5, FR6.2, FR8, FR9 |
-|  NF15     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR5, FR6, FR9 |
+|  NF5      |  Domain 	   | A user shall have less than 20 € of debts 									| FR4, FR5, FR6.3 |
+|  NF6     	|  Reliability | Log failures shall be less than 1% of the total logged activities			| FR[1-8] |
+|  NF7    	|  Reliability | System downtime shall be less than 30 minutes per day 						| FR[1-8] | 
+|  NF8      |  Performance | Application startup shall require less than 5 seconds 						| FR[1-8] | 
+|  NF9      |  Performance | Server response during transaction shall be less than 3 seconds		 	| FR[1-8] | 
+|  NF10    	|  Portability | Modules to be changed shall be less than 50% 								| FR[1-8] |
+|  NF11     |  Usability   | The software shall require less than 15 minutes to be learnt by an employee	| FR[1-8] | 
+|  NF12		|  Usability   | The software shall require less than 30 minutes to be learnt by the manager|  FR[1-8]|
+|  NF13     |  Security    | To break into the system a high-skilled hacker shall take more than 1 week | FR[1-8] |
+|  NF14 	|  Efficiency  | The manager shall be notified of a debt in less than 1 day 				| FR6.2, FR4 |
+|  NF15		|  Efficiency  | Orders performed by the manage shall be processed and sent in less than a day | FR7.1 |
+|  NF16		|  Functionality | Displayed capsules number shall be effectively available 				| FR4, FR7 |
+|  NF17		|  Functionality | Selected quantity shall be less or equal than the available one 			| FR4, FR7 |
+|  NF18     |  Operating   | System resources required shall be less than 1GB 							| FR[1-8] | 
+|  NF19     |  Legislation | Transactions shall be stored for 5 years 									| FR4, FR7.1, FR6.2, FR8, FR5 |
+|  NF20     |  Privacy     | Private data shall be preserved 											| FR1, FR2, FR3, FR4. FR7.1, FR6, FR5 |
 
 
 # Use case diagram and use cases
@@ -436,4 +442,3 @@ LaTazzaSystem o-- "1" Server
 note right of LaTazzaSystem: Method to communicate\nwith actors through APIS\nare inside the system, not shown here.
 note left of Server: The only device needed\n is the server, which software\nwill handle all the operations.
 ```
-
