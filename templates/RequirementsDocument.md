@@ -217,17 +217,63 @@ rectangle LaTazzaSystem {
 
 ## Use cases
 
-| ACTOR | GOAL | BRIEF |
-| --- | --- | --- |
-| Visitor | Buy capsules | The visitor  wants to buy one or more capsules from the Manager. He can only pay by cash. The system logs the sell (the manager has to perform the sale using the application) and updates automatically the inventory.|
-| Employee | Create an account | Before enjoying LaTazza system, the employee shall create his own account using his company ID. |
-| Employee | Buy capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay them through cash, or with credits from his account or by creating a debt (max 20 €) on his account. After the purchase, the order is added to the employee's account and the system inventory is automatically updated.  |
-| Employee | Account management | The Employee can modify his public and private information (validation required), he can add credits or pay debts doing a payment by cash or digital system. The system logs the payment and updates the account status. |
-| Manager | Buy capsules | The manager wants to buy one or more capsules from LaTazza system. Since when he orders capsules from vendors he shall pay with his own bank account, he theoretically already earns them, but to make the system work properly he shall use his application (he will not pay for them) in order to automatically update the inventory state. |
-| Manager | Sell capsules | The manager is the only one who can physically send the capsules to visitors. Since the inventory need to be updated, his desktop application is provived with a generical sell function that will be used in those cases.
-| Manager | Inventory management | The Manager is able to check the inventory status and to see how many capsules remain for each beverage type. If necessary, he can order from vendors more boxes of capsules. The system saves the transaction and updates the inventory. The system can also notify the Manager when a type of capsules is finishing. He also has the ability to see all previous transactions and previous sells of capsules. |
-| Manager | Account management | As all the other users, the manager can modify his own account and data. |
-| Manager | User Account Management | The manager has the privileges to manage other users account. He not only can delete an account (ex. if an employee is fired), but also leave his privileges to another user (ex. if the manager wants to quit). Finally, when an employees pays off his debt using cash, the manager can update his account by zeroing the debt. |
+
+### Use case 1, UC1
+| Employee        |  |
+| ------------- |:-------------:| 
+|  Precondition     | The user must have a company ID. |  
+|  Post condition     | The account is created and its information are stored in the server. |
+|  Create an account     | Before enjoying LaTazza system, the employee shall create his own account using his company ID. He must fill some forms and possibly his payment credentials. |
+|  Variants     | If the company ID is associated with another account, the operation fails. |
+
+### Use case 2, UC2
+| Employee |  |
+| ------------- |:-------------:| 
+|  Precondition     | There must be a valid employee account. The amount of capsules to buy is available in the inventory. |
+|  Post condition     | The inventory updates the availability of capsules. |
+|  Buys capsules | The employee wants to buy one or more capsules (max 100) from LaTazza system. He can pay them through cash, or with credits from his account or by creating a debt (max 20 €) on his account. After the purchase, the order is added to the employee's account and the system inventory is automatically updated. |
+|  Variants     | If the employee uses the credit card payment and he has not enough money, the operation fails. |
+
+### Use case 3, UC3
+| Manager |  |
+| ------------- |:-------------:| 
+|  Precondition     | There must be a valid manager account. The amount of capsules to buy is available in the inventory. |
+|  Post condition     | The inventory updates the availability of capsules. |
+|  Buys capsules | The manager wants to buy one or more capsules from LaTazza system. Since when he orders capsules from vendors he shall pay with his own bank account, he theoretically already has them, but to make the system work properly he shall use the application without paying in order to automatically update the inventory state. |
+|  Variants     | If the system notifies a low quantity of a certain type of capsules, the manager can decide to place an order of boxes. |
+
+### Use case 4, UC4
+| Manager |  |
+| ------------- |:-------------:| 
+|  Precondition     | There must be a valid manager account. The amount of capsules to sell is available in the inventory. |
+|  Post condition     | The inventory updates the availability of capsules. |
+|  Sells capsules | The manager sells capsules by decreasing the number of capsules available in the inventory, while being paid by cash. |
+|  Variants     | If the system notifies a low quantity of a certain type of capsules, the manager can decide to place an order of boxes. |
+
+### Use case 5, UC5
+| Manager |  |
+| ------------- |:-------------:| 
+|  Precondition     | There must be a valid manager account. |
+|  Post condition     | The inventory updates the availability of capsules in case of any actions by the manager. |
+|  Inventory Management | The Manager is able to check the inventory status and to see how many capsules remain for each beverage type. If necessary, he can order from vendors more boxes of capsules. The system saves the transaction and updates the inventory. The system can also notify the Manager when a type of capsules is finishing. He also has the ability to see all previous transactions and previous sells of capsules. |
+|  Variants     | If the manager has not enough money in his credit card, the boxes purchase operation fails. |
+
+## Use case 6, UC6
+| Manager, Employee        |  |
+| ------------- |:-------------:| 
+|  Precondition     | There must be a valid account. |  
+|  Post condition     | The system logs any operation and updates the status of the account in the server. |
+|  Account Management     | The User can modify his public and private information: he can add credits or pay debts doing a payment by cash or digital system. |
+|  Variants     | Any payment operation could fail if there is not enough money in the credit card. |
+
+## Use case 7, UC7
+| Manager        |  |
+| ------------- |:-------------:| 
+|  Precondition     | There must be a valid manager account. |  
+|  Post condition     | The system logs any operation and updates the status of the account in the server. |
+|  User Account Management     | The manager has the privileges to manage other users account. He not only can delete an account (ex. if an employee is fired), but also leave his privileges to another user (ex. if the manager wants to quit). Finally, when an employees pays off his debt using cash, the manager can update his account by zeroing the debt. |
+|  Variants     | If the manager leaves his privileges to an employee, there is a change of roles and he becomes an employee. |
+
 
 ## Relevant scenarios
 
