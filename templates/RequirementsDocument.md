@@ -8,7 +8,7 @@ Authors:
 
 Date: 28/03/2019
 
-Version: 0.5
+Version: 0.8
 
 All the assumption are available in this document: [Assumptions.md](Assumptions.md)
 
@@ -389,9 +389,6 @@ class Employee {
   surname
 }
 
-class Visitor {
-}
-
 class Capsule {
   ID
   type
@@ -408,12 +405,13 @@ class Vendor {
 
 Employee <|-- Manager
 Person <|-- Employee
-Person <|-- Visitor
 Vendor "1" -- "*" Box : owns
 Box o-- Capsule : contains
 Manager "1" -- "*" Capsule : sells
 Manager "1" -- "*" Box : orders
 Person "1" -- "*" Capsule : buys
+
+note right of Person: It could be a Visitor.
 ```
 
 # System Design
