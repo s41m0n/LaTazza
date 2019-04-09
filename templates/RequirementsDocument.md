@@ -401,5 +401,8 @@ class Server {
 }
 
 LaTazzaSystem o-- "1" Server
+
+note right of LaTazzaSystem: Method to communicate\nwith actors through APIS\nare inside the system, not shown here.
+note left of Server: The only device needed\n is the server, which software\nwill handle all the operations.
 ```
 
