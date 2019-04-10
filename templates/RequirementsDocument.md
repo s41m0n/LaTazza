@@ -8,7 +8,7 @@ Authors:
 
 Date: 28/03/2019
 
-Version: 0.9
+Version: 1.0
 
 # Contents
 
@@ -36,7 +36,9 @@ In this section we insert all the assumptions we made in order to avoid incohere
 1.  LaTazza is a desktop application with two different interfaces:
 	 - interface for the manager;
 	 - interface for the employees.
+
 	Moreover, in order to buy a capsule a visitor can only refer to the manager.
+
 2.	Both the interfaces communicate with the server:
 	 - the server stores data concerning accounts, orders, available capsules and payments.
 3.	When an employee downloads the application he can create his own account.
@@ -78,15 +80,15 @@ In this section we insert all the assumptions we made in order to avoid incohere
 
 The context diagram can be derived.
 
-- The actors in the system are the following:
+The actors in the system are the following:
 
-	- Capsules vendor
-	- Credit Card System
-	- **Manager**
-	- **Employee**
+- Capsules vendor
+- Credit Card System
+- **Manager**
+- **Employee**
 
 The system itself has references to the inventory for the capsules, so the latter is not needed in the representation.	
-While the manager and the employees are the main actors which uses the system, the first two are essential for their APIs they expone. In fact all the orders and purchases payed using a payment method different than cash involve these entities.
+While the manager and the employees are the main actors which uses the system, the first two are essential for the APIs they expone. In fact all the orders and purchases payed using a payment method different than cash involve these entities.
 When we refer to a payment in this document (ex. in the scenarios or UC) it is implied that these two entities acts only when required (ex. if an employee pays using his card and not his cash).
 
 ```plantuml

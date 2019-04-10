@@ -1,7 +1,7 @@
 # Inspection log
 
 - [Inspection 8th April 2019](#inspection-8th-april-2019)
-- [Inspection 8th April 2019](#inspection-5th-april-2019)
+- [Inspection 5th April 2019](#inspection-5th-april-2019)
 
 ## Inspection 8th April 2019
 
