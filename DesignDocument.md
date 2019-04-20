@@ -4,7 +4,7 @@ Authors: Daniele Palumbo, Magnani Simone, Marchi Riccardo, Postolov Enrico
 
 Date: 18/04/2019
 
-Version: 0.1
+Version: 0.2
 
 # Contents
 
@@ -17,29 +17,41 @@ Version: 0.1
 
 ``` plantuml
 @startuml
-scale 500 width
-
 skinparam PackageBackgroundColor AntiqueWhite
 
-package "Gui" as g{
+package "Gui" {
   class UserInterface
 }
 
-package "LaTazzaSystem"  as lts{
+package "LaTazzaSystem" {
   class LaTazza
+}
 
-  package "Storage" as s <<Database>> {
-
+package "Persistency" {
+  class DataManager << (S,#FF7700) Singleton >>
+  
+  package "Storage" <<Database>> {
   }
 }
 
-package "Exceptions" as e {
+package "Exceptions" {}
+
+package "Entities" {
+  class CapsuleTypeImpl
+  class ColleagueImpl
+  class Transaction
 }
 
+package "Data" {
+  class DataImpl
+}
 
-g <-- lts
-LaTazza --> s
-lts --> e
+Gui <-- LaTazzaSystem
+Data <-- LaTazzaSystem
+Exceptions <- LaTazzaSystem
+LaTazzaSystem --> Entities
+Persistency <-- LaTazzaSystem
+DataManager --> Storage
 @enduml
 ```
 
@@ -62,11 +74,12 @@ class Colleague {
 	-name: String
 	-surname: String
 
-	+Colleague(name: String, surname: String)
+	+Colleague(id: Integer, name: String, surname: String)
 	+getId(): Integer
 	+getName(): String
 	+getSurname(): String
 	+getBalance(): Integer
+	+update(name: String, surname: String)
 }
 
 class CapsuleType {
@@ -76,14 +89,15 @@ class CapsuleType {
 	-boxPrice: Integer
 	-name: String
 
-	+CapsuleType(name: String, boxPrice: Integer,
-	\t capsulesPerBox: Integer)
+	+CapsuleType(id: Integer, name: String, 
+		boxPrice: Integer, capsulesPerBox: Integer)
 	+getPrice(): Integer
 	+getId(): Integer
 	+getQuantity(): Integer
 	+getBoxPrice(): Integer
 	+getName(): String
-
+	+update(name: String, capsulesPerBox: Integer, 
+		\tboxPrice: Integer)
 }
 
 class Transaction {
@@ -115,6 +129,9 @@ Transaction <|-- BoxPurchase
 @enduml
 ```
 
+_**Note:**_
+
+In order to realize an exhaustive and high level class diagram, this diagram does not display not only all the low level class-specific information (internal lists, class to manage save/load, etc.), but also all the given DataImpl methods, as their behaviour are comprehensible the same.
 
 # Verification traceability matrix
 
