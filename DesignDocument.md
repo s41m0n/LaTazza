@@ -154,12 +154,12 @@ The selected key scenario is "Scenario 1" from the Requirement Document,in which
 
 ```plantuml
 @startuml
-"DataImpl" -> "CapsuleType": getBeverageName()
-"CapsuleType" -> "DataImpl": capsuleType
-"DataImpl" -> "Colleague": getEmployeeName()
-"Colleague" -> "DataImpl": colleagueName
-"DataImpl" -> "Transaction": sellCapsules(Colleague, CapsuleType, quantity, LaTazza)
-"Transaction" -> "DataImpl": updatedCapsuleQuantity
-"Transaction" -> "DataImpl": updatedEmployeeAccount
+"DataImpl" -> "CapsuleType": "1: getBeverage()"
+"CapsuleType" -> "DataImpl": "capsuleId"
+"DataImpl" -> "Colleague": "2: getColleague()"
+"Colleague" -> "DataImpl": "colleagueId"
+"DataImpl" -> "Transaction": "3: sellCapsules(colleagueId, capsuleId, quantity)"
+"Transaction" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
+"Transaction" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
 @enduml
 ```
