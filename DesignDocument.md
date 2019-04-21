@@ -135,14 +135,19 @@ In order to realize an exhaustive and high level class diagram, this diagram doe
 
 # Verification traceability matrix
 
-\<for each functional requirement from the requirement document, list which classes concur to implement it>
+Each functional requirement described in the Requirement Document has a reference to one or more classes of the class diagram. They are listed here below.
 
 
 |  | Class x | Class y  | .. |
 | ------------- |:-------------:| -----:| -----:|
-| Functional requirement x  |  |  | |
-| Functional requirement y  |  |  | |
-| .. |  |  | |
+| FR1   |  |  | |
+| FR2  |  |  | |
+| FR3 |  |  | |
+| FR4 |  |  | |
+| FR5 |  |  | |
+| FR6 |  |  | |
+| FR7 |  |  | |
+| FR8 |  |  | |
 
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
