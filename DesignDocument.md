@@ -133,26 +133,33 @@ _**Note:**_
 
 In order to realize an exhaustive and high level class diagram, this diagram does not display not only all the low level class-specific information (internal lists, class to manage save/load, etc.), but also all the given DataImpl methods, as their behaviour are comprehensible the same.
 
-# Verification traceability matrix
+# Verification Traceability Matrix
 
 Each functional requirement described in the Requirement Document has a reference to one or more classes of the class diagram. They are listed here below.
 
 
 |  | Class 1 | Class 2  | Class 3|  Class 4| Class 5|
 | ------------- |:-------------:| :-----:| :-----:| :-----:| :-----:|
-| FR1   | Colleague | Consumption | CapsuleType | DataImpl | - |
-| FR2  | CapsuleType | Consumption | DataImpl | -  | - |
-| FR3 | Colleague | Recharge | Transaction| DataImpl | - |
-| FR4 | CapsuleType | BoxPurchase | Transaction| DataImpl | - |
-| FR5 | Colleague | Recharge | Consumption| Transaction  | DataImpl |
-| FR6 | Recharge | Consumption | Transaction | DataImpl  | - |
+| FR1   | Colleague |Transaction | CapsuleType | DataImpl | - |
+| FR2  | CapsuleType | Transaction | DataImpl | -  | - |
+| FR3 | Colleague | Transaction | DataImpl| - | - |
+| FR4 | CapsuleType |Transaction | DataImpl| - | - |
+| FR5 | Colleague |Transaction | DataImpl| -  | - |
+| FR6 |Transaction | DataImpl | - | -  | - |
 | FR7 | CapsuleType | DataImpl | -| - | - |
 | FR8 | Colleague| DataImpl | -| - | - |
 
-# Verification sequence diagrams 
-\<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
+# Verification Sequence Diagrams 
+The selected key scenario is "Scenario 1" from the Requirement Document,in which a quantity of capsules is sold to an Employee (Colleague).
 
 ```plantuml
-": Class X" -> ": Class Y": "1: message1()"
-": Class X" -> ": Class Y": "2: message2()"
+@startuml
+"DataImpl" -> "CapsuleType": getBeverageName()
+"CapsuleType" -> "DataImpl": capsuleType
+"DataImpl" -> "Colleague": getEmployeeName()
+"Colleague" -> "DataImpl": colleagueName
+"DataImpl" -> "Transaction": sellCapsules(Colleague, CapsuleType, quantity, LaTazza)
+"Transaction" -> "DataImpl": updatedCapsuleQuantity
+"Transaction" -> "DataImpl": updatedEmployeeAccount
+@enduml
 ```
