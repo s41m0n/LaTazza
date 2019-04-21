@@ -138,16 +138,16 @@ In order to realize an exhaustive and high level class diagram, this diagram doe
 Each functional requirement described in the Requirement Document has a reference to one or more classes of the class diagram. They are listed here below.
 
 
-|  | Class x | Class y  | .. |
-| ------------- |:-------------:| -----:| -----:|
-| FR1   |  |  | |
-| FR2  |  |  | |
-| FR3 |  |  | |
-| FR4 |  |  | |
-| FR5 |  |  | |
-| FR6 |  |  | |
-| FR7 |  |  | |
-| FR8 |  |  | |
+|  | Class 1 | Class 2  | Class 3|  Class 4| Class 5|
+| ------------- |:-------------:| :-----:| :-----:| :-----:| :-----:|
+| FR1   | Colleague | Consumption | CapsuleType | DataImpl | - |
+| FR2  | CapsuleType | Consumption | DataImpl | -  | - |
+| FR3 | Colleague | Recharge | Transaction| DataImpl | - |
+| FR4 | CapsuleType | BoxPurchase | Transaction| DataImpl | - |
+| FR5 | Colleague | Recharge | Consumption| Transaction  | DataImpl |
+| FR6 | Recharge | Consumption | Transaction | DataImpl  | - |
+| FR7 | CapsuleType | DataImpl | -| - | - |
+| FR8 | Colleague| DataImpl | -| - | - |
 
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
