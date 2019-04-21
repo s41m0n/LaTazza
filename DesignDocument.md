@@ -150,7 +150,8 @@ Each functional requirement described in the Requirement Document has a referenc
 | FR8 | Colleague| DataImpl | -| - | - |
 
 # Verification Sequence Diagrams 
-The selected key scenario is "Scenario 1" from the Requirement Document,in which a quantity of capsules is sold to an Employee (Colleague).
+
+## Scenario 1
 
 ```plantuml
 @startuml
@@ -161,5 +162,19 @@ The selected key scenario is "Scenario 1" from the Requirement Document,in which
 "DataImpl" -> "Transaction": "3: sellCapsules(colleagueId, capsuleId, quantity)"
 "Transaction" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
 "Transaction" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
+@enduml
+```
+## Scenario 2
+
+```plantuml
+@startuml
+"DataImpl" -> "CapsuleType": "1: getBeverage()"
+"CapsuleType" -> "DataImpl": "capsuleId"
+"DataImpl" -> "Colleague": "2: getColleague()"
+"Colleague" -> "DataImpl": "colleagueId"
+"DataImpl" -> "Transaction": "3: sellCapsules(colleagueId, capsuleId, quantity)"
+"Transaction" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
+"Transaction" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
+"Colleague" -> "DataImpl" : "6: warningNegativeBalance()"
 @enduml
 ```
