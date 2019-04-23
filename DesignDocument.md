@@ -1,10 +1,10 @@
 # Design Document Template
 
-Authors: Daniele Palumbo, Magnani Simone, Marchi Riccardo, Postolov Enrico
+Authors: Palumbo Daniele, Magnani Simone, Marchi Riccardo, Postolov Enrico
 
 Date: 18/04/2019
 
-Version: 0.2
+Version: 0.5
 
 # Contents
 
@@ -39,7 +39,7 @@ package "Exceptions" {}
 package "Entities" {
   class CapsuleTypeImpl
   class ColleagueImpl
-  class Transaction
+  class TransactionImpl
 }
 
 package "Data" {
