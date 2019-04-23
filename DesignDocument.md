@@ -55,6 +55,10 @@ DataManager --> Storage
 @enduml
 ```
 
+_**Note:**_
+
+The class DataManager responsible of storing and loading information into a database (or a file) will be realized as a static Singleton, since just one connection to the storage system is needed.
+
 # Class diagram
 
 ```plantuml
