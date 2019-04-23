@@ -1,12 +1,10 @@
 package it.polito.latazza.data;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import it.polito.latazza.entities.CapsuleType;
-import it.polito.latazza.entities.CapsuleTypeImpl;
-import it.polito.latazza.entities.Colleague;
-import it.polito.latazza.entities.ColleagueImpl;
+import it.polito.latazza.entities.*;
 import it.polito.latazza.exceptions.BeverageException;
 import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
@@ -18,12 +16,14 @@ public class DataImpl implements DataInterface {
 	private Integer sysBalance;								/* LaTazzaAccount balance */
 	private ArrayList<CapsuleType> capsuleTypes;			/* List of all capsules */
 	private ArrayList<Colleague> colleagues;				/* List of all colleagues */
+	private ArrayList<Transaction> transactions;
 
 	public DataImpl() {
 		/* Actually empty, still to decide how to store data */
 		this.sysBalance = 0;
 		this.capsuleTypes = new ArrayList<>();
 		this.colleagues = new ArrayList<>();
+		this.transactions = new ArrayList<>();
 	}
 
 	@Override
@@ -55,8 +55,33 @@ public class DataImpl implements DataInterface {
 	@Override
 	public List<String> getEmployeeReport(Integer employeeId, Date startDate, Date endDate)
 			throws EmployeeException, DateException {
-		// TODO Auto-generated method stub
-		return new ArrayList<String>();
+		if(endDate.before(startDate))
+			throw new DateException();
+		Optional<Colleague> c = this.colleagues.stream()
+				.filter(x -> x.getId().equals(employeeId))
+				.findFirst();
+		if(!c.isPresent())
+			throw new EmployeeException();
+		return c.get().getTransactions().stream()
+				.filter(x -> x.getDate().after(startDate) && x.getDate().before(endDate))
+				.map(x -> {
+					switch(x.getType()) {
+						case CONSUMPTION_BALANCE: {
+
+						}
+						case CONSUMPTION_CASH: {
+
+						}
+						case BOXPURCHASE: {
+
+						}
+						case RECHARGE: {
+
+						}
+						default: return "Error";
+					}
+				})
+				.collect(Collectors.toList());
 	}
 
 	@Override
