@@ -29,15 +29,35 @@ public class DataImpl implements DataInterface {
 	@Override
 	public Integer sellCapsules(Integer employeeId, Integer beverageId, Integer numberOfCapsules, Boolean fromAccount)
 			throws EmployeeException, BeverageException, NotEnoughCapsules {
-		// TODO Auto-generated method stub
-		return 0;
+		Optional<Colleague> c = this.colleagues.stream()
+				.filter(x -> x.getId().equals(employeeId))
+				.findFirst();
+		if(!c.isPresent())
+			throw new EmployeeException();
+		Optional<CapsuleType> ct = this.capsuleTypes.stream()
+				.filter(x -> x.getId().equals(beverageId))
+				.findFirst();
+		if(!ct.isPresent())
+			throw new BeverageException();
+		if(ct.get().getQuantity() < numberOfCapsules)
+			throw new NotEnoughCapsules();
+		c.get().recordTransaction(new TransactionImpl(new Date(), numberOfCapsules*ct.get().getPrice(),
+				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH));
+		return c.get().getBalance();
 	}
 
 	@Override
 	public void sellCapsulesToVisitor(Integer beverageId, Integer numberOfCapsules)
 			throws BeverageException, NotEnoughCapsules {
-		// TODO Auto-generated method stub
-		
+		Optional<CapsuleType> ct = this.capsuleTypes.stream()
+				.filter(x -> x.getId().equals(beverageId))
+				.findFirst();
+		if(!ct.isPresent())
+			throw new BeverageException();
+		if(ct.get().getQuantity() < numberOfCapsules)
+			throw new NotEnoughCapsules();
+		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules*ct.get().getPrice(),
+				Transaction.Type.CONSUMPTION_CASH));
 	}
 
 	@Override
