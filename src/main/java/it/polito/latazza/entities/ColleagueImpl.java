@@ -53,6 +53,8 @@ public class ColleagueImpl implements Colleague {
     @Override
     public void recordTransaction(Transaction transaction) {
         this.transactions.add(transaction);
+        if(transaction.getType() == Transaction.Type.RECHARGE)
+            this.balance += transaction.getAmount();
     }
 
 

@@ -10,6 +10,7 @@ import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import it.polito.latazza.exceptions.NotEnoughCapsules;
+import jdk.nashorn.internal.codegen.types.Type;
 
 public class DataImpl implements DataInterface {
 
@@ -62,13 +63,24 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public Integer rechargeAccount(Integer id, Integer amountInCents) throws EmployeeException {
-		// TODO Auto-generated method stub
-		return 0;
+		Optional<Colleague> c = this.colleagues.stream()
+				.filter(x -> x.getId().equals(id))
+				.findFirst();
+		if(!c.isPresent())
+			throw new EmployeeException();
+		c.get().recordTransaction(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE));
+		return c.get().getBalance();
 	}
 
 	@Override
 	public void buyBoxes(Integer beverageId, Integer boxQuantity) throws BeverageException, NotEnoughBalance {
-		// TODO Auto-generated method stub
+		Optional<CapsuleType> ct = this.capsuleTypes.stream()
+				.filter(x -> x.getId().equals(beverageId))
+				.findFirst();
+		if(!ct.isPresent())
+			throw new BeverageException();
+		if(this.sysBalance < ct.get().getBoxPrice()*boxQuantity)
+			throw new NotEnoughBalance();
 		
 	}
 
