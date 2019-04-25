@@ -1,7 +1,6 @@
 package it.polito.latazza.data;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import it.polito.latazza.entities.*;
@@ -10,7 +9,6 @@ import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import it.polito.latazza.exceptions.NotEnoughCapsules;
-import jdk.nashorn.internal.codegen.types.Type;
 
 public class DataImpl implements DataInterface {
 
@@ -42,8 +40,8 @@ public class DataImpl implements DataInterface {
 			throw new BeverageException();
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
-		c.get().recordTransaction(new TransactionImpl(new Date(), numberOfCapsules*ct.get().getPrice(),
-				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH));
+		c.get().recordTransaction(new TransactionImpl(new Date(), numberOfCapsules,
+				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, ct.get().getName()));
 		return c.get().getBalance();
 	}
 
@@ -57,8 +55,8 @@ public class DataImpl implements DataInterface {
 			throw new BeverageException();
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
-		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules*ct.get().getPrice(),
-				Transaction.Type.CONSUMPTION_CASH));
+		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
+				Transaction.Type.CONSUMPTION_CASH, ct.get().getName()));
 	}
 
 	@Override
@@ -81,7 +79,7 @@ public class DataImpl implements DataInterface {
 			throw new BeverageException();
 		if(this.sysBalance < ct.get().getBoxPrice()*boxQuantity)
 			throw new NotEnoughBalance();
-		
+		this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getName()));
 	}
 
 	@Override
@@ -99,21 +97,17 @@ public class DataImpl implements DataInterface {
 				.map(x -> {
 					switch(x.getType()) {
 						case CONSUMPTION_BALANCE: {
-
+							return "asd";
 						}
 						case CONSUMPTION_CASH: {
-
-						}
-						case BOXPURCHASE: {
-
+							return "dsa";
 						}
 						case RECHARGE: {
-
+							return "sad";
 						}
 						default: return "Error";
 					}
-				})
-				.collect(Collectors.toList());
+				}).collect(Collectors.toList());
 	}
 
 	@Override
