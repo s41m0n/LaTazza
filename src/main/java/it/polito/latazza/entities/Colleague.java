@@ -1,15 +1,17 @@
 package it.polito.latazza.entities;
 
-import java.util.List;
-
 public interface Colleague {
 
-    public Integer getBalance();
-    public Integer getId();
-    public String getName();
-    public String getSurname();
-    public List<Transaction> getTransactions();
-    public void update(String name, String surname);
-    public void recordTransaction(Transaction transaction);
+    Integer getBalance();
+
+    Integer getId();
+
+    String getName();
+
+    String getSurname();
+
+    void update(String name, String surname);
+
+    void update(Integer amount);
 
 }
