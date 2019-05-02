@@ -1,5 +1,6 @@
 package it.polito.latazza.data;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -9,20 +10,22 @@ import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import it.polito.latazza.exceptions.NotEnoughCapsules;
+import it.polito.latazza.persistency.DataManager;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 public class DataImpl implements DataInterface {
 
-	private Integer sysBalance;								/* LaTazzaAccount balance */
-	private ArrayList<CapsuleType> capsuleTypes;			/* List of all capsules */
-	private ArrayList<Colleague> colleagues;				/* List of all colleagues */
-	private ArrayList<Transaction> transactions;
+	private MutableInt sysBalance;				/* LaTazzaAccount balance */
+	private List<CapsuleType> capsuleTypes;		/* List of all capsules */
+	private List<Colleague> colleagues;			/* List of all colleagues */
+	private List<Transaction> transactions;		/* List of all transactions*/
 
 	public DataImpl() {
-		/* Actually empty, still to decide how to store data */
-		this.sysBalance = 0;
+		this.sysBalance = new MutableInt(0);
 		this.capsuleTypes = new ArrayList<>();
 		this.colleagues = new ArrayList<>();
 		this.transactions = new ArrayList<>();
+		DataManager.getDataManager().load(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -40,8 +43,11 @@ public class DataImpl implements DataInterface {
 			throw new BeverageException();
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
-		c.get().recordTransaction(new TransactionImpl(new Date(), numberOfCapsules,
-				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, ct.get().getName()));
+		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
+				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
+		ct.get().updateQuantity(-numberOfCapsules);
+		c.get().update(-numberOfCapsules * ct.get().getPrice());
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return c.get().getBalance();
 	}
 
@@ -56,7 +62,9 @@ public class DataImpl implements DataInterface {
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
 		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
-				Transaction.Type.CONSUMPTION_CASH, ct.get().getName()));
+				Transaction.Type.CONSUMPTION_CASH, ct.get().getId()));
+		ct.get().updateQuantity(-numberOfCapsules);
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -66,7 +74,9 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!c.isPresent())
 			throw new EmployeeException();
-		c.get().recordTransaction(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE));
+		this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
+		c.get().update(amountInCents);
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return c.get().getBalance();
 	}
 
@@ -77,9 +87,12 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!ct.isPresent())
 			throw new BeverageException();
-		if(this.sysBalance < ct.get().getBoxPrice()*boxQuantity)
+		if(this.sysBalance.getValue() < ct.get().getBoxPrice()*boxQuantity)
 			throw new NotEnoughBalance();
-		this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getName()));
+		ct.get().updateQuantity(boxQuantity*ct.get().getCapsulesPerBox());
+		this.sysBalance.add(-boxQuantity*ct.get().getBoxPrice());
+		this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getId()));
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -92,19 +105,23 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!c.isPresent())
 			throw new EmployeeException();
-		return c.get().getTransactions().stream()
-				.filter(x -> x.getDate().after(startDate) && x.getDate().before(endDate))
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return this.transactions.stream()
+				.filter(x -> x.getObject() != null && x.getObject().equals(employeeId)
+						&& x.getDate().after(startDate) && x.getDate().before(endDate))
 				.map(x -> {
+					String employee = this.colleagues.stream().filter(y -> y.getId().equals(employeeId)).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining());
+					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining());
 					switch(x.getType()) {
-						case CONSUMPTION_BALANCE: {
-							return "asd";
-						}
-						case CONSUMPTION_CASH: {
-							return "dsa";
-						}
-						case RECHARGE: {
-							return "sad";
-						}
+						case RECHARGE:
+							return "" + dateFormat.format(x.getDate()) + " RECHARGE " + employee +
+									" " + String.format("%.2f \u20ac",0.01*x.getAmount());
+						case CONSUMPTION_BALANCE:
+							return "" + dateFormat.format(x.getDate()) + " BALANCE " + employee +
+									" " + capsuleType + " " + x.getAmount();
+						case CONSUMPTION_CASH:
+							return "" + dateFormat.format(x.getDate()) + " CASH " + employee +
+									" " + capsuleType + " " + x.getAmount();
 						default: return "Error";
 					}
 				}).collect(Collectors.toList());
@@ -112,8 +129,32 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public List<String> getReport(Date startDate, Date endDate) throws DateException {
-		// TODO Auto-generated method stub
-		return new ArrayList<String>();
+		if(endDate.before(startDate))
+			throw new DateException();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return this.transactions.stream()
+				.filter(x -> x.getDate().after(startDate) && x.getDate().before(endDate))
+				.map(x -> {
+					String employee = this.colleagues.stream().filter(y -> y.getId().equals(x.getObject())).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining());
+					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining());
+					switch(x.getType()) {
+						case CONSUMPTION_CASH:
+							if(x.getObject() == null)  return "" + dateFormat.format(x.getDate()) + " VISITOR " +
+															capsuleType + " " + x.getAmount();
+							else return "" + dateFormat.format(x.getDate()) + " CASH " +
+									employee + " " + capsuleType + " " + x.getAmount();
+						case CONSUMPTION_BALANCE:
+							return "" + dateFormat.format(x.getDate()) + " BALANCE " +
+									employee + " " + capsuleType + " " + x.getAmount();
+						case RECHARGE:
+							return "" + dateFormat.format(x.getDate()) + " RECHARGE " + employee +
+									" " + String.format("%.2f \u20ac",0.01*x.getAmount());
+						case BOX_PURCHASE:
+							return "" + dateFormat.format(x.getDate()) + " BUY " +
+								capsuleType + " " + x.getAmount();
+						default: return "Error";
+					}
+				}).collect(Collectors.toList());
 	}
 
 	@Override
@@ -124,6 +165,7 @@ public class DataImpl implements DataInterface {
 				.orElse(0);
 		if(!this.capsuleTypes.add(new CapsuleTypeImpl(newId, name, capsulesPerBox, boxPrice)))
 			throw new BeverageException();
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return newId;
 	}
 
@@ -136,6 +178,7 @@ public class DataImpl implements DataInterface {
 		if(!c.isPresent())
 			throw new BeverageException();
 		c.get().update(name, capsulesPerBox, boxPrice);
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -199,6 +242,7 @@ public class DataImpl implements DataInterface {
 				.orElse(0);
 		if(!this.colleagues.add(new ColleagueImpl(newId, name, surname)))
 			throw new EmployeeException();
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return newId;
 	}
 
@@ -210,6 +254,7 @@ public class DataImpl implements DataInterface {
 		if(!c.isPresent())
 			throw new EmployeeException();
 		c.get().update(name ,surname);
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -254,13 +299,26 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public Integer getBalance() {
-		return this.sysBalance;
+		return this.sysBalance.getValue();
 	}
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		this.sysBalance = new MutableInt(0);
+		this.capsuleTypes = new ArrayList<>();
+		this.colleagues = new ArrayList<>();
+		this.transactions = new ArrayList<>();
+		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
+	}
+
+	@Override
+	public String toString() {
+		return "DataImpl{" +
+				"\n\tsysBalance:" + this.sysBalance +
+				"\n\tcapsuleTypes:" + this.capsuleTypes.toString() +
+				"\n\tcolleagues:" + this.colleagues.toString() +
+				"\n\ttransactions:" + this.transactions.toString() +
+				"\n}";
 	}
 
 }
