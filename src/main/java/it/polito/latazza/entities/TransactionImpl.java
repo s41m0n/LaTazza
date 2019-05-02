@@ -1,24 +1,34 @@
 package it.polito.latazza.entities;
 
 import java.util.Date;
-import java.util.Optional;
+import java.util.Map;
 
 public class TransactionImpl implements Transaction {
 
     private Date date;
     private Integer amount;
     private Type type;
-    private String directObject;
+    private Integer object;
+    private Integer directObject;
 
-    public TransactionImpl(Date date, Integer amount, Type type) {
+    public TransactionImpl(Date date, Integer amount, Type type, Integer x) {
+        this(date, amount, type, type == Type.RECHARGE? x : null, type == Type.RECHARGE? null : x);
+    }
+
+    public TransactionImpl(Date date, Integer amount, Type type, Integer object, Integer directObject){
         this.date = date;
         this.amount = amount;
         this.type = type;
+        this.object = object;
+        this.directObject = directObject;
     }
 
-    public TransactionImpl(Date date, Integer amount, Type type, String directObject){
-        this(date, amount, type);
-        this.directObject = directObject;
+    public TransactionImpl(Map m) {
+        this.date = new Date((Long) m.get("date"));
+        this.amount = (Integer) m.get("amount");
+        this.type = Type.valueOf((String)m.get("type"));
+        this.object = (Integer) m.get("object");
+        this.directObject = (Integer) m.get("directObject");
     }
 
     @Override
@@ -37,9 +47,23 @@ public class TransactionImpl implements Transaction {
     }
 
     @Override
-    public Optional<String> getDirectObject() {
-        return Optional.ofNullable(this.directObject);
+    public Integer getDirectObject() {
+        return this.directObject;
     }
 
+    @Override
+    public Integer getObject() {
+        return this.object;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"date\":\"" + this.date.toString() + '\"' +
+                ", \"amount\":" + this.amount+
+                ", \"type\":\"" + this.type.ordinal() + "\"" +
+                ", \"directObject\":\"" + this.directObject + "\"" +
+                '}';
+    }
 
 }
