@@ -1,5 +1,7 @@
 package it.polito.latazza.entities;
 
+import java.util.Map;
+
 public class CapsuleTypeImpl implements CapsuleType {
 
     private Integer id;
@@ -13,16 +15,20 @@ public class CapsuleTypeImpl implements CapsuleType {
         this.name = name;
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
+        this.quantity = 0;
+    }
+
+    public CapsuleTypeImpl(Map m){
+        this.id = (Integer) m.get("id");
+        this.quantity = (Integer) m.get("quantity");
+        this.capsulesPerBox = (Integer) m.get("capsulesPerBox");
+        this.boxPrice = (Integer) m.get("boxPrice");
+        this.name = (String) m.get("name");
     }
 
     @Override
     public Integer getPrice() {
         return this.boxPrice / this.capsulesPerBox;
-    }
-
-    @Override
-    public Integer getBeverageId() {
-        return this.id;
     }
 
     @Override
@@ -48,6 +54,11 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     @Override
+    public void updateQuantity(Integer toAdd) {
+        this.quantity += toAdd;
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }
@@ -55,5 +66,16 @@ public class CapsuleTypeImpl implements CapsuleType {
     @Override
     public Integer getId() {
         return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":'" + this.id + '\'' +
+                ", \"quantity\":" + this.quantity +
+                ", \"capsulesPerBox\":" + this.capsulesPerBox +
+                ", \"boxPrize\":" + this.boxPrice +
+                ", \"name\":\"" + this.name + "\"" +
+                '}';
     }
 }
