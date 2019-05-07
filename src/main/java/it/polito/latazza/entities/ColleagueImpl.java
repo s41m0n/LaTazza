@@ -50,7 +50,7 @@ public class ColleagueImpl implements Colleague {
     }
 
     @Override
-    public void update(Integer amount) {
+    public void updateBalance(Integer amount) {
         this.balance += amount;
     }
 

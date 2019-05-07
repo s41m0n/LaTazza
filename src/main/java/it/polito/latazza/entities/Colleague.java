@@ -12,6 +12,6 @@ public interface Colleague {
 
     void update(String name, String surname);
 
-    void update(Integer amount);
+    void updateBalance(Integer amount);
 
 }

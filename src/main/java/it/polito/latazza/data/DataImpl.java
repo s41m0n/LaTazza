@@ -46,7 +46,7 @@ public class DataImpl implements DataInterface {
 		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
 		ct.get().updateQuantity(-numberOfCapsules);
-		c.get().update(-numberOfCapsules * ct.get().getPrice());
+		c.get().updateBalance(-numberOfCapsules * ct.get().getPrice());
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return c.get().getBalance();
 	}
@@ -75,7 +75,7 @@ public class DataImpl implements DataInterface {
 		if(!c.isPresent())
 			throw new EmployeeException();
 		this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
-		c.get().update(amountInCents);
+		c.get().updateBalance(amountInCents);
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return c.get().getBalance();
 	}
