@@ -83,7 +83,8 @@ class Colleague {
 	+getName(): String
 	+getSurname(): String
 	+getBalance(): Integer
-	+update(name: String, surname: String)
+	+update(name: String, surname: String): void
+	+updateBalance(amount: Integer): void
 }
 
 class CapsuleType {
@@ -101,15 +102,22 @@ class CapsuleType {
 	+getBoxPrice(): Integer
 	+getName(): String
 	+update(name: String, capsulesPerBox: Integer, 
-		\tboxPrice: Integer)
+		\tboxPrice: Integer): void
+	+updateQuantity(toAdd: Integer): void
 }
 
 class Transaction {
 	-date: Date
 	-amount: Integer
 
-	+Transaction(date: Date, amount: Integer)
+	+Transaction(date: Date, amount: Integer,
+		\tType type, x: Integer)
+	+Transaction(date: Date, amount: Integer,
+		\tType type, object: Integer, directObject: Integer)
 	+getDate(): Date
+	+getType(): Type
+	+getObject(): Integer
+	+getDirectObject(): Integer
 	+getAmount(): Integer
 }
 
