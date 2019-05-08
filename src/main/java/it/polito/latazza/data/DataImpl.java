@@ -79,6 +79,7 @@ public class DataImpl implements DataInterface {
 			throw new EmployeeException();
 		this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
 		c.get().updateBalance(amountInCents);
+		this.sysBalance.add(amountInCents);
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return c.get().getBalance();
 	}
