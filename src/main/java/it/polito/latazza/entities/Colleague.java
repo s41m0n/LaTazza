@@ -1,5 +1,7 @@
 package it.polito.latazza.entities;
 
+import it.polito.latazza.exceptions.EmployeeException;
+
 public interface Colleague {
 
     Integer getBalance();
@@ -12,6 +14,6 @@ public interface Colleague {
 
     void update(String name, String surname);
 
-    void updateBalance(Integer amount);
+    void updateBalance(Integer amount) throws EmployeeException;
 
 }

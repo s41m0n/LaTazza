@@ -1,5 +1,7 @@
 package it.polito.latazza.entities;
 
+import it.polito.latazza.exceptions.EmployeeException;
+
 import java.util.Map;
 
 public class ColleagueImpl implements Colleague {
@@ -50,7 +52,11 @@ public class ColleagueImpl implements Colleague {
     }
 
     @Override
-    public void updateBalance(Integer amount) {
+    public void updateBalance(Integer amount) throws EmployeeException {
+        if (this.balance.longValue() + amount.longValue() < Integer.MIN_VALUE
+                || this.balance.longValue() + amount.longValue() > Integer.MAX_VALUE) {
+            throw new EmployeeException();
+        }
         this.balance += amount;
     }
 

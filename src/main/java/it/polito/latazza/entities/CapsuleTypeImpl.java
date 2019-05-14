@@ -1,5 +1,7 @@
 package it.polito.latazza.entities;
 
+import it.polito.latazza.exceptions.BeverageException;
+
 import java.util.Map;
 
 public class CapsuleTypeImpl implements CapsuleType {
@@ -54,7 +56,11 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     @Override
-    public void updateQuantity(Integer toAdd) {
+    public void updateQuantity(Integer toAdd) throws BeverageException {
+        if (this.quantity.longValue() + toAdd.longValue() > Integer.MAX_VALUE
+                || this.quantity.longValue() + toAdd.longValue() < Integer.MIN_VALUE) {
+            throw new BeverageException();
+        }
         this.quantity += toAdd;
     }
 

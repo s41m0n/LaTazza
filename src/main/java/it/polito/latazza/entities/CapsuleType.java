@@ -1,5 +1,7 @@
 package it.polito.latazza.entities;
 
+import it.polito.latazza.exceptions.BeverageException;
+
 public interface CapsuleType {
 
     String getName();
@@ -16,5 +18,5 @@ public interface CapsuleType {
 
     void update(String name, Integer capsulesPerBox, Integer boxPrice);
 
-    void updateQuantity(Integer toAdd);
+    void updateQuantity(Integer toAdd) throws BeverageException;
 }
