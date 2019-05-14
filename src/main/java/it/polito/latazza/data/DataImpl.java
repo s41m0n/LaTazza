@@ -102,7 +102,7 @@ public class DataImpl implements DataInterface {
 	@Override
 	public List<String> getEmployeeReport(Integer employeeId, Date startDate, Date endDate)
 			throws EmployeeException, DateException {
-		if(endDate.before(startDate))
+		if(endDate.before(startDate) || startDate.after(new Date()))
 			throw new DateException();
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(employeeId))
@@ -133,7 +133,7 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public List<String> getReport(Date startDate, Date endDate) throws DateException {
-		if(endDate.before(startDate))
+		if(endDate.before(startDate) || startDate.after(new Date()))
 			throw new DateException();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return this.transactions.stream()
@@ -163,6 +163,12 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public Integer createBeverage(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
+		if (capsulesPerBox <= 0) {
+			throw new BeverageException();
+		}
+		if (boxPrice <= 0) {
+			throw new BeverageException();
+		}
 		Integer newId = this.capsuleTypes.stream()
 				.map(x -> x.getId() + 1)
 				.reduce(Integer::max)
@@ -176,6 +182,12 @@ public class DataImpl implements DataInterface {
 	@Override
 	public void updateBeverage(Integer id, String name, Integer capsulesPerBox, Integer boxPrice)
 			throws BeverageException {
+		if (capsulesPerBox <= 0) {
+			throw new BeverageException();
+		}
+		if (boxPrice <= 0) {
+			throw new BeverageException();
+		}
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
