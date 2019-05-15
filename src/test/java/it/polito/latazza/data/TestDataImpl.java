@@ -8,7 +8,6 @@ public class TestDataImpl {
 
 	@Test
 	public void testExample() {
-		assertEquals(2, 1 + 1);
 
 	}
 
