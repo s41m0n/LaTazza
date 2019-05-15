@@ -28,13 +28,13 @@ public class TransactionImpl implements Transaction {
     }
 
     public TransactionImpl(Map m) throws DateException {
+        if (new Date((Long) m.get("date")).after(new Date()))
+            throw new DateException();
         this.date = new Date((Long) m.get("date"));
         this.amount = (Integer) m.get("amount");
         this.type = Type.valueOf((String)m.get("type"));
         this.object = (Integer) m.get("object");
         this.directObject = (Integer) m.get("directObject");
-        if (this.date.after(new Date()))
-            throw new DateException();
     }
 
     @Override

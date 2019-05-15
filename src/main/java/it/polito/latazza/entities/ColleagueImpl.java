@@ -21,12 +21,12 @@ public class ColleagueImpl implements Colleague {
     }
 
     public ColleagueImpl(Map m) throws EmployeeException {
+        if ((Integer) m.get("id") < 0)
+            throw new EmployeeException();
         this.id = (Integer) m.get("id");
         this.balance = (Integer) m.get("balance");
         this.name = (String) m.get("name");
         this.surname = (String) m.get("surname");
-        if (this.id < 0)
-            throw  new EmployeeException();
     }
 
     @Override

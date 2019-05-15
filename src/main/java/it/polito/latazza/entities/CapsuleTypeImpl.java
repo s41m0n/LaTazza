@@ -23,13 +23,14 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     public CapsuleTypeImpl(Map m) throws BeverageException {
+        if ((Integer) m.get("id") < 0 || (Integer) m.get("quantity") < 0
+                || (Integer) m.get("capsulesPerBox") <= 0 || (Integer) m.get("boxPrice") <= 0)
+            throw  new BeverageException();
         this.id = (Integer) m.get("id");
         this.quantity = (Integer) m.get("quantity");
         this.capsulesPerBox = (Integer) m.get("capsulesPerBox");
         this.boxPrice = (Integer) m.get("boxPrice");
         this.name = (String) m.get("name");
-        if (capsulesPerBox <= 0 || boxPrice <= 0 || id < 0)
-            throw new BeverageException();
     }
 
     @Override
@@ -64,12 +65,9 @@ public class CapsuleTypeImpl implements CapsuleType {
     @Override
     public void updateQuantity(Integer toAdd) throws BeverageException {
         if (this.quantity.longValue() + toAdd.longValue() > Integer.MAX_VALUE
-                || this.quantity.longValue() + toAdd.longValue() < Integer.MIN_VALUE) {
+                || ((this.quantity + toAdd) < 0))
             throw new BeverageException();
-        }
-        if ((this.quantity += toAdd) < 0) {
-            throw new BeverageException();
-        }
+        this.quantity += toAdd;
     }
 
     @Override
