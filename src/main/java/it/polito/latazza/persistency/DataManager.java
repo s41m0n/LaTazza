@@ -2,6 +2,7 @@ package it.polito.latazza.persistency;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polito.latazza.entities.*;
+import it.polito.latazza.exceptions.BeverageException;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.io.*;
@@ -27,7 +28,13 @@ public class DataManager {
         try {
             Map asd2 = objectMapper.readValue(new File(this.filename), HashMap.class);
             sysBalance.setValue((Integer) asd2.get("sysBalance"));
-            Optional.ofNullable((ArrayList)asd2.get("capsuleTypes")).ifPresent(x -> x.forEach(y -> capsuleTypes.add(new CapsuleTypeImpl((HashMap) y))));
+            Optional.ofNullable((ArrayList)asd2.get("capsuleTypes")).ifPresent(x -> x.forEach(y -> {
+                try {
+                    capsuleTypes.add(new CapsuleTypeImpl((HashMap) y));
+                } catch (BeverageException e) {
+                    System.out.println("Invalid quantity or/and price");
+                }
+            }));
             Optional.ofNullable((ArrayList)asd2.get("colleagues")).ifPresent(x -> x.forEach(y -> colleagues.add(new ColleagueImpl((HashMap) y))));
             Optional.ofNullable((ArrayList)asd2.get("transactions")).ifPresent(x -> x.forEach(y -> transactions.add(new TransactionImpl((HashMap) y))));
             System.out.println("File found, restoring dataset");

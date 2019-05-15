@@ -12,7 +12,9 @@ public class CapsuleTypeImpl implements CapsuleType {
     private Integer boxPrice;
     private String name;
 
-    public CapsuleTypeImpl(Integer id, String name, Integer capsulesPerBox, Integer boxPrice) {
+    public CapsuleTypeImpl(Integer id, String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
+        if (capsulesPerBox <= 0 || boxPrice <= 0)
+            throw new BeverageException();
         this.id = id;
         this.name = name;
         this.capsulesPerBox = capsulesPerBox;
@@ -20,12 +22,14 @@ public class CapsuleTypeImpl implements CapsuleType {
         this.quantity = 0;
     }
 
-    public CapsuleTypeImpl(Map m){
+    public CapsuleTypeImpl(Map m) throws BeverageException {
         this.id = (Integer) m.get("id");
         this.quantity = (Integer) m.get("quantity");
         this.capsulesPerBox = (Integer) m.get("capsulesPerBox");
         this.boxPrice = (Integer) m.get("boxPrice");
         this.name = (String) m.get("name");
+        if (capsulesPerBox <= 0 || boxPrice <= 0)
+            throw new BeverageException();
     }
 
     @Override
@@ -49,7 +53,9 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     @Override
-    public void update(String name, Integer capsulesPerBox, Integer boxPrice) {
+    public void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
+        if (capsulesPerBox <= 0 || boxPrice <= 0)
+            throw new BeverageException();
         this.name = name;
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
@@ -61,7 +67,9 @@ public class CapsuleTypeImpl implements CapsuleType {
                 || this.quantity.longValue() + toAdd.longValue() < Integer.MIN_VALUE) {
             throw new BeverageException();
         }
-        this.quantity += toAdd;
+        if ((this.quantity += toAdd) < 0) {
+            throw new BeverageException();
+        }
     }
 
     @Override

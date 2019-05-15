@@ -16,7 +16,7 @@ public interface CapsuleType {
 
     Integer getCapsulesPerBox();
 
-    void update(String name, Integer capsulesPerBox, Integer boxPrice);
+    void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException;
 
     void updateQuantity(Integer toAdd) throws BeverageException;
 }

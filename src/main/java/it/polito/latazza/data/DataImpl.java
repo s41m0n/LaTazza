@@ -165,18 +165,11 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public Integer createBeverage(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
-		if (capsulesPerBox <= 0) {
-			throw new BeverageException();
-		}
-		if (boxPrice <= 0) {
-			throw new BeverageException();
-		}
 		Integer newId = this.capsuleTypes.stream()
 				.map(x -> x.getId() + 1)
 				.reduce(Integer::max)
 				.orElse(0);
-		if(!this.capsuleTypes.add(new CapsuleTypeImpl(newId, name, capsulesPerBox, boxPrice)))
-			throw new BeverageException();
+		this.capsuleTypes.add(new CapsuleTypeImpl(newId, name, capsulesPerBox, boxPrice));
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return newId;
 	}
@@ -184,12 +177,6 @@ public class DataImpl implements DataInterface {
 	@Override
 	public void updateBeverage(Integer id, String name, Integer capsulesPerBox, Integer boxPrice)
 			throws BeverageException {
-		if (capsulesPerBox <= 0) {
-			throw new BeverageException();
-		}
-		if (boxPrice <= 0) {
-			throw new BeverageException();
-		}
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
@@ -254,14 +241,15 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public Integer createEmployee(String name, String surname) throws EmployeeException {
-		Integer newId = this.colleagues.stream()
-				.map(x -> x.getId() + 1)
+		Integer maxId = this.colleagues.stream()
+				.map(Colleague::getId)
 				.reduce(Integer::max)
 				.orElse(0);
-		if(!this.colleagues.add(new ColleagueImpl(newId, name, surname)))
+		if (maxId.longValue() + 1 > Integer.MAX_VALUE)
 			throw new EmployeeException();
+		this.colleagues.add(new ColleagueImpl(maxId + 1, name, surname));
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
-		return newId;
+		return maxId + 1;
 	}
 
 	@Override
