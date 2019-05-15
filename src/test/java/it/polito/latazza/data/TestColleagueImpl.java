@@ -94,6 +94,7 @@ public class TestColleagueImpl {
         Colleague ci2 = null;
         try {
             ci2 = new ColleagueImpl(map);
+            fail();
         } catch (EmployeeException e) {
             assertTrue(true);
         }
