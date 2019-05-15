@@ -15,7 +15,12 @@ public class TestColleagueImpl {
     @Test
     void testColleagueImpl() {
 
-        Colleague ci = new ColleagueImpl(0, "Ted", "Mosby");
+        Colleague ci = null;
+        try {
+            ci = new ColleagueImpl(0, "Ted", "Mosby");
+        } catch (EmployeeException e) {
+            fail();
+        }
         assertEquals(ci.getBalance(), Integer.valueOf(0));
         assertEquals(ci.getId(), Integer.valueOf(0));
         assertEquals(ci.getName(), "Ted");
@@ -26,7 +31,12 @@ public class TestColleagueImpl {
         map.put("balance", 4243);
         map.put("name", "Marshall");
         map.put("surname", "Ericksen");
-        Colleague ci2 = new ColleagueImpl(map);
+        Colleague ci2 = null;
+        try {
+            ci2 = new ColleagueImpl(map);
+        } catch (EmployeeException e) {
+            fail();
+        }
         assertEquals(ci2.getBalance(), Integer.valueOf(4243));
         assertEquals(ci2.getId(), Integer.valueOf(1));
         assertEquals(ci2.getName(), "Marshall");
@@ -47,7 +57,18 @@ public class TestColleagueImpl {
     @Test
     void testColleagueImplException() {
 
-        Colleague ci = new ColleagueImpl(0, "Ted", "Mosby");
+        try {
+            Colleague cf = new ColleagueImpl(-1, "Herbert", "Bean");
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
+
+        Colleague ci = null;
+        try {
+            ci = new ColleagueImpl(0, "Ted", "Mosby");
+        } catch (EmployeeException e) {
+            fail();
+        }
 
         try {
             ci.updateBalance(1);
@@ -61,6 +82,18 @@ public class TestColleagueImpl {
             ci.updateBalance(-2);
             ci.updateBalance(Integer.MIN_VALUE);
             fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", -2);
+        map.put("balance", 4243);
+        map.put("name", "Marshall");
+        map.put("surname", "Ericksen");
+        Colleague ci2 = null;
+        try {
+            ci2 = new ColleagueImpl(map);
         } catch (EmployeeException e) {
             assertTrue(true);
         }

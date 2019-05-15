@@ -3,6 +3,8 @@ package it.polito.latazza.persistency;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polito.latazza.entities.*;
 import it.polito.latazza.exceptions.BeverageException;
+import it.polito.latazza.exceptions.DateException;
+import it.polito.latazza.exceptions.EmployeeException;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.io.*;
@@ -32,11 +34,23 @@ public class DataManager {
                 try {
                     capsuleTypes.add(new CapsuleTypeImpl((HashMap) y));
                 } catch (BeverageException e) {
-                    System.out.println("Invalid quantity or/and price");
+                    e.printStackTrace();
                 }
             }));
-            Optional.ofNullable((ArrayList)asd2.get("colleagues")).ifPresent(x -> x.forEach(y -> colleagues.add(new ColleagueImpl((HashMap) y))));
-            Optional.ofNullable((ArrayList)asd2.get("transactions")).ifPresent(x -> x.forEach(y -> transactions.add(new TransactionImpl((HashMap) y))));
+            Optional.ofNullable((ArrayList)asd2.get("colleagues")).ifPresent(x -> x.forEach(y -> {
+                try {
+                    colleagues.add(new ColleagueImpl((HashMap) y));
+                } catch (EmployeeException e) {
+                    e.printStackTrace();
+                }
+            }));
+            Optional.ofNullable((ArrayList)asd2.get("transactions")).ifPresent(x -> x.forEach(y -> {
+                try {
+                    transactions.add(new TransactionImpl((HashMap) y));
+                } catch (DateException e) {
+                    e.printStackTrace();
+                }
+            }));
             System.out.println("File found, restoring dataset");
         } catch (FileNotFoundException e) {
             System.out.println("File not found, creating new dataset");

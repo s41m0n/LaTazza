@@ -13,7 +13,7 @@ public class CapsuleTypeImpl implements CapsuleType {
     private String name;
 
     public CapsuleTypeImpl(Integer id, String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
-        if (capsulesPerBox <= 0 || boxPrice <= 0)
+        if (capsulesPerBox <= 0 || boxPrice <= 0 || id < 0)
             throw new BeverageException();
         this.id = id;
         this.name = name;
@@ -28,7 +28,7 @@ public class CapsuleTypeImpl implements CapsuleType {
         this.capsulesPerBox = (Integer) m.get("capsulesPerBox");
         this.boxPrice = (Integer) m.get("boxPrice");
         this.name = (String) m.get("name");
-        if (capsulesPerBox <= 0 || boxPrice <= 0)
+        if (capsulesPerBox <= 0 || boxPrice <= 0 || id < 0)
             throw new BeverageException();
     }
 

@@ -43,8 +43,12 @@ public class DataImpl implements DataInterface {
 			throw new BeverageException();
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
-		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
-				fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
+		try {
+			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
+					fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
+		} catch (DateException e) {
+			e.printStackTrace();
+		}
 		ct.get().updateQuantity(-numberOfCapsules);
 		if(fromAccount) {
 			c.get().updateBalance(-numberOfCapsules * ct.get().getPrice());
@@ -65,8 +69,12 @@ public class DataImpl implements DataInterface {
 			throw new BeverageException();
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
-		this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
-				Transaction.Type.CONSUMPTION_CASH, ct.get().getId()));
+		try {
+			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
+					Transaction.Type.CONSUMPTION_CASH, ct.get().getId()));
+		} catch (DateException e) {
+			e.printStackTrace();
+		}
 		ct.get().updateQuantity(-numberOfCapsules);
 		this.sysBalance.add(numberOfCapsules * ct.get().getPrice());
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
@@ -79,7 +87,11 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!c.isPresent())
 			throw new EmployeeException();
-		this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
+		try {
+			this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
+		} catch (DateException e) {
+			e.printStackTrace();
+		}
 		c.get().updateBalance(amountInCents);
 		this.sysBalance.add(amountInCents);
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
@@ -97,7 +109,11 @@ public class DataImpl implements DataInterface {
 			throw new NotEnoughBalance();
 		ct.get().updateQuantity(boxQuantity*ct.get().getCapsulesPerBox());
 		this.sysBalance.add(-boxQuantity*ct.get().getBoxPrice());
-		this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getId()));
+		try {
+			this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getId()));
+		} catch (DateException e) {
+			e.printStackTrace();
+		}
 		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 

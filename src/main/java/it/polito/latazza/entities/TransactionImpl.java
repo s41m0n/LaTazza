@@ -1,5 +1,7 @@
 package it.polito.latazza.entities;
 
+import it.polito.latazza.exceptions.DateException;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -11,11 +13,13 @@ public class TransactionImpl implements Transaction {
     private Integer object;
     private Integer directObject;
 
-    public TransactionImpl(Date date, Integer amount, Type type, Integer x) {
+    public TransactionImpl(Date date, Integer amount, Type type, Integer x) throws DateException {
         this(date, amount, type, type == Type.RECHARGE? x : null, type == Type.RECHARGE? null : x);
     }
 
-    public TransactionImpl(Date date, Integer amount, Type type, Integer object, Integer directObject){
+    public TransactionImpl(Date date, Integer amount, Type type, Integer object, Integer directObject) throws DateException {
+        if (date.after(new Date()))
+            throw new DateException();
         this.date = date;
         this.amount = amount;
         this.type = type;
@@ -23,12 +27,14 @@ public class TransactionImpl implements Transaction {
         this.directObject = directObject;
     }
 
-    public TransactionImpl(Map m) {
+    public TransactionImpl(Map m) throws DateException {
         this.date = new Date((Long) m.get("date"));
         this.amount = (Integer) m.get("amount");
         this.type = Type.valueOf((String)m.get("type"));
         this.object = (Integer) m.get("object");
         this.directObject = (Integer) m.get("directObject");
+        if (this.date.after(new Date()))
+            throw new DateException();
     }
 
     @Override

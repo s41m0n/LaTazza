@@ -11,18 +11,22 @@ public class ColleagueImpl implements Colleague {
     private String name;
     private String surname;
 
-    public ColleagueImpl(Integer id, String name, String surname) {
+    public ColleagueImpl(Integer id, String name, String surname) throws EmployeeException {
+        if (id < 0)
+            throw  new EmployeeException();
         this.id = id;
         this.balance = 0;
         this.name = name;
         this.surname = surname;
     }
 
-    public ColleagueImpl(Map m) {
+    public ColleagueImpl(Map m) throws EmployeeException {
         this.id = (Integer) m.get("id");
         this.balance = (Integer) m.get("balance");
         this.name = (String) m.get("name");
         this.surname = (String) m.get("surname");
+        if (this.id < 0)
+            throw  new EmployeeException();
     }
 
     @Override
