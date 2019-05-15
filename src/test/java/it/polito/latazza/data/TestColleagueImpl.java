@@ -43,4 +43,26 @@ public class TestColleagueImpl {
             fail();
         }
     }
+
+    @Test
+    void testColleagueImplException() {
+
+        Colleague ci = new ColleagueImpl(0, "Ted", "Mosby");
+
+        try {
+            ci.updateBalance(1);
+            ci.updateBalance(Integer.MAX_VALUE);
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
+
+        try {
+            ci.updateBalance(-2);
+            ci.updateBalance(Integer.MIN_VALUE);
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
+    }
 }
