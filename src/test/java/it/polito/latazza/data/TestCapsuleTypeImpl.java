@@ -26,6 +26,7 @@ public class TestCapsuleTypeImpl {
         assertEquals(ct.getCapsulesPerBox(), Integer.valueOf(50));
         assertEquals(ct.getBoxPrice(), Integer.valueOf(75));
         assertEquals(ct.getQuantity(), Integer.valueOf(0));
+        assertEquals((int) ct.getPrice(), ct.getBoxPrice()/ct.getCapsulesPerBox());
 
         Map<String, Object> map = new HashMap<>();
         map.put("id", 1);
@@ -44,6 +45,7 @@ public class TestCapsuleTypeImpl {
         assertEquals(ct2.getCapsulesPerBox(), Integer.valueOf(100));
         assertEquals(ct2.getBoxPrice(), Integer.valueOf(200));
         assertEquals(ct2.getQuantity(), Integer.valueOf(99));
+        assertEquals((int) ct2.getPrice(), ct2.getBoxPrice()/ct2.getCapsulesPerBox());
 
         try {
             ct.update("Ginseng", 25, 50);

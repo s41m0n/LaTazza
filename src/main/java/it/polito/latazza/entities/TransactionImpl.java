@@ -2,7 +2,11 @@ package it.polito.latazza.entities;
 
 import it.polito.latazza.exceptions.DateException;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 public class TransactionImpl implements Transaction {
@@ -28,11 +32,18 @@ public class TransactionImpl implements Transaction {
     }
 
     public TransactionImpl(Map m) throws DateException {
-        if (new Date((Long) m.get("date")).after(new Date()))
-            throw new DateException();
-        this.date = new Date((Long) m.get("date"));
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        try {
+            if (dateFormat.parse(m.get("date").toString()).after(new Date())) {
+                throw new DateException();
+            } else {
+                this.date = dateFormat.parse(m.get("date").toString());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.amount = (Integer) m.get("amount");
-        this.type = Type.valueOf((String)m.get("type"));
+        this.type = Type.valueOf(m.get("type").toString());
         this.object = (Integer) m.get("object");
         this.directObject = (Integer) m.get("directObject");
     }
