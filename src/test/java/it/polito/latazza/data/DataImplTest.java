@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataImplTest {
 
-    DataImpl dt = new DataImpl();
+    static DataImpl dt = new DataImpl();
 
     @BeforeAll
-    public void init(){
+    public static void init(){
         System.out.println("Before All init() method called");
 
         try {
