@@ -5,21 +5,23 @@ import it.polito.latazza.exceptions.DateException;
 import java.util.Date;
 import java.util.Map;
 
+//Implementation of the Transaction class
 public class TransactionImpl implements Transaction {
 
+	//ATTRIBUTES
     private Date date;
     private Integer amount;
     private Type type;
     private Integer object;
     private Integer directObject;
 
-    public TransactionImpl(Date date, Integer amount, Type type, Integer x) throws DateException {
+    public TransactionImpl(Date date, Integer amount, Type type, Integer x) throws DateException { //Basic constructor
         this(date, amount, type, type == Type.RECHARGE? x : null, type == Type.RECHARGE? null : x);
     }
 
     public TransactionImpl(Date date, Integer amount, Type type, Integer object, Integer directObject) throws DateException {
         if (date.after(new Date()))
-            throw new DateException();
+            throw new DateException(); //Throw exception if trying to instantiate a transaction after the current date
         this.date = date;
         this.amount = amount;
         this.type = type;
@@ -27,7 +29,7 @@ public class TransactionImpl implements Transaction {
         this.directObject = directObject;
     }
 
-    public TransactionImpl(Map m) throws DateException {
+    public TransactionImpl(Map m) throws DateException { //Constructor with Map data structure passed as argument
         if (new Date((Long) m.get("date")).after(new Date()))
             throw new DateException();
         this.date = new Date((Long) m.get("date"));
