@@ -45,6 +45,9 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!ct.isPresent())
 			throw new BeverageException();
+		//If requested number is less then one the operation should not be executed-> exception
+		if(numberOfCapsules < 1)
+			throw new BeverageException();
 		//If there are less capsules than the requested number we can't complete the operation -> exception
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();

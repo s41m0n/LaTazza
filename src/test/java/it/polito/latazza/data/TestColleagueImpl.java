@@ -59,6 +59,7 @@ public class TestColleagueImpl {
 
         try {
             Colleague cf = new ColleagueImpl(-1, "Herbert", "Bean");
+            fail();
         } catch (EmployeeException e) {
             assertTrue(true);
         }
