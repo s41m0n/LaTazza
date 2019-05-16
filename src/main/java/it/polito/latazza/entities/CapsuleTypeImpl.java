@@ -5,16 +5,17 @@ import it.polito.latazza.exceptions.BeverageException;
 import java.util.Map;
 
 public class CapsuleTypeImpl implements CapsuleType {
-
+	
+	// ATTRIBUTES
     private Integer id;
     private Integer quantity;
     private Integer capsulesPerBox;
     private Integer boxPrice;
     private String name;
 
-    public CapsuleTypeImpl(Integer id, String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
+    public CapsuleTypeImpl(Integer id, String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException { //Basic contructor
         if (capsulesPerBox <= 0 || boxPrice <= 0 || id < 0)
-            throw new BeverageException();
+            throw new BeverageException(); //Custom exception for beverages
         this.id = id;
         this.name = name;
         this.capsulesPerBox = capsulesPerBox;
@@ -22,7 +23,7 @@ public class CapsuleTypeImpl implements CapsuleType {
         this.quantity = 0;
     }
 
-    public CapsuleTypeImpl(Map m) throws BeverageException {
+    public CapsuleTypeImpl(Map m) throws BeverageException { //Constructor with Map data structure passed as argument
         if ((Integer) m.get("id") < 0 || (Integer) m.get("quantity") < 0
                 || (Integer) m.get("capsulesPerBox") <= 0 || (Integer) m.get("boxPrice") <= 0)
             throw  new BeverageException();
@@ -54,16 +55,16 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     @Override
-    public void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
+    public void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException { //Update all fields except quantity
         if (capsulesPerBox <= 0 || boxPrice <= 0)
-            throw new BeverageException();
+            throw new BeverageException(); 
         this.name = name;
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
     }
 
     @Override
-    public void updateQuantity(Integer toAdd) throws BeverageException {
+    public void updateQuantity(Integer toAdd) throws BeverageException { //Update quantity
         if (this.quantity.longValue() + toAdd.longValue() > Integer.MAX_VALUE
                 || ((this.quantity + toAdd) < 0))
             throw new BeverageException();
