@@ -3,24 +3,25 @@ package it.polito.latazza.entities;
 import it.polito.latazza.exceptions.EmployeeException;
 
 import java.util.Map;
-
+//Implementation of Colleague class
 public class ColleagueImpl implements Colleague {
 
+	//ATTRIBUTES
     private Integer id;
     private Integer balance;
     private String name;
     private String surname;
 
-    public ColleagueImpl(Integer id, String name, String surname) throws EmployeeException {
+    public ColleagueImpl(Integer id, String name, String surname) throws EmployeeException { //Basic constructor
         if (id < 0)
-            throw  new EmployeeException();
+            throw  new EmployeeException(); //Custom exception for employees
         this.id = id;
         this.balance = 0;
         this.name = name;
         this.surname = surname;
     }
 
-    public ColleagueImpl(Map m) throws EmployeeException {
+    public ColleagueImpl(Map m) throws EmployeeException { //Constructor with Map data structure passed as argument
         if ((Integer) m.get("id") < 0)
             throw new EmployeeException();
         this.id = (Integer) m.get("id");
@@ -50,13 +51,13 @@ public class ColleagueImpl implements Colleague {
     }
 
     @Override
-    public void update(String name, String surname) {
+    public void update(String name, String surname) { //Method for updating the personal info about the employee
         this.name = name;
         this.surname = surname;
     }
 
     @Override
-    public void updateBalance(Integer amount) throws EmployeeException {
+    public void updateBalance(Integer amount) throws EmployeeException { //Method for updating the balance of the employee
         if (this.balance.longValue() + amount.longValue() < Integer.MIN_VALUE
                 || this.balance.longValue() + amount.longValue() > Integer.MAX_VALUE) {
             throw new EmployeeException();
