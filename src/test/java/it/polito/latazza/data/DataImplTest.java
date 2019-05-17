@@ -234,7 +234,7 @@ class DataImplTest {
     void createBeverage() {
         try {
             int size = dt.getBeveragesId().size();
-            dt.createBeverage("Test Beverage", 50, 100);
+            dt.createBeverage("Test Beverage", 50, 75);
             assertEquals(size + 1, dt.getBeveragesId().size());
         } catch (BeverageException e) {
             fail();
@@ -242,47 +242,181 @@ class DataImplTest {
     }
 
     @Test
+    void failUpdateBeverage() {
+        try {
+            dt.updateBeverage(-1, "Update beverage", 50, 75);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     void updateBeverage() {
+        try {
+            dt.updateBeverage(ct_id, "Update beverage", 50, 75);
+            assertEquals(dt.getBeverageName(ct_id), "Update beverage");
+        } catch (BeverageException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void failGetBeverageName() {
+        try {
+            dt.getBeverageName(-1);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void getBeverageName() {
+        try {
+            dt.updateBeverage(ct_id, "Test beverage", 50, 75);
+            assertEquals(dt.getBeverageName(ct_id), "Test beverage");
+        } catch (BeverageException e) {
+           fail();
+        }
+    }
+
+    @Test
+    void failGetBeverageCapsulesPerBox() {
+        try {
+            dt.getBeverageCapsulesPerBox(-1);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void getBeverageCapsulesPerBox() {
+        try {
+            assertEquals((int) dt.getBeverageCapsulesPerBox(ct_id), 50);
+        } catch (BeverageException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void failGetBeverageBoxPrice() {
+        try {
+            dt.getBeverageBoxPrice(-1);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void getBeverageBoxPrice() {
+        try {
+            assertEquals((int) dt.getBeverageBoxPrice(ct_id), 75);
+        } catch (BeverageException e) {
+            fail();
+        }
     }
 
     @Test
     void getBeveragesId() {
+        assertTrue(dt.getBeveragesId().size() > 0);
     }
 
     @Test
     void getBeverages() {
+        assertTrue(dt.getBeverages().size() > 0);
+    }
+
+    @Test
+    void failGetBeverageCapsules() {
+        try {
+            dt.getBeverageCapsules(-1);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void getBeverageCapsules() {
+        try {
+            dt.buyBoxes(ct_id, 1);
+            assertTrue(dt.getBeverageCapsules(ct_id) > 50);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test
     void createEmployee() {
+        try {
+            int size = dt.getEmployeesId().size();
+            dt.createEmployee("Test", "User");
+            assertEquals(size + 1, dt.getEmployeesId().size());
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    void failUpdateEmployee() {
+        try {
+            dt.updateEmployee(-1, "Test", "User");
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void updateEmployee() {
+        try {
+            dt.updateEmployee(ee_id, "Test", "User");
+            assertEquals(dt.getEmployeeName(ee_id), "Test");
+            assertEquals(dt.getEmployeeSurname(ee_id), "User");
+        } catch (EmployeeException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void failGetEmployeeName() {
+        try {
+            dt.getEmployeeName(-1);
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void getEmployeeName() {
+        try {
+            assertEquals(dt.getEmployeeName(ee_id), "Test");
+        } catch (EmployeeException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void failGetEmployeeSurname() {
+        try {
+            dt.getEmployeeSurname(-1);
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
     }
 
     @Test
     void getEmployeeSurname() {
+        try {
+            assertEquals(dt.getEmployeeSurname(ee_id), "User");
+        } catch (EmployeeException e) {
+            fail();
+        }
     }
 
     @Test
