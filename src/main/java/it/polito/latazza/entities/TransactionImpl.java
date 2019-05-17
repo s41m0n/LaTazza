@@ -36,7 +36,7 @@ public class TransactionImpl implements Transaction {
     }
 
     public TransactionImpl(Map m) throws DateException { //Constructor with Map data structure passed as argument
-        Date d = (Date) m.get("date");
+        Date d = new Date((Long) m.get("date"));
         if (d.after(new Date()))
             throw new DateException();
         this.date = d;

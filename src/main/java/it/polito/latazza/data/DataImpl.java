@@ -76,7 +76,7 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent())
+		if(!ct.isPresent() || numberOfCapsules < 1)
 			throw new BeverageException();
 		//Check if there are enough capsules for the beverage
 		if(ct.get().getQuantity() < numberOfCapsules)
@@ -100,7 +100,7 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
+		if(!c.isPresent() || amountInCents < 1)
 			throw new EmployeeException();
 		try {
 			//Create the recharge transaction
@@ -121,7 +121,7 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent())
+		if(!ct.isPresent() || boxQuantity < 1)
 			throw new BeverageException();
 		//Check if the system balance is enough for buying the amount of boxes of that beverage
 		if(this.sysBalance.getValue() < ct.get().getBoxPrice()*boxQuantity)

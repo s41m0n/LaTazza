@@ -29,7 +29,7 @@ public class TestTransactionImpl {
         assertNull(t.getDirectObject());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("date", d);
+        map.put("date", d.getTime());
         map.put("amount", 10);
         map.put("type", Transaction.Type.BOX_PURCHASE);
         map.put("object" , null);
