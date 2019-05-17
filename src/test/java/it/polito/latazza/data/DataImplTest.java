@@ -420,27 +420,43 @@ class DataImplTest {
     }
 
     @Test
+    void failGetEmployeeBalance() {
+        try {
+            dt.getEmployeeBalance(-1);
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
     void getEmployeeBalance() {
+        try {
+            dt.rechargeAccount(ee_id, 1000);
+            assertTrue(dt.getEmployeeBalance(ee_id) >= 1000);
+        } catch (EmployeeException e) {
+            fail();
+        }
     }
 
     @Test
     void getEmployeesId() {
+        assertTrue(dt.getEmployeesId().size() > 0);
     }
 
     @Test
     void getEmployees() {
+        assertTrue(dt.getEmployees().size() > 0);
     }
 
     @Test
     void getBalance() {
-    }
-
-    @Test
-    void reset() {
+        assertTrue(dt.getBalance() > 0);
     }
 
     @Test
     void toString1() {
+        assertTrue(dt.toString() instanceof String);
     }
 
 }
