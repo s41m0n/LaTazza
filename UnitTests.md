@@ -87,6 +87,7 @@ Version: 0.1
 |      |      |      | >= 0 | V | new CapsuleTypeImpl(0, "Coffee", 50, 75); |  |
 
 
+### **Class CapsuleTypeImpl - method update**
 
 **Criteria for method update:**
 	
@@ -129,12 +130,13 @@ Version: 0.1
 |       | > 0   |   V   | ct.update("Ginseng", 25, 50); |       |
 
 
+### **Class CapsuleTypeImpl - method updateQuantity**
 
 **Criteria for method updateQuantity:**
 	
 
- - Sign of box price
- - Sign of capsules per box
+ - Overflow in the sum
+ - Sign of the updated quantity
 
 
 
@@ -156,6 +158,7 @@ Version: 0.1
 
 | Criteria | Boundary values |
 | -------- | --------------- |
+| Overflow | Integer.MIN_VALUE, Integer.MAX_VALUE |
 | Sign | Minint, 0, maxint |
 
 
@@ -163,12 +166,83 @@ Version: 0.1
 **Combination of predicates**:
 
 
-| Overflow | Sign of the updated quantity | Valid / Invalid | Description of the test case | JUnit test case |
+| Overflow in the sum | Sign of the updated quantity | Valid / Invalid | Description of the test case | JUnit test case |
 |-------|-------|-------|-------|-------|
 | <= Integer.MAX_VALUE  | < 0 | I | ct2.updateQuantity(-200); | it.polito.latazza.data.TestCapsuleTypeImpl#updateQuantity |
 |       | >=  0   | V | ct2.updateQuantity(1); ||
 | > Integer.MAX_VALUE | < 0  | I | / ||
 |       | >= 0 | I | ct.updateQuantity(Integer.MAX_VALUE + 1); ||
+
+
+
+### **Class ColleagueImpl - method ColleagueImpl**
+
+**Criteria for method ColleagueImpl:**
+	
+
+ - Sign of ID
+
+
+
+
+**Predicates for method ColleagueImpl:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of ID | < 0 |
+|| >= 0 |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign | Minint, 0, maxint |
+
+
+
+**Combination of predicates**:
+
+
+| Overflow | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|
+| < 0  | I | ci = new ColleagueImpl(0, "Ted", "Mosby"); | it.polito.latazza.data.TestColleagueImpl#testColleagueImpl |
+| >= 0 | V | ci = new ColleagueImpl(-1, "Herbert", "Bean"); | |
+
+
+### **Class ColleagueImpl - method updateBalance**
+
+**Criteria for method updateBalance:**
+	
+
+ - Overflow of the sum
+
+
+**Predicates for method updateBalance:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Overflow | > Integer.MAX_VALUE |
+|| Integer.MIN_VALUE <= sum <= Integer.MAX_VALUE |
+|| < Integer.MIN_VALUE |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Overflow | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+
+
+**Combination of predicates**:
+
+
+| Overflow | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|
+| > Integer.MAX_VALUE  | I | ci.updateBalance(Integer.MAX_VALUE + 1); | it.polito.latazza.data.TestColleagueImpl#updateBalance |
+| Integer.MIN_VALUE <= x <= Integer.MAX_VALUE | V | ci.updateBalance(57); | |
+| < Integer.MIN_VALUE  | I | ci.updateBalance(Integer.MIN_VALUE -1); | |
 
 
 # White Box Unit Tests
