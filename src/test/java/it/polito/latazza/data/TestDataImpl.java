@@ -1,7 +1,7 @@
 package it.polito.latazza.data;
 
+import it.polito.latazza.entities.Transaction;
 import it.polito.latazza.exceptions.BeverageException;
-import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +19,11 @@ class TestDataImpl {
     static int ct_id   = 0;
     static int initial_balance  = 0;
     static int initial_capsules = 0;
+    static Transaction t1 = null;
+    static Transaction t2 = null;
+    static Transaction t3 = null;
+    static Transaction t4 = null;
+    static Transaction t5 = null;
 
     @BeforeAll
     public static void init() throws EmployeeException, BeverageException, NotEnoughBalance {
@@ -48,6 +53,8 @@ class TestDataImpl {
             dt.buyBoxes(ct_id, 1);
         }
         initial_capsules = dt.getBeverageCapsules(ct_id);
+        
+        
     }
 
     @Test
@@ -56,6 +63,13 @@ class TestDataImpl {
             dt.sellCapsules(ee_id, ct_id, 1, true);
         } catch (Exception e) {
             fail();
+        }
+        
+        //fromAccount = false
+        try {
+        	dt.sellCapsules(ee_id, ct_id, 1, false); 
+        } catch(Exception e) {
+        	fail();
         }
         
         //SHould fail
@@ -157,8 +171,15 @@ class TestDataImpl {
         } catch (Exception e) {
             fail();
         }
-        
+       
         //Should fail
+        try {
+        	dt.buyBoxes(ct_id, 100000);
+        	fail();
+        } catch(Exception e) {
+        	assertTrue(true);
+        }
+        
         try {
             dt.buyBoxes(-1, 1);
             fail();
@@ -172,6 +193,13 @@ class TestDataImpl {
         } catch (Exception e) {
             assertTrue(true);
         }
+        
+        try {
+        	dt.buyBoxes(-1,-1);
+        	fail();
+        } catch(Exception e) {
+        	assertTrue(true);
+        }
     }
 
     @Test
@@ -184,19 +212,30 @@ class TestDataImpl {
         }
         
         //Should fail
+        //Id < 0
         try {
             dt.getEmployeeReport(-1, new Date(System.currentTimeMillis()-24*60*60*1000), new Date());
             fail();
         } catch (Exception e) {
             assertTrue(true);
         }
-
+        
+        //startDate after new Date
         try {
             dt.getEmployeeReport(ee_id, new Date(System.currentTimeMillis()+24*60*60*1000), new Date());
             fail();
         } catch (Exception e) {
             assertTrue(true);
         }
+        
+        //endDate before startDate
+        try {
+            dt.getEmployeeReport(ee_id, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()-24*60*60*1000));
+            fail();
+        } catch (Exception e) {
+            assertTrue(true);
+        }
+    
     }
 
     @Test
@@ -209,11 +248,20 @@ class TestDataImpl {
         }
         
         //Should fail
+        //startDate after new Date
         try {
             dt.getReport(new Date(System.currentTimeMillis()+24*60*60*1000), new Date());
             fail();
         } catch (Exception e) {
             assertTrue(true);
+        }
+        
+        //endDate before startDate
+        try {
+        	dt.getReport(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()-24*60*60*1000));
+        	fail();
+        }catch(Exception e) {
+        	assertTrue(true);
         }
     }
 
