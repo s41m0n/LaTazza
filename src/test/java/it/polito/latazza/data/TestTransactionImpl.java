@@ -1,6 +1,7 @@
 package it.polito.latazza.data;
 
 import it.polito.latazza.entities.Transaction;
+
 import it.polito.latazza.entities.TransactionImpl;
 import it.polito.latazza.exceptions.DateException;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,13 +44,13 @@ public class TestTransactionImpl {
         map2.put("type", Transaction.Type.BOX_PURCHASE);
         map2.put("object" , null);
         map2.put("directObject", 15);
-
+        
         try {
             t = new TransactionImpl(d, 45, Transaction.Type.RECHARGE, 0);
         } catch (DateException e) {
             fail();
         }
-
+        
         try {
             t2 = new TransactionImpl(map);
         } catch (DateException e) {
@@ -69,6 +70,7 @@ public class TestTransactionImpl {
         } catch (DateException e) {
             assertTrue(true);
         }
+        
     }
 
     @Test
