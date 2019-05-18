@@ -2,9 +2,6 @@ package it.polito.latazza.persistency;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polito.latazza.entities.*;
-import it.polito.latazza.exceptions.BeverageException;
-import it.polito.latazza.exceptions.DateException;
-import it.polito.latazza.exceptions.EmployeeException;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.io.*;
@@ -24,35 +21,36 @@ public class DataManagerImpl implements DataManager{
     public void load(MutableInt sysBalance, List<CapsuleType> capsuleTypes, List<Colleague> colleagues, List<Transaction> transactions) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+
             Map dataset = objectMapper.readValue(new File(DataManagerImpl.filename), HashMap.class);
+
             sysBalance.setValue((Integer) dataset.get("sysBalance"));
-            Optional.ofNullable((ArrayList)dataset.get("capsuleTypes")).ifPresent(x -> x.forEach(y -> {
-                try {
-                    capsuleTypes.add(new CapsuleTypeImpl((HashMap) y));
-                } catch (BeverageException e) {
-                    e.printStackTrace();
-                }
-            }));
-            Optional.ofNullable((ArrayList)dataset.get("colleagues")).ifPresent(x -> x.forEach(y -> {
-                try {
-                    colleagues.add(new ColleagueImpl((HashMap) y));
-                } catch (EmployeeException e) {
-                    e.printStackTrace();
-                }
-            }));
-            Optional.ofNullable((ArrayList)dataset.get("transactions")).ifPresent(x -> x.forEach(y -> {
-                try {
-                    transactions.add(new TransactionImpl((HashMap) y));
-                } catch (DateException e) {
-                    e.printStackTrace();
-                }
-            }));
+            if(sysBalance.getValue() < 0)
+                throw new IllegalArgumentException();
+
+            for (CapsuleType capsuleType : (ArrayList<CapsuleType>)dataset.get("capsuleTypes")) capsuleTypes.add(new CapsuleTypeImpl((HashMap) capsuleType));
+            for (Colleague colleague: (ArrayList<Colleague>)dataset.get("colleagues")) colleagues.add(new ColleagueImpl((HashMap) colleague));
+            for (Transaction transaction: (ArrayList<Transaction>)dataset.get("transactions")) transactions.add(new TransactionImpl((HashMap) transaction));
             System.out.println("File found, restoring dataset");
+
         } catch (FileNotFoundException e) {
+
             System.out.println("File not found, creating new dataset");
             this.store(sysBalance, capsuleTypes, colleagues, transactions);
-        } catch (Exception e) {
+
+        } catch (IOException e) {
+
             e.printStackTrace();
+
+        } catch (Exception e) {
+
+            System.out.println("Found problem in the file due to a " + e.getClass().getName() + ", creating new dataset");
+            sysBalance = new MutableInt(0);
+            capsuleTypes = new ArrayList<>();
+            colleagues = new ArrayList<>();
+            transactions = new ArrayList<>();
+            this.store(sysBalance, capsuleTypes, colleagues, transactions);
+
         }
     }
 
@@ -64,13 +62,13 @@ public class DataManagerImpl implements DataManager{
 
             try {
 
-                Map<String, Object> map = new HashMap<>();
-                map.put("sysBalance", sysBalance);
-                map.put("capsuleTypes", capsuleTypes);
-                map.put("colleagues", colleagues);
-                map.put("transactions", transactions);
+                Map<String, Object> dataset = new HashMap<>();
+                dataset.put("sysBalance", sysBalance);
+                dataset.put("capsuleTypes", capsuleTypes);
+                dataset.put("colleagues", colleagues);
+                dataset.put("transactions", transactions);
 
-                mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DataManagerImpl.filename), map);
+                mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DataManagerImpl.filename), dataset);
 
             } catch (Exception e) {
                 e.printStackTrace();
