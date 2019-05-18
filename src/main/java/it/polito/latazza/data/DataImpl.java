@@ -10,7 +10,7 @@ import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import it.polito.latazza.exceptions.NotEnoughCapsules;
-import it.polito.latazza.persistency.DataManager;
+import it.polito.latazza.persistency.DataManagerImpl;
 import org.apache.commons.lang3.mutable.MutableInt;
 
 public class DataImpl implements DataInterface {
@@ -26,7 +26,7 @@ public class DataImpl implements DataInterface {
 		this.capsuleTypes = new ArrayList<>();
 		this.colleagues = new ArrayList<>();
 		this.transactions = new ArrayList<>();
-		DataManager.getDataManager().load(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Call the DataManager to fill the data structures from the JSON file
+		DataManagerImpl.getDataManager().load(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Call the DataManager to fill the data structures from the JSON file
 	}
 
 	//Method for selling a given number of capsules of a given type to a given employee
@@ -64,7 +64,7 @@ public class DataImpl implements DataInterface {
 		} else {
 			this.sysBalance.add(numberOfCapsules * ct.get().getPrice());
 		}
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Update the JSON file
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Update the JSON file
 		return c.get().getBalance(); //Return new balance of the employee
 	}
 
@@ -90,7 +90,7 @@ public class DataImpl implements DataInterface {
 		}
 		ct.get().updateQuantity(-numberOfCapsules); //Update quantity of capsules for the beverage
 		this.sysBalance.add(numberOfCapsules * ct.get().getPrice()); //Update the system balance
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 	}
 	
 	//Method for recharging an account
@@ -110,7 +110,7 @@ public class DataImpl implements DataInterface {
 		}
 		c.get().updateBalance(amountInCents); //Update the balance of the employee
 		this.sysBalance.add(amountInCents);
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 		return c.get().getBalance(); //Return the new balance of the employee
 	}
 
@@ -133,7 +133,7 @@ public class DataImpl implements DataInterface {
 		} catch (DateException e) {
 			e.printStackTrace();
 		}
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 	}
 
 	//Method for getting the report of a given employee in a given date range
@@ -213,7 +213,7 @@ public class DataImpl implements DataInterface {
 				.reduce(Integer::max)
 				.orElse(0);
 		this.capsuleTypes.add(new CapsuleTypeImpl(newId, name, capsulesPerBox, boxPrice));
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return newId;
 	}
 
@@ -227,7 +227,7 @@ public class DataImpl implements DataInterface {
 		if(!c.isPresent())
 			throw new BeverageException();
 		c.get().update(name, capsulesPerBox, boxPrice);
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -296,7 +296,7 @@ public class DataImpl implements DataInterface {
 		if (maxId.longValue() + 1 > Integer.MAX_VALUE)
 			throw new EmployeeException();
 		this.colleagues.add(new ColleagueImpl(maxId + 1, name, surname));
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return maxId + 1;
 	}
 
@@ -308,7 +308,7 @@ public class DataImpl implements DataInterface {
 		if(!c.isPresent())
 			throw new EmployeeException();
 		c.get().update(name ,surname);
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
@@ -362,7 +362,7 @@ public class DataImpl implements DataInterface {
 		this.capsuleTypes = new ArrayList<>();
 		this.colleagues = new ArrayList<>();
 		this.transactions = new ArrayList<>();
-		DataManager.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
+		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
 
 	@Override
