@@ -93,12 +93,21 @@ public class TestColleagueImpl {
         } catch (EmployeeException e) {
             fail();
         }
-
+        
+        // To meet second condition
         try {
             ci2.updateBalance(Integer.MAX_VALUE);
             fail();
         } catch (EmployeeException e) {
             assertTrue(true);
+        }
+        
+        //To meet first condition
+        try {
+        	ci2.updateBalance(Integer.MIN_VALUE - ci2.getBalance());
+        	fail();
+        } catch (EmployeeException e) {
+        	assertTrue(true);
         }
     }
 
