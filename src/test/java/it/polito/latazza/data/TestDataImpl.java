@@ -21,11 +21,6 @@ class TestDataImpl {
     static int ct_id   = 0;
     static int initial_balance  = 0;
     static int initial_capsules = 0;
-    static Transaction t1 = null;
-    static Transaction t2 = null;
-    static Transaction t3 = null;
-    static Transaction t4 = null;
-    static Transaction t5 = null;
 
     @BeforeAll
     public static void init() throws EmployeeException, BeverageException, NotEnoughBalance {
