@@ -245,6 +245,38 @@ Version: 0.1
 | < Integer.MIN_VALUE  | I | ci.updateBalance(Integer.MIN_VALUE -1); | |
 
 
+### **Class TransactionImpl - method TransactionImpl**
+
+**Criteria for method TransactionImpl:**
+	
+
+ - Date after actual one
+
+
+**Predicates for method TransactionImpl:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Date | <= today |
+|| > today |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Date | day - month - year |
+
+
+
+**Combination of predicates**:
+
+
+| Overflow | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|
+| <= today  | V | t = new TransactionImpl(new Date(), 45, Transaction.Type.RECHARGE, 0); | it.polito.latazza.data.TestTransactionImpl#TransactionImpl |
+| > today | I | d = new Date();<br />Calendar c = Calendar.getInstance();<br />c.setTime(d);<br />c.add(Calendar.DATE, 1);<br />d2 = c.getTime();<br />t = new TransactionImpl(d2, 45, Transaction.Type.RECHARGE, 0); | |
+
 # White Box Unit Tests
 
 ### Test cases definition
