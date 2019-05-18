@@ -28,9 +28,9 @@ public class DataManagerImpl implements DataManager{
             if(sysBalance.getValue() < 0)
                 throw new IllegalArgumentException();
 
-            for (CapsuleType capsuleType : (ArrayList<CapsuleType>)dataset.get("capsuleTypes")) capsuleTypes.add(new CapsuleTypeImpl((HashMap) capsuleType));
-            for (Colleague colleague: (ArrayList<Colleague>)dataset.get("colleagues")) colleagues.add(new ColleagueImpl((HashMap) colleague));
-            for (Transaction transaction: (ArrayList<Transaction>)dataset.get("transactions")) transactions.add(new TransactionImpl((HashMap) transaction));
+            for (Map capsuleType : (List<HashMap>)dataset.get("capsuleTypes")) capsuleTypes.add(new CapsuleTypeImpl(capsuleType));
+            for (Map colleague: (List<HashMap>)dataset.get("colleagues")) colleagues.add(new ColleagueImpl(colleague));
+            for (Map transaction: (List<HashMap>)dataset.get("transactions")) transactions.add(new TransactionImpl(transaction));
             System.out.println("File found, restoring dataset");
 
         } catch (FileNotFoundException e) {
