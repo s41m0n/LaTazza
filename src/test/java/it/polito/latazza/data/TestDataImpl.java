@@ -1,6 +1,5 @@
 package it.polito.latazza.data;
 
-import it.polito.latazza.entities.Transaction;
 import it.polito.latazza.exceptions.BeverageException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
@@ -476,9 +475,9 @@ class TestDataImpl {
     void reset() {
     	try {
     		dt.reset();
-    		assertTrue(dt.getBalance() == 0);
-    		assertTrue(dt.getBeverages().size() == 0);
-    		assertTrue(dt.getEmployees().size() == 0);
+    		assertEquals(dt.getBalance(), Integer.valueOf(0));
+    		assertEquals(dt.getBeverages().size(), 0);
+    		assertEquals(dt.getEmployees().size(), 0);
     	} catch(Exception e) {
     		fail();
     	}
