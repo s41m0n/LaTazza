@@ -10,41 +10,37 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import java.io.*;
 import java.util.*;
 
-public class DataManager {
-    private static DataManager dm = null;
+public class DataManagerImpl implements DataManager{
+    private static DataManagerImpl dm = null;
 
-    private String filename;
+    private static String filename = ".dataset.json";
 
-    private DataManager() {
-        this.filename = ".dataset.json";
-    }
-
-    public static DataManager getDataManager() {
+    public static DataManagerImpl getDataManager() {
         if(dm == null)
-            dm = new DataManager();
+            dm = new DataManagerImpl();
         return dm;
     }
 
     public void load(MutableInt sysBalance, List<CapsuleType> capsuleTypes, List<Colleague> colleagues, List<Transaction> transactions) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Map asd2 = objectMapper.readValue(new File(this.filename), HashMap.class);
-            sysBalance.setValue((Integer) asd2.get("sysBalance"));
-            Optional.ofNullable((ArrayList)asd2.get("capsuleTypes")).ifPresent(x -> x.forEach(y -> {
+            Map dataset = objectMapper.readValue(new File(DataManagerImpl.filename), HashMap.class);
+            sysBalance.setValue((Integer) dataset.get("sysBalance"));
+            Optional.ofNullable((ArrayList)dataset.get("capsuleTypes")).ifPresent(x -> x.forEach(y -> {
                 try {
                     capsuleTypes.add(new CapsuleTypeImpl((HashMap) y));
                 } catch (BeverageException e) {
                     e.printStackTrace();
                 }
             }));
-            Optional.ofNullable((ArrayList)asd2.get("colleagues")).ifPresent(x -> x.forEach(y -> {
+            Optional.ofNullable((ArrayList)dataset.get("colleagues")).ifPresent(x -> x.forEach(y -> {
                 try {
                     colleagues.add(new ColleagueImpl((HashMap) y));
                 } catch (EmployeeException e) {
                     e.printStackTrace();
                 }
             }));
-            Optional.ofNullable((ArrayList)asd2.get("transactions")).ifPresent(x -> x.forEach(y -> {
+            Optional.ofNullable((ArrayList)dataset.get("transactions")).ifPresent(x -> x.forEach(y -> {
                 try {
                     transactions.add(new TransactionImpl((HashMap) y));
                 } catch (DateException e) {
@@ -74,7 +70,7 @@ public class DataManager {
                 map.put("colleagues", colleagues);
                 map.put("transactions", transactions);
 
-                mapper.writerWithDefaultPrettyPrinter().writeValue(new File(this.filename), map);
+                mapper.writerWithDefaultPrettyPrinter().writeValue(new File(DataManagerImpl.filename), map);
 
             } catch (Exception e) {
                 e.printStackTrace();
