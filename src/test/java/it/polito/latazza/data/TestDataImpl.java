@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DataImplTest {
+class TestDataImpl {
 
     static DataImpl dt = new DataImpl();
     static int ee_id   = 0;
@@ -456,7 +456,7 @@ class DataImplTest {
 
     @Test
     void toString1() {
-        assertTrue(dt.toString() instanceof String);
+        assertNotNull(dt.toString());
     }
 
 }
