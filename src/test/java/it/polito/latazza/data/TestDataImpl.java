@@ -22,8 +22,7 @@ class TestDataImpl {
 
     @BeforeAll
     public static void init() throws EmployeeException, BeverageException, NotEnoughBalance {
-        System.out.println("Before All init() method called");
-
+        
         if (dt.getEmployeesId().size() == 0) {
             try {
                 dt.createEmployee("Test", "User");
@@ -52,7 +51,14 @@ class TestDataImpl {
     }
 
     @Test
-    void failedSellCapsules() {
+    void sellCapsules() {
+        try {
+            dt.sellCapsules(ee_id, ct_id, 1, true);
+        } catch (Exception e) {
+            fail();
+        }
+        
+        //SHould fail
         try {
             dt.sellCapsules(-1, ct_id, 10, true);
             fail();
@@ -83,16 +89,17 @@ class TestDataImpl {
     }
 
     @Test
-    void sellCapsules() {
+    void sellCapsulesToVisitor() {
         try {
-            dt.sellCapsules(ee_id, ct_id, 1, true);
+            initial_capsules = dt.getBeverageCapsules(ct_id);
+            dt.sellCapsulesToVisitor(ct_id, 10);
+            assertEquals(initial_capsules - dt.getBeverageCapsules(ct_id), 10);
+            initial_capsules = initial_capsules - 10;
         } catch (Exception e) {
             fail();
         }
-    }
-
-    @Test
-    void failSellCapsulesToVisitor() {
+        
+        //Should fail
         try {
             dt.sellCapsulesToVisitor(-1, 1);
             fail();
@@ -116,19 +123,16 @@ class TestDataImpl {
     }
 
     @Test
-    void sellCapsulesToVisitor() {
+    void rechargeAccount() {
         try {
-            initial_capsules = dt.getBeverageCapsules(ct_id);
-            dt.sellCapsulesToVisitor(ct_id, 10);
-            assertEquals(initial_capsules - dt.getBeverageCapsules(ct_id), 10);
-            initial_capsules = initial_capsules - 10;
-        } catch (Exception e) {
+            initial_balance = dt.getEmployeeBalance(ee_id);
+            dt.rechargeAccount(ee_id, 100);
+            assertEquals(initial_balance + 100, (int) dt.getEmployeeBalance(ee_id));
+        } catch (EmployeeException e) {
             fail();
         }
-    }
-
-    @Test
-    void failRechargeAccount() {
+        
+        //Should fail
         try {
             dt.rechargeAccount(-1, 100);
             fail();
@@ -145,18 +149,16 @@ class TestDataImpl {
     }
 
     @Test
-    void rechargeAccount() {
+    void buyBoxes() {
         try {
-            initial_balance = dt.getEmployeeBalance(ee_id);
-            dt.rechargeAccount(ee_id, 100);
-            assertEquals(initial_balance + 100, (int) dt.getEmployeeBalance(ee_id));
-        } catch (EmployeeException e) {
+            dt.buyBoxes(ct_id, 1);
+            int final_capsules = initial_capsules + dt.getBeverageCapsulesPerBox(ct_id);
+            assertEquals(final_capsules, (int) dt.getBeverageCapsules(ct_id));
+        } catch (Exception e) {
             fail();
         }
-    }
-
-    @Test
-    void FailBuyBoxes() {
+        
+        //Should fail
         try {
             dt.buyBoxes(-1, 1);
             fail();
@@ -173,18 +175,15 @@ class TestDataImpl {
     }
 
     @Test
-    void buyBoxes() {
+    void getEmployeeReport() {
         try {
-            dt.buyBoxes(ct_id, 1);
-            int final_capsules = initial_capsules + dt.getBeverageCapsulesPerBox(ct_id);
-            assertEquals(final_capsules, (int) dt.getBeverageCapsules(ct_id));
+            List<String> report = dt.getEmployeeReport(ee_id, new Date(System.currentTimeMillis()-24*60*60*1000), new Date());
+            assertTrue(report.size() >= 0);
         } catch (Exception e) {
             fail();
         }
-    }
-
-    @Test
-    void failGetEmployeeReport() {
+        
+        //Should fail
         try {
             dt.getEmployeeReport(-1, new Date(System.currentTimeMillis()-24*60*60*1000), new Date());
             fail();
@@ -201,32 +200,20 @@ class TestDataImpl {
     }
 
     @Test
-    void getEmployeeReport() {
-        try {
-            List<String> report = dt.getEmployeeReport(ee_id, new Date(System.currentTimeMillis()-24*60*60*1000), new Date());
-            assertTrue(report.size() >= 0);
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    void failGetReport() {
-        try {
-            dt.getReport(new Date(System.currentTimeMillis()+24*60*60*1000), new Date());
-            fail();
-        } catch (Exception e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
     void getReport() {
         try {
             List<String> report = dt.getReport(new Date(System.currentTimeMillis()-24*60*60*1000), new Date());
             assertTrue(report.size() >= 0);
         } catch (Exception e) {
             fail();
+        }
+        
+        //Should fail
+        try {
+            dt.getReport(new Date(System.currentTimeMillis()+24*60*60*1000), new Date());
+            fail();
+        } catch (Exception e) {
+            assertTrue(true);
         }
     }
 
@@ -242,16 +229,6 @@ class TestDataImpl {
     }
 
     @Test
-    void failUpdateBeverage() {
-        try {
-            dt.updateBeverage(-1, "Update beverage", 50, 75);
-            fail();
-        } catch (BeverageException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
     void updateBeverage() {
         try {
             dt.updateBeverage(ct_id, "Update beverage", 50, 75);
@@ -259,12 +236,10 @@ class TestDataImpl {
         } catch (BeverageException e) {
             fail();
         }
-    }
-
-    @Test
-    void failGetBeverageName() {
+        
+        //Should fail
         try {
-            dt.getBeverageName(-1);
+            dt.updateBeverage(-1, "Update beverage", 50, 75);
             fail();
         } catch (BeverageException e) {
             assertTrue(true);
@@ -279,12 +254,10 @@ class TestDataImpl {
         } catch (BeverageException e) {
            fail();
         }
-    }
-
-    @Test
-    void failGetBeverageCapsulesPerBox() {
+        
+        //Should fail
         try {
-            dt.getBeverageCapsulesPerBox(-1);
+            dt.getBeverageName(-1);
             fail();
         } catch (BeverageException e) {
             assertTrue(true);
@@ -298,12 +271,10 @@ class TestDataImpl {
         } catch (BeverageException e) {
             fail();
         }
-    }
-
-    @Test
-    void failGetBeverageBoxPrice() {
+        
+        //Should fail
         try {
-            dt.getBeverageBoxPrice(-1);
+            dt.getBeverageCapsulesPerBox(-1);
             fail();
         } catch (BeverageException e) {
             assertTrue(true);
@@ -316,6 +287,13 @@ class TestDataImpl {
             assertEquals((int) dt.getBeverageBoxPrice(ct_id), 75);
         } catch (BeverageException e) {
             fail();
+        }
+        
+        try {
+            dt.getBeverageBoxPrice(-1);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
         }
     }
 
@@ -330,22 +308,20 @@ class TestDataImpl {
     }
 
     @Test
-    void failGetBeverageCapsules() {
-        try {
-            dt.getBeverageCapsules(-1);
-            fail();
-        } catch (BeverageException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
     void getBeverageCapsules() {
         try {
             dt.buyBoxes(ct_id, 1);
             assertTrue(dt.getBeverageCapsules(ct_id) > 50);
         } catch (Exception e) {
             fail();
+        }
+        
+        //Should fail
+        try {
+            dt.getBeverageCapsules(-1);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
         }
     }
 
@@ -361,16 +337,6 @@ class TestDataImpl {
     }
 
     @Test
-    void failUpdateEmployee() {
-        try {
-            dt.updateEmployee(-1, "Test", "User");
-            fail();
-        } catch (EmployeeException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
     void updateEmployee() {
         try {
             dt.updateEmployee(ee_id, "Test", "User");
@@ -379,12 +345,10 @@ class TestDataImpl {
         } catch (EmployeeException e) {
             fail();
         }
-    }
-
-    @Test
-    void failGetEmployeeName() {
+        
+        //Should fail
         try {
-            dt.getEmployeeName(-1);
+            dt.updateEmployee(-1, "Test", "User");
             fail();
         } catch (EmployeeException e) {
             assertTrue(true);
@@ -398,12 +362,10 @@ class TestDataImpl {
         } catch (EmployeeException e) {
             fail();
         }
-    }
-
-    @Test
-    void failGetEmployeeSurname() {
+        
+        //Should fail
         try {
-            dt.getEmployeeSurname(-1);
+            dt.getEmployeeName(-1);
             fail();
         } catch (EmployeeException e) {
             assertTrue(true);
@@ -417,18 +379,16 @@ class TestDataImpl {
         } catch (EmployeeException e) {
             fail();
         }
-    }
-
-    @Test
-    void failGetEmployeeBalance() {
+        
+        //Should fail
         try {
-            dt.getEmployeeBalance(-1);
+            dt.getEmployeeSurname(-1);
             fail();
         } catch (EmployeeException e) {
             assertTrue(true);
         }
     }
-
+    
     @Test
     void getEmployeeBalance() {
         try {
@@ -436,6 +396,14 @@ class TestDataImpl {
             assertTrue(dt.getEmployeeBalance(ee_id) >= 1000);
         } catch (EmployeeException e) {
             fail();
+        }
+        
+        //Should fail
+        try {
+            dt.getEmployeeBalance(-1);
+            fail();
+        } catch (EmployeeException e) {
+            assertTrue(true);
         }
     }
 
