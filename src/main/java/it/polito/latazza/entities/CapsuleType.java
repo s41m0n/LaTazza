@@ -5,49 +5,49 @@ import it.polito.latazza.exceptions.BeverageException;
 public interface CapsuleType {
 
     /**
-     * Return the name of this beverage
+     * Return the beverage name
      *
-     * @return the name of this beverage
+     * @return the beverage name
      */
     String getName();
 
     /**
-     * Return the id of this beverage
+     * Return the beverage id
      *
-     * @return the id of this beverage
+     * @return the beverage id
      */
     Integer getId();
 
     /**
-     * Return the price of each capsule of this beverage
+     * Return the beverage price of each capsule
      *
-     * @return the price of each capsule of this beverage
+     * @return the beverage price of each capsule
      */
     Integer getPrice();
 
     /**
-     * Return the available quantity of this beverage
+     * Return the beverage available quantity
      *
-     * @return the available quantity of this beverage
+     * @return the beverage available quantity
      */
     Integer getQuantity();
 
     /**
-     * Return the price of each box of this beverage
+     * Return the beverage price of each box
      *
-     * @return the price of each box of this beverage
+     * @return the beverage price of each box
      */
     Integer getBoxPrice();
 
     /**
-     * Return the number of capsules per each box of this beverage
+     * Return the beverage number of capsules per each box
      *
-     * @return the number of capsules per each box of this beverage
+     * @return the beverage number of capsules per each box
      */
     Integer getCapsulesPerBox();
 
     /**
-     * Update the name, the capsulesPerBox and the boxPrice of this beverage
+     * Update the beverage name, capsulesPerBox and boxPrice
      *
      * @param name           the new name of the beverage
      * @param capsulesPerBox the new number of capsules in each box
@@ -58,11 +58,11 @@ public interface CapsuleType {
     void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException;
 
     /**
-     * Update the available quantity of this beverage
+     * Update the beverage quantity
      *
      * @param toAdd       the quantity to add/subtract
      *
-     * @throws BeverageException if quantity would overflow or less than zero
+     * @throws BeverageException if quantity overflow or less than zero
      */
     void updateQuantity(Integer toAdd) throws BeverageException;
 }
