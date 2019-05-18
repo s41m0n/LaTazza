@@ -130,6 +130,47 @@ Version: 0.1
 
 
 
+**Criteria for method updateQuantity:**
+	
+
+ - Sign of box price
+ - Sign of capsules per box
+
+
+
+
+**Predicates for method updateQuantity:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Overflow | <= Integer.MAX_VALUE |
+|| > Integer.MAX_VALUE |
+| Sign of the updated quantity | < 0 |
+|| >= 0 |
+
+
+
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign | Minint, 0, maxint |
+
+
+
+**Combination of predicates**:
+
+
+| Overflow | Sign of the updated quantity | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|
+| <= Integer.MAX_VALUE  | < 0 | I | ct2.updateQuantity(-200); | it.polito.latazza.data.TestCapsuleTypeImpl#updateQuantity |
+|       | >=  0   | V | ct2.updateQuantity(1); ||
+| > Integer.MAX_VALUE | < 0  | I | / ||
+|       | >= 0 | I | ct.updateQuantity(Integer.MAX_VALUE + 1); ||
+
+
 # White Box Unit Tests
 
 ### Test cases definition
