@@ -33,6 +33,7 @@ Version: 0.1
  - Sign of ID
  - Sign of box price
  - Sign of capsules per box
+ - Quantity of capsules
 
 
 
@@ -84,6 +85,48 @@ Version: 0.1
 |      |      |      | >= 0 | I | map.put("id", 1);<br />map.put("name", "Tea");<br />map.put("capsulesPerBox", -10);<br />map.put("boxPrice", 20);<br />map.put("quantity", 10);<br />new CapsuleTypeImpl(map); |  |
 |      |      | > 0  | < 0  | I | map.put("id", 1);<br />map.put("name", "Tea");<br />map.put("capsulesPerBox", 10);<br />map.put("boxPrice", 20);<br />map.put("quantity", -99);<br />new CapsuleTypeImpl(map); |  |
 |      |      |      | >= 0 | V | new CapsuleTypeImpl(0, "Coffee", 50, 75); |  |
+
+
+
+**Criteria for method update:**
+	
+
+ - Sign of box price
+ - Sign of capsules per box
+
+
+
+
+**Predicates for method update:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of box price | <= 0 |
+|| > 0 |
+| Sign of capsules per box | <= 0 |
+|| > 0 |
+
+
+
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign | Minint, 0, maxint |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of box price | Sign of capsules per box | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|
+| <= 0  | <= 0  |   I   | ct.update("Ginseng", -10, -5); | it.polito.latazza.data.TestCapsuleTypeImpl#update |
+|       | > 0   |   I   | ct.update("Light Coffee", 10, -5); |       |
+|  > 0  | <= 0  |   I   | ct.update("Ginseng", -10, 50); |       |
+|       | > 0   |   V   | ct.update("Ginseng", 25, 50); |       |
 
 
 
