@@ -44,14 +44,43 @@ public class TestCapsuleTypeImpl {
         } catch (BeverageException e) {
             fail();
         }
-
+        
+        /* WHITEBOX TESTS */
+        
+        // id < 0
         try {
             ct3 = new CapsuleTypeImpl(-1, "Coffee", 50, 75);
             fail();
         } catch (BeverageException e) {
             assertTrue(true);
         }
-
+        
+        //All params < 0
+        try {
+        	ct3 = new CapsuleTypeImpl(-1, "Coffee", -1, -10);
+        	fail();
+        } catch(BeverageException e) {
+        	assertTrue(true);
+        }
+        
+        //Capsules per box < 0
+        try {
+        	ct3 = new CapsuleTypeImpl(0, "Coffee", -1, 75);
+        	fail();
+        } catch(BeverageException e) {
+        	assertTrue(true);
+        }
+        
+        //Box price < 0
+        try {
+        	ct3 = new CapsuleTypeImpl(0, "Coffee", 10, -10);
+        	fail();
+        } catch(BeverageException e){
+        	assertTrue(true);
+        }
+        
+        
+        // Id < 0 on constructor with Map
         Map<String, Object> map2 = new HashMap<>();
         map2.put("id", -2);
         map2.put("name", "Tea");
@@ -64,7 +93,94 @@ public class TestCapsuleTypeImpl {
         } catch (BeverageException e) {
             assertTrue(true);
         }
+        
+        //All < 0 on constructor with Map
+        map2.put("id", -2);
+        map2.put("name", "Tea");
+        map2.put("capsulesPerBox", -100);
+        map2.put("boxPrice", -200);
+        map2.put("quantity", -99);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        //Capsules per box < 0 on constructor with Map
+        map2.put("id", 2);
+        map2.put("boxPrice", 200);
+        map2.put("quantity", 99);
+        
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        //Box price < 0 on constructor with Map
+        map2.put("capsulesPerBox", 100);
+        map2.put("boxPrice", -100);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        //Quantity < 0 on constructor with Map
+        map2.put("boxPrice", 200);
+        map2.put("quantity", -10);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        //Id, capsulesPerBox, quantity < 0
+        map2.put("id", -1);
+        map2.put("capsulesPerbox", -10);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        //Id, capsulesPerBox, boxPrice < 0
+        map2.put("quantity", 10);
+        map2.put("boxPrice", -10);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        map2.put("capsulesPerBox", 10);
+        map2.put("quantity", -10);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+        
+        //capsulesPerBox, boxPrice, quantity < 0
+        map2.put("id", 1);
+        map2.put("capsulesPerBox", -10);
+        try {
+            ct3 = new CapsuleTypeImpl(map2);
+            fail();
+        } catch (BeverageException e) {
+            assertTrue(true);
+        }
+       
+        
     }
+ 
 
     @Test
     void getPrice() {
@@ -88,6 +204,7 @@ public class TestCapsuleTypeImpl {
 
     @Test
     void update() {
+    	
         try {
             ct4.update("Ginseng", 25, 50);
         } catch (BeverageException e) {
@@ -98,12 +215,29 @@ public class TestCapsuleTypeImpl {
         assertEquals(ct4.getCapsulesPerBox(), Integer.valueOf(25));
         assertEquals(ct4.getBoxPrice(), Integer.valueOf(50));
         assertEquals(ct4.getQuantity(), Integer.valueOf(0));
-
+        
+        //Box price < 0
         try {
             ct4.update("Light Coffee", 10, -5);
             fail();
         } catch (BeverageException e) {
             assertTrue(true);
+        }
+        
+        // All params < 0
+        try {
+        	ct4.update("Ginseng", -10, -5);
+        	fail();
+        } catch(BeverageException e) {
+        	assertTrue(true);
+        }
+        
+        //Capsules per box < 0
+        try {
+        	ct4.update("Ginseng", -10, 50);
+        	fail();
+        } catch(BeverageException e) {
+        	assertTrue(true);
         }
     }
 
@@ -125,6 +259,13 @@ public class TestCapsuleTypeImpl {
             fail();
         } catch (BeverageException e) {
             assertTrue(true);
+        }
+        
+        try {
+        	ct2.updateQuantity(-200);
+        	fail();
+        } catch(BeverageException e) {
+        	assertTrue(true);
         }
     }
 
