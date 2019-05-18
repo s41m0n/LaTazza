@@ -4,6 +4,8 @@ import it.polito.latazza.entities.Transaction;
 import it.polito.latazza.exceptions.BeverageException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -473,6 +475,18 @@ class TestDataImpl {
     @Test
     void toString1() {
         assertNotNull(dt.toString());
+    }
+    
+    static @AfterAll
+    void reset() {
+    	try {
+    		dt.reset();
+    		assertTrue(dt.getBalance() == 0);
+    		assertTrue(dt.getBeverages().size() == 0);
+    		assertTrue(dt.getEmployees().size() == 0);
+    	} catch(Exception e) {
+    		fail();
+    	}
     }
 
 }
