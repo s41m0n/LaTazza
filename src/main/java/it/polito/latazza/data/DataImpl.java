@@ -143,6 +143,10 @@ public class DataImpl implements DataInterface {
 		//Throw exception if dates are not coherent
 		if(endDate.before(startDate) || startDate.after(new Date()))
 			throw new DateException();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(endDate);
+		cal.add(Calendar.DATE, 1);
+		Date endDayDate = cal.getTime();
 		//Search for the employee
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(employeeId))
@@ -153,7 +157,7 @@ public class DataImpl implements DataInterface {
 		//From the list of transactions get the ones in the date range and related to the given employee
 		return this.transactions.stream()
 				.filter(x -> x.getObject() != null && x.getObject().equals(employeeId)
-						&& x.getDate().after(startDate) && x.getDate().before(endDate))
+						&& x.getDate().after(startDate) && x.getDate().before(endDayDate))
 				.map(x -> {
 					String employee = this.colleagues.stream().filter(y -> y.getId().equals(employeeId)).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining()); //For each transaction retrieve a string with employee's name and surame
 					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining()); //For each transaction retrieve the name of the beverage
@@ -178,10 +182,14 @@ public class DataImpl implements DataInterface {
 		//Check dates coherence
 		if(endDate.before(startDate) || startDate.after(new Date()))
 			throw new DateException();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(endDate);
+		cal.add(Calendar.DATE, 1);
+		Date endDayDate = cal.getTime();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//From the list of transactions get the ones in the date range
 		return this.transactions.stream()
-				.filter(x -> x.getDate().after(startDate) && x.getDate().before(endDate))
+				.filter(x -> x.getDate().after(startDate) && x.getDate().before(endDayDate))
 				.map(x -> {
 					String employee = this.colleagues.stream().filter(y -> y.getId().equals(x.getObject())).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining()); //String with employee's name and surname
 					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining()); //String with the beverage name
