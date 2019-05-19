@@ -4,7 +4,7 @@ Authors: Palumbo Daniele, Magnani Simone, Marchi Riccardo, Postolov Enrico
 
 Date: 18/04/2019
 
-Version: 0.5
+Version: 1.0
 
 # Contents
 
