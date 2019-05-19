@@ -326,11 +326,11 @@ Version: 0.1
 |-------|-------|-------|-------|-------|-------|
 |  < 0 | < 0 | < 1 | I | dt.sellCapsules(-1, -1,-1, false); | it.polito.latazza.data.TestDataImpl#sellCapsules |
 |      |     | >= 1 | I | dt.sellCapsules(-1, -1, 10, true) ||
-|      | > 0 | < 1 | I | dt.sellCapsules(-1, 1, -10, true) ||
+|      | >= 0 | < 1 | I | dt.sellCapsules(-1, 1, -10, true) ||
 |      |     | >= 1 | I | dt.sellCapsules(-1, 1, 10, true) ||
 | >= 0 | < 0 | < 1 | I | dt.sellCapsules(1, -1, -10, true) ||
 |      |     | >= 1 | I | dt.sellCapsules(1, -1, 10, true) ||
-|	   | > 0 | < 1 | I | dt.sellCapsules(1, 1, -1000, true) ||
+|	   | >= 0 | < 1 | I | dt.sellCapsules(1, 1, -1000, true) ||
 |	   |     | >= 1 | V | dt.sellCapsules(1, 1, 1000, true) ||
 
 
@@ -455,10 +455,51 @@ Version: 0.1
 
 | Sign of beverageId | Number of boxes to buy | Valid / Invalid | Description of the test case | JUnit test case |
 |-------|-------|-------|-------|-------|
-| < 0  | <= 0 | I | dt.buyBoxes(-1, -1); | it.polito.latazza.data.TestDataImpl#sellCapsulesToVisitor |
+| < 0  | <= 0 | I | dt.buyBoxes(-1, -1); | it.polito.latazza.data.TestDataImpl#buyBoxes |
 |       | > 0   | I | dt.buyBoxes(-1, 1); ||
 | >= 0 | <= 0  | I | dt.buyBoxes(1, -1); ||
 |       | > 0 | V | dt.buyBoxes(1, 1); ||
+
+
+### **Class DataImpl - method getEmployeeReport**
+
+**Criteria for method getEmployeeReport:**
+
+- Sign of employeeId.
+- endDate before startDate
+- startDate after today
+
+**Predicates for method getEmployeeReport:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of employeeId | < 0 |
+|| >= 0 |
+| endDate before startDate | endDate < startDate |
+|| endDate >= startDate |
+| startDate after today | startDate <= today |
+|| startDate > today |
+
+**Boundaries:**
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of employeeId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+| endDate before startDate | day - month - year |
+| startDate after today | day - month - year |
+
+**Combination of predicates:**
+
+| Sign of employeeId | endDate before startDate | startDate after today | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|-------|
+|  < 0 | < startDate | <= today | I | dt.getEmployeeReport(-1, new Date(), new Date(System.currentTimeMillis()-24x60x60x1000)); | it.polito.latazza.data.TestDataImpl#getEmployeeReport |
+|      |     | > today | I | dt.getEmployeeReport(-1, new Date(System.currentTimeMillis()+24x60x60x1000), new Date(); ||
+|      | >= startDate | <= today | I | dt.getEmployeeReport(-1, new Date(), new Date()); ||
+|      |     | > today | I | dt.getEmployeeReport(-1, new Date(System.currentTimeMillis()+24x60x60x1000), new Date(System.currentTimeMillis()+24x60x60x1000)); ||
+| >= 0 | < startDate | <= today | I | dt.getEmployeeReport(1, new Date(), new Date(System.currentTimeMillis()-24x60x60x1000)); ||
+|      |     | > today | I | dt.getEmployeeReport(1, new Date(System.currentTimeMillis()+24x60x60x1000), new Date(); ||
+|	   | >= startDate | <= today | V | dt.getEmployeeReport(1, new Date(), new Date()); ||
+|	   |     | > today | I | dt.getEmployeeReport(1, new Date(System.currentTimeMillis()+24x60x60x1000), new Date(System.currentTimeMillis()+24x60x60x1000)); ||
 
 
 
