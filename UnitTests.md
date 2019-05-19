@@ -335,6 +335,51 @@ Version: 0.1
 
 
 
+### **Class DataImpl - method sellCapsulesToVisitor**
+
+**Criteria for method sellCapsulesToVisitor:**
+	
+
+ - Sign of beverageId
+ - Number of capsules to sell
+
+
+
+
+**Predicates for method sellCapsulesToVisitor:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of beverageId | < 0 |
+|| >= 0 |
+| Number of capsules to sell | <= 0 |
+|| > 0 |
+
+
+
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of beverageId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+| Number of capsules to sell | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of beverageId | Number of capsules to sell | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|
+| < 0  | <= 0 | I | dt.sellCapsulesToVisitor(-1, 0); | it.polito.latazza.data.TestDataImpl#sellCapsulesToVisitor |
+|       | > 0   | I | dt.sellCapsulesToVisitor(-1, 1); ||
+| >= 0 | <= 0  | I | dt.sellCapsulesToVisitor(ct_id, -1); ||
+|       | > 0 | V | dt.sellCapsulesToVisitor(ct_id, 10); ||
+
+
+
 # White Box Unit Tests
 
 ### Test cases definition
