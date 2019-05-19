@@ -574,6 +574,49 @@ Version: 0.1
 |      | > 0  | V | dt.createBeverage("Tea", 50, 75); |  |
 
 
+### **Class DataImpl - method updateBeverage**
+
+**Criteria for method updateBeverage:**
+
+ - Sign of capsuleTypeId
+ - Sign of box price
+ - Sign of capsules per box
+
+
+**Predicates for method updateBeverage:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of capsuleTypeId | < 0 |
+|| >= 0 |
+| Sign of box price | <= 0 |
+|| > 0 |
+| Sign of capsules per box | <= 0 |
+|| > 0 |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign | Minint, 0, maxint |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of box capsuleTypeId | Sign of box price | Sign of capsules per box | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|------|
+| < 0   | <= 0 | <= 0 | I | dt.updateBeverage(-1, "Update beverage", -50, -75); | it.polito.latazza.data.TestDataImpl#updateBeverage |
+|    |      | > 0  | I | dt.updateBeverage(-1, "Update beverage", -50, 75); |  |
+|    | > 0  | <= 0  | I | dt.updateBeverage(-1, "Update beverage", 50, -75); |  |
+|    |      | > 0  | I | dt.updateBeverage(-1, "Update beverage", 50, 75); |  |
+| >= 0  | <= 0 | <= 0 | I | dt.updateBeverage(1, "Update beverage", -50, -75); | |
+|    |      | > 0  | I | dt.updateBeverage(1, "Update beverage", -50, 75); |  |
+|    | > 0  | <= 0  | I | dt.updateBeverage(1, "Update beverage", 50, -75); |  |
+|    |      | > 0  | V | dt.updateBeverage(1, "Update beverage", 50, 75); |  |
+
 
 # White Box Unit Tests
 
