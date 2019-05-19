@@ -5,7 +5,7 @@ Authors: Magnani Simone, Marchi Riccardo, Palumbo Daniele, Postolov Enrico
 
 Date: May 18th 2019
 
-Version: 0.1
+Version: 0.9
 
 # Contents
 
