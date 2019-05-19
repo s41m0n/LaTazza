@@ -70,6 +70,12 @@ class TestDataImpl {
         
         //SHould fail
         try {
+        	dt.sellCapsules(-1, -1,-1, false);
+        	fail();
+        } catch(Exception e) {
+        	assertTrue(true);
+        }
+        try {
             dt.sellCapsules(-1, ct_id, 10, true);
             fail();
         } catch (Exception e) {
