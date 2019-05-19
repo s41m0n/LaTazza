@@ -322,17 +322,16 @@ Version: 0.1
 
 **Combination of predicates:**
 
-| Sign of employeeId | Sign of beverageID | numberOfCapsules | Valid / Invalid | Description of the test case | JUnit test case |
+| Sign of employeeId | Sign of beverageId | numberOfCapsules | Valid / Invalid | Description of the test case | JUnit test case |
 |-------|-------|-------|-------|-------|-------|
-| < 0  | < 0 | < 1 | I | dt.sellCapsules(-1, -1,-1, false); | it.polito.latazza.data.TestDataImpl#sellCapsules |
-|       | > 0  | > 1 | V | dt.sellCapsules(-1, ct_id, 10, true) ||
-| > 0 | < 0  | > 1 | I | dt.sellCapsules(ee_id, -1, 10, true) ||
-|       | > 0 | < 1 | I | dt.sellCapsules(ee_id, ct_id, -10, true) ||
-|		 | > 0 | > 1 | V | dt.sellCapsules(ee_id, ct_id, 1000, true) ||
-
-
-
-
+|  < 0 | < 0 | < 1 | I | dt.sellCapsules(-1, -1,-1, false); | it.polito.latazza.data.TestDataImpl#sellCapsules |
+|      |     | >= 1 | I | dt.sellCapsules(-1, -1, 10, true) ||
+|      | > 0 | < 1 | I | dt.sellCapsules(-1, ct_id, -10, true) ||
+|      |     | >= 1 | I | dt.sellCapsules(-1, ct_id, 10, true) ||
+| >= 0 | < 0 | < 1 | I | dt.sellCapsules(ee_id, -1, -10, true) ||
+|      |     | >= 1 | I | dt.sellCapsules(ee_id, -1, 10, true) ||
+|	   | > 0 | < 1 | I | dt.sellCapsules(ee_id, ct_id, -1000, true) ||
+|	   |     | >= 1 | V | dt.sellCapsules(ee_id, ct_id, 1000, true) ||
 
 
 
@@ -351,6 +350,9 @@ Version: 0.1
 
 ![Code coverage](LaTazza_CodeCoverage.png)
 
+The low coverage in DataManagerImpl is due to the impossibility to recreate certain situations that are system related.
 
 
+### Loop coverage analysis
 
+Unused section since the code does not present any loop.
