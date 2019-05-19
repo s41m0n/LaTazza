@@ -739,6 +739,38 @@ Version: 0.1
 | < 0  | I | dt.getBeverageCapsules(-1); | it.polito.latazza.data.TestDataImpl#getBeverageCapsules |
 | >= 0 | V | dt.getBeverageCapsules(1); ||
 
+
+### **Class DataImpl - method updateEmployee**
+
+**Criteria for method updateEmployee:**
+
+ - Sign of employeeId
+
+
+**Predicates for method updateEmployee:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of employeeId | < 0 |
+|| >= 0 |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of employeeId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of employeeId | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|
+| < 0  | I | dt.updateEmployee(-1); | it.polito.latazza.data.TestDataImpl#updateEmployee |
+| >= 0 | V | dt.updateEmployee(1); ||
+
 # White Box Unit Tests
 
 ### Test cases definition
