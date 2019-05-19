@@ -835,6 +835,38 @@ Version: 0.1
 | < 0  | I | dt.getEmployeeSurname(-1); | it.polito.latazza.data.TestDataImpl#getEmployeeSurname |
 | >= 0 | V | dt.getEmployeeSurname(1); ||
 
+
+### **Class DataImpl - method getEmployeeBalance**
+
+**Criteria for method getEmployeeBalance:**
+
+ - Sign of employeeId
+
+
+**Predicates for method getEmployeeBalance:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of employeeId | < 0 |
+|| >= 0 |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of employeeId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of employeeId | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|
+| < 0  | I | dt.getEmployeeBalance(-1); | it.polito.latazza.data.TestDataImpl#getEmployeeBalance |
+| >= 0 | V | dt.getEmployeeBalance(1); ||
+
 # White Box Unit Tests
 
 ### Test cases definition
