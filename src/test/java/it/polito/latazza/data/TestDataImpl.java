@@ -23,6 +23,8 @@ class TestDataImpl {
 
     @BeforeAll
     public static void init() throws EmployeeException, BeverageException, NotEnoughBalance {
+
+        dt.reset();
         
         if (dt.getEmployeesId().size() == 0) {
             try {
@@ -151,13 +153,6 @@ class TestDataImpl {
         //Should fail
         try {
             dt.rechargeAccount(-1, 100);
-            fail();
-        } catch (Exception e) {
-            assertTrue(true);
-        }
-
-        try {
-            dt.rechargeAccount(ee_id, -100);
             fail();
         } catch (Exception e) {
             assertTrue(true);

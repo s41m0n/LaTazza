@@ -100,7 +100,7 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent() || amountInCents < 1)
+		if(!c.isPresent())
 			throw new EmployeeException();
 		try {
 			//Create the recharge transaction
