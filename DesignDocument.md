@@ -51,7 +51,7 @@ Data <-- LaTazzaSystem
 Exceptions <- LaTazzaSystem
 LaTazzaSystem --> Entities
 Persistency <-- LaTazzaSystem
-DataManager --> Storage
+DataManagerImpl --> Storage
 @enduml
 ```
 
