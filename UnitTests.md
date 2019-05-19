@@ -19,7 +19,7 @@ Version: 0.1
 
 # Black Box Unit Tests
 
- ### **Class CapsuleTypeImpl - method CapsuleTypeImpl**
+### **Class CapsuleTypeImpl - method CapsuleTypeImpl**
 
 
 
@@ -533,6 +533,45 @@ Version: 0.1
 |     | > today | I | dt.getEmployeeReport(new Date(System.currentTimeMillis()+24x60x60x1000), new Date(); ||
 | >= startDate | <= today | V | dt.getEmployeeReport(new Date(), new Date()); ||
 |     | > today | I | dt.getEmployeeReport(new Date(System.currentTimeMillis()+24x60x60x1000), new Date(System.currentTimeMillis()+24x60x60x1000)); ||
+
+
+### **Class DataImpl - method createBeverage**
+
+
+
+**Criteria for method createBeverage:**
+
+ - Sign of box price
+ - Sign of capsules per box
+
+
+**Predicates for method createBeverage:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of box price | <= 0 |
+|| > 0 |
+| Sign of capsules per box | <= 0 |
+|| > 0 |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign | Minint, 0, maxint |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of box price | Sign of capsules per box | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|------|
+| <= 0 | <= 0 | I | dt.createBeverage("Tea", -50, -75); | it.polito.latazza.data.TestDataImpl#createBeverage |
+|      | > 0  | I | dt.createBeverage("Tea", -50, 75); |  |
+| > 0  | <= 0  | I | dt.createBeverage("Tea", 50, -75); |  |
+|      | > 0  | V | dt.createBeverage("Tea", 50, 75); |  |
 
 
 
