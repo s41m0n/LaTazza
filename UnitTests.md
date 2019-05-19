@@ -273,6 +273,69 @@ Version: 0.1
 | <= today  | V | t = new TransactionImpl(new Date(), 45, Transaction.Type.RECHARGE, 0); | it.polito.latazza.data.TestTransactionImpl#TransactionImpl |
 | > today | I | d = new Date();<br />Calendar c = Calendar.getInstance();<br />c.setTime(d);<br />c.add(Calendar.DATE, 1);<br />d2 = c.getTime();<br />t = new TransactionImpl(d2, 45, Transaction.Type.RECHARGE, 0); | |
 
+### **Class DataImpl - method DataImpl**
+
+**Criteria for method DataImpl:**
+
+- None, data is loaded from a JSON file through the DataManager.
+
+**Predicates for method DataImpl:**
+
+- None.
+
+**Boundaries:**
+
+- None.
+
+
+**Combination of predicates**
+
+- None.
+
+
+### **Class DataImpl - method sellCapsules**
+
+**Criteria for method sellCapsules:**
+
+- Sign of employeeId.
+- Sign of beverageId.
+- numberOfCapsules.
+
+**Predicates for method sellCapsules:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of employeeId | < 0 |
+|| >= 0 |
+| Sign of beverageId | < 0 |
+|| >= 0 |
+| numberOfCapsules | < 1 |
+|| >= 1 |
+
+**Boundaries:**
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of employeeId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+| Sign of beverageId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+| numberOfCapsules | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+**Combination of predicates:**
+
+| Sign of employeeId | Sign of beverageID | numberOfCapsules | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|-------|
+| < 0  | < 0 | < 1 | I | dt.sellCapsules(-1, -1,-1, false); | it.polito.latazza.data.TestDataImpl#sellCapsules |
+|       | > 0  | > 1 | V | dt.sellCapsules(-1, ct_id, 10, true) ||
+| > 0 | < 0  | > 1 | I | dt.sellCapsules(ee_id, -1, 10, true) ||
+|       | > 0 | < 1 | I | dt.sellCapsules(ee_id, ct_id, -10, true) ||
+|		 | > 0 | > 1 | V | dt.sellCapsules(ee_id, ct_id, 1000, true) ||
+
+
+
+
+
+
+
 # White Box Unit Tests
 
 ### Test cases definition
