@@ -643,6 +643,38 @@ Version: 0.1
 | < 0  | I | dt.getBeverageName(-1); | it.polito.latazza.data.TestDataImpl#getBeverageName |
 | >= 0 | V | dt.getBeverageName(1); ||
 
+
+### **Class DataImpl - method getBeverageCapsulesPerBox**
+
+**Criteria for method getBeverageCapsulesPerBox:**
+
+ - Sign of capsuleTypeId
+
+
+**Predicates for method getBeverageCapsulesPerBox:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of capsuleTypeId | < 0 |
+|| >= 0 |
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of capsuleTypeId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of capsuleTypeId | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|
+| < 0  | I | dt.getBeverageCapsulesPerBox(-1); | it.polito.latazza.data.TestDataImpl#getBeverageCapsulesPerBox |
+| >= 0 | V | dt.getBeverageCapsulesPerBox(1); ||
+
 # White Box Unit Tests
 
 ### Test cases definition
