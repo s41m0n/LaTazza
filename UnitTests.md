@@ -417,6 +417,50 @@ Version: 0.1
 | >= 0 | V | dt.rechargeAccount(1, 100); ||
 
 
+### **Class DataImpl - method buyBoxes**
+
+**Criteria for method buyBoxes:**
+	
+
+ - Sign of beverageId
+ - Number of boxes to buy
+
+
+
+
+**Predicates for method buyBoxes:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| Sign of beverageId | < 0 |
+|| >= 0 |
+| Number of boxes to buy | <= 0 |
+|| > 0 |
+
+
+
+
+
+**Boundaries**:
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| Sign of beverageId | Integer.MIN_VALUE, Integer.MAX_VALUE |
+| Number of boxes to buy | Integer.MIN_VALUE, Integer.MAX_VALUE |
+
+
+
+**Combination of predicates**:
+
+
+| Sign of beverageId | Number of boxes to buy | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|
+| < 0  | <= 0 | I | dt.buyBoxes(-1, -1); | it.polito.latazza.data.TestDataImpl#sellCapsulesToVisitor |
+|       | > 0   | I | dt.buyBoxes(-1, 1); ||
+| >= 0 | <= 0  | I | dt.buyBoxes(1, -1); ||
+|       | > 0 | V | dt.buyBoxes(1, 1); ||
+
+
 
 # White Box Unit Tests
 
