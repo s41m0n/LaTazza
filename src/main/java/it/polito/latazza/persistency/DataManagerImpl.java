@@ -43,6 +43,8 @@ public class DataManagerImpl implements DataManager{
         return dm;
     }
 
+    //Since we want to take advantage of a ClassCastException (and abort the load operation), this warning is useless
+    @SuppressWarnings("unchecked")
     public void load(MutableInt sysBalance, List<CapsuleType> capsuleTypes, List<Colleague> colleagues, List<Transaction> transactions) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -64,7 +66,7 @@ public class DataManagerImpl implements DataManager{
                     throw new IllegalArgumentException("Duplicate capsule id");
                 else
                     capsuleTypes.add(new CapsuleTypeImpl(capsuleType));
-
+                
             for (Map transaction: (List<Map>)dataset.get("transactions"))
                 transactions.add(new TransactionImpl(transaction));
 
