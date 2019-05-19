@@ -340,31 +340,17 @@ Version: 0.1
 
 ### Test cases definition
 
-    <Report here all the created JUnit test cases, and the units/classes they test >
-
-
 | Unit name | JUnit test case |
-|--|--|
-|||
-|||
-||||
+|-----|-----|
+| CapsuleType | it.polito.latazza.data.TestCapsuleTypeImpl |
+| Colleague | it.polito.latazza.data.TestColleagueImpl |
+| DataImpl | it.polito.latazza.data.TestDataImpl |
+| Transaction | it.polito.latazza.data.TestTransactionImpl |
 
 ### Code coverage report
 
-    <Add here the screenshot report of the code and branch coverage obtained using
-    the Jacoco tool. >
+![Code coverage](LaTazza_CodeCoverage.png)
 
-
-### Loop coverage analysis
-
-    <Identify significant loops in the units and reports the test cases
-    developed to cover zero, one or multiple iterations >
-
-|Unit name | Loop rows | Number of iterations | JUnit test case |
-|---|---|---|---|
-|||||
-|||||
-||||||
 
 
 
