@@ -502,6 +502,39 @@ Version: 0.1
 |	   |     | > today | I | dt.getEmployeeReport(1, new Date(System.currentTimeMillis()+24x60x60x1000), new Date(System.currentTimeMillis()+24x60x60x1000)); ||
 
 
+### **Class DataImpl - method getReport**
+
+**Criteria for method getReport:**
+
+- endDate before startDate
+- startDate after today
+
+**Predicates for method getReport:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+| endDate before startDate | endDate < startDate |
+|| endDate >= startDate |
+| startDate after today | startDate <= today |
+|| startDate > today |
+
+**Boundaries:**
+
+| Criteria | Boundary values |
+| -------- | --------------- |
+| endDate before startDate | day - month - year |
+| startDate after today | day - month - year |
+
+**Combination of predicates:**
+
+| endDate before startDate | startDate after today | Valid / Invalid | Description of the test case | JUnit test case |
+|-------|-------|-------|-------|-------|
+| < startDate | <= today | I | dt.getEmployeeReport(new Date(), new Date(System.currentTimeMillis()-24x60x60x1000)); | it.polito.latazza.data.TestDataImpl#getReport |
+|     | > today | I | dt.getEmployeeReport(new Date(System.currentTimeMillis()+24x60x60x1000), new Date(); ||
+| >= startDate | <= today | V | dt.getEmployeeReport(new Date(), new Date()); ||
+|     | > today | I | dt.getEmployeeReport(new Date(System.currentTimeMillis()+24x60x60x1000), new Date(System.currentTimeMillis()+24x60x60x1000)); ||
+
+
 
 # White Box Unit Tests
 
