@@ -55,8 +55,8 @@ Version: 0.9
 
 | Criteria | Boundary values |
 | -------- | --------------- |
-| Sign | Minint, 0, maxint |
-| Quantity | Minint, 0, maxint |
+| Sign | Integer.MIN_VALUE, 0, Integer.MAX_VALUE |
+| Quantity | Integer.MIN_VALUE, 0, Integer.MAX_VALUE |
 
 
 
@@ -111,7 +111,7 @@ Version: 0.9
 
 | Criteria | Boundary values |
 | -------- | --------------- |
-| Sign | Minint, 0, maxint |
+| Sign | Integer.MIN_VALUE, 0, Integer.MAX_VALUE |
 
 
 
@@ -155,7 +155,7 @@ Version: 0.9
 | Criteria | Boundary values |
 | -------- | --------------- |
 | Overflow | Integer.MIN_VALUE, Integer.MAX_VALUE |
-| Sign | Minint, 0, maxint |
+| Sign | Integer.MIN_VALUE, 0, Integer.MAX_VALUE |
 
 
 
@@ -193,7 +193,7 @@ Version: 0.9
 
 | Criteria | Boundary values |
 | -------- | --------------- |
-| Sign | Minint, 0, maxint |
+| Sign | Integer.MIN_VALUE, 0, Integer.MAX_VALUE |
 
 
 
