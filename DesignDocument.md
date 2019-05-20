@@ -4,7 +4,7 @@ Authors: Palumbo Daniele, Magnani Simone, Marchi Riccardo, Postolov Enrico
 
 Date: 18/04/2019
 
-Version: 0.5
+Version: 1.0
 
 # Contents
 
@@ -28,7 +28,7 @@ package "LaTazzaSystem" {
 }
 
 package "Persistency" {
-  class DataManager << (S,#FF7700) Singleton >>
+  class DataManagerImpl << (S,#FF7700) Singleton >>
   
   package "Storage" <<Database>> {
   }
@@ -51,13 +51,13 @@ Data <-- LaTazzaSystem
 Exceptions <- LaTazzaSystem
 LaTazzaSystem --> Entities
 Persistency <-- LaTazzaSystem
-DataManager --> Storage
+DataManagerImpl --> Storage
 @enduml
 ```
 
 _**Note:**_
 
-The class DataManager responsible of storing and loading information into a database (or a file) will be realized as a static Singleton, since just one connection to the storage system is needed.
+The class DataManagerImpl responsible of storing and loading information into a database (or a file) will be realized as a static Singleton, since just one connection to the storage system is needed.
 
 # Class diagram
 
@@ -83,7 +83,8 @@ class Colleague {
 	+getName(): String
 	+getSurname(): String
 	+getBalance(): Integer
-	+update(name: String, surname: String)
+	+update(name: String, surname: String): void
+	+updateBalance(amount: Integer): void
 }
 
 class CapsuleType {
@@ -101,15 +102,22 @@ class CapsuleType {
 	+getBoxPrice(): Integer
 	+getName(): String
 	+update(name: String, capsulesPerBox: Integer, 
-		\tboxPrice: Integer)
+		\tboxPrice: Integer): void
+	+updateQuantity(toAdd: Integer): void
 }
 
 class Transaction {
 	-date: Date
 	-amount: Integer
 
-	+Transaction(date: Date, amount: Integer)
+	+Transaction(date: Date, amount: Integer,
+		\tType type, x: Integer)
+	+Transaction(date: Date, amount: Integer,
+		\tType type, object: Integer, directObject: Integer)
 	+getDate(): Date
+	+getType(): Type
+	+getObject(): Integer
+	+getDirectObject(): Integer
 	+getAmount(): Integer
 }
 
@@ -153,6 +161,10 @@ Each functional requirement described in the Requirement Document has a referenc
 | FR7 | CapsuleType | DataImpl | -| - | - |
 | FR8 | Colleague| DataImpl | -| - | - |
 
+_**Note:**_
+
+We decided not to insert the class DataManagerImpl in this table since it is assumed a priori that in order to perform every operation there should be an update/store of the whole dataset in the database (or file).
+
 # Verification Sequence Diagrams 
 
 ## Scenario 1
@@ -164,8 +176,8 @@ Each functional requirement described in the Requirement Document has a referenc
 "DataImpl" -> "Colleague": "2: getColleague()"
 "Colleague" -> "DataImpl": "colleagueId"
 "DataImpl" -> "Transaction": "3: sellCapsules(colleagueId, capsuleId, quantity)"
-"Transaction" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
-"Transaction" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
+"DataImpl" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
+"DataImpl" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
 @enduml
 ```
 ## Scenario 2
@@ -177,8 +189,12 @@ Each functional requirement described in the Requirement Document has a referenc
 "DataImpl" -> "Colleague": "2: getColleague()"
 "Colleague" -> "DataImpl": "colleagueId"
 "DataImpl" -> "Transaction": "3: sellCapsules(colleagueId, capsuleId, quantity)"
-"Transaction" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
-"Transaction" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
+"DataImpl" -> "CapsuleType": "4: updatedCapsuleQuantity(capsuleId)"
+"DataImpl" -> "Colleague": "5: updateEmployeeAccount(colleagueId)"
 "Colleague" -> "DataImpl" : "6: warningNegativeBalance()"
 @enduml
 ```
+
+_**Note:**_
+
+It is assumed that after every operation the whole dataset is updated/stored thanks to the DataManagerImpl class.
