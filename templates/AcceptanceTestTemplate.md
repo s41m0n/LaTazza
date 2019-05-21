@@ -46,12 +46,14 @@ Version:
 
 | Scenario ID: SC3 | Corresponds to UC3 |
 | ---------------- | ------------------ |
-| Description      | ...                |
-| Precondition     | ...                |
-| Postcondition    | ...                |
-| Step#            | ...                |
-| 1                | ...                |
-|                  |                    |
+| Description      | Manager buys one box capsules of type T, account positive |
+| Precondition     | System balance is enough to buy a box                     |
+| Postcondition    | System balance updated, count of T updated                |
+| Step#            | Step description                                          |
+| 1                | Administrator selects capsule type T                      |
+| 2                | Administrator buys one box of capsule type T              |
+| 3                | Increase capsule type T of a box quantity                 |
+| 4                | Deduce price of box of T from system balance              |
 
 
 
