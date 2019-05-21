@@ -38,7 +38,30 @@ public class SystemTesting {
         dt.sellCapsules(ee_id, ct_id, 1, true);
 
         // POSTCONDITION
-        assertEquals((int) dt.getEmployeeBalance(ee_id), -1);  // Employee has balance == 0
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);  // Employee has balance == 0
+        assertEquals((int) dt.getEmployeeBalance(ee_id), -1);  // Employee has negative balance
+        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);  // deduce one capsule of type T
+    }
+
+    @Test
+    void testScenario3() throws EmployeeException, BeverageException, NotEnoughBalance {
+        DataImpl dt = new DataImpl();
+        dt.reset();                     //clear DataImpl
+
+        // PRECONDTION
+        dt.createEmployee("Manager", "System");
+        int mm_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
+        dt.createBeverage("Test Beverage", 10, 10);
+        int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
+        dt.rechargeAccount(mm_id, 100);
+        assertEquals((int) dt.getBalance(), 100);               // System has balance == 100
+        assertEquals((int) dt.getBeverageCapsules(ct_id), 0);   // T starts with 0 capsules
+
+        // ========================= //
+
+        dt.buyBoxes(ct_id, 1);  // manager buys 1 box
+
+        // POSTCONDITION
+        assertEquals((int) dt.getBeverageCapsules(ct_id), 10);  // T ends with 10 capsules
+        assertEquals((int) dt.getBalance(), 90);                // System has balance == 90
     }
 }
