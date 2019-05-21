@@ -12,13 +12,31 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SystemTesting {
 
     @Test
-    void testScenario1() {
-        
+    void testScenario1() throws EmployeeException, BeverageException, NotEnoughBalance, NotEnoughCapsules {
+        DataInterface dt = new DataImpl();
+        dt.reset();
+
+        // PRECONDITION
+        dt.createEmployee("Test", "User");
+        int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
+        dt.createBeverage("Test Beverage", 10, 10);
+        int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
+        dt.rechargeAccount(ee_id, 1000);
+        dt.buyBoxes(ct_id, 1);
+
+        assertTrue(dt.getEmployeeBalance(ee_id) >= dt.getBeverageBoxPrice(ct_id));
+
+        dt.sellCapsules(ee_id, ct_id, 1, true);
+
+        // POSTCONDITION
+        assertTrue(dt.getEmployeeBalance(ee_id) >= 0);
+        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);
     }
 
     @Test
     void testScenario2() throws EmployeeException, BeverageException, NotEnoughCapsules, NotEnoughBalance {
-        DataImpl dt = new DataImpl();
+        DataInterface dt = new DataImpl();
+        dt.reset();
 
         // PRECONDTION
         dt.createEmployee("Test", "User");
@@ -30,15 +48,15 @@ public class SystemTesting {
         dt.rechargeAccount(sb_id, 10);
         dt.buyBoxes(ct_id, 1);
 
-        assertEquals((int) dt.getEmployeeBalance(ee_id), 0);  // Employee has balance == 0
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 10);  // Employee has balance == 0
+        assertEquals((int) dt.getEmployeeBalance(ee_id), 0);
+        assertEquals((int) dt.getBeverageCapsules(ct_id), 10);
 
         // ========================= //
 
         dt.sellCapsules(ee_id, ct_id, 1, true);
 
         // POSTCONDITION
-        assertEquals((int) dt.getEmployeeBalance(ee_id), -1);  // Employee has balance == 0
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);  // Employee has balance == 0
+        assertTrue(dt.getEmployeeBalance(ee_id) < 0);
+        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);
     }
 }
