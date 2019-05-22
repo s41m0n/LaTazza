@@ -55,6 +55,28 @@ Version:
 | 3                | Increase capsule type T of a box quantity                 |
 | 4                | Deduce price of box of T from system balance              |
 
+| Scenario ID: SC4 | Corresponds to UC4 |
+| ---------------- | ------------------ |
+| Description      | An employee recharges it's account buying credit          |
+| Precondition     | The Employee must have a local account on the system.     |
+| Postcondition    | Requested credits added to employee account               |
+| Step#            | Step description                                          |
+| 1                | Employee selects it's local account                       |
+| 2                | Employee selects amount of credits to buy                 |
+| 3                | Pay with the provided payment method                      |
+| 4                | System adds the credits to the local account              |
+
+| Scenario ID: SC5 | Corresponds to UC5 |
+| ---------------- | ------------------ |
+| Description      | Administrator sells 1 capsule of type T to a visitor      |
+| Precondition     | System balance is enough to buy one capsule               |
+| Postcondition    | System balance updated, count of T updated                |
+| Step#            | Step description                                          |
+| 1                | Visitor chooses which capsule to buy                      |
+| 2                | Administrator selects capsule type T                      |
+| 3                | Administrator sell one capsule of type T                  |
+| 4                | Deduce one for quantity of capsule T                      |
+| 5                | Increase system balance of one capsule cost               |
 
 
 # Coverage of Scenarios
