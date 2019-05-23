@@ -142,7 +142,11 @@ class SystemTesting {
     }
 
     /**
+     * Test scenario 4 invented by us
      *
+     * Description: Employee recharges his account
+     * Pre condition: Employee exists
+     * Post condition: Employee account updated, system balance updated
      *
      */
     @Test
@@ -155,15 +159,17 @@ class SystemTesting {
 
             // PRECONDTION
             dt.createEmployee("Test", "User");
-            int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-            assertEquals((int) dt.getEmployeeBalance(ee_id), 0);   // Employee has balance == 0
+            int ee_id = dt.getEmployeesId().get(0);
+
+            assertTrue(ee_id >= 0);
+            assertEquals(dt.getEmployeeBalance(ee_id).intValue(), 0);
 
             // SCENARIO ACTION
-
-            dt.rechargeAccount(ee_id, 100);  // recharge employee account with 100 credits
+            dt.rechargeAccount(ee_id, 1000);
 
             // POSTCONDITION
-            assertEquals((int) dt.getEmployeeBalance(ee_id), 100);  // Employee has balance == 100
+            assertEquals(dt.getEmployeeBalance(ee_id).intValue(), 1000);
+
         } catch (Exception e) {
             fail();
         }
