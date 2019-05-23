@@ -378,7 +378,7 @@ class SystemTesting {
             dt.rechargeAccount(ee_id, 1000);
 
             // SCENARIO ACTION
-            List<String> report = dt.getEmployeeReport(ee_id, new GregorianCalendar(2014, 2, 11).getTime(), new Date());
+            List<String> report = dt.getEmployeeReport(ee_id, new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime(), new Date());
 
             // POSTCONDITION
             assertEquals(report.size(), 1);
@@ -406,18 +406,13 @@ class SystemTesting {
         DataImpl dt = new DataImpl();
         dt.reset();
 
-        List<String> report = new ArrayList<>();
+        List<String> report = null;
 
         try {
 
             /// PRECONDITION
-            dt.createEmployee("Test", "User");
-            int ee_id = dt.getEmployeesId().get(0);
-
-            dt.rechargeAccount(ee_id, 1000);
-
             Date startDate = new Date();
-            Date endDate = new Date();
+            Date endDate;
 
             Calendar c = Calendar.getInstance();
             c.setTime(startDate);
@@ -427,12 +422,12 @@ class SystemTesting {
             endDate = c.getTime();
 
             // SCENARIO ACTION
-            report = dt.getEmployeeReport(ee_id, startDate, endDate);
+            report = dt.getReport(startDate, endDate);
 
             fail();
 
         } catch (DateException e) {
-            assertEquals(report.size(), 0);
+            assertNull(report);
         } catch (Exception e) {
             fail();
         }
@@ -456,18 +451,13 @@ class SystemTesting {
         DataImpl dt = new DataImpl();
         dt.reset();
 
-        List<String> report = new ArrayList<>();
+        List<String> report = null;
 
         try {
 
             /// PRECONDITION
-            dt.createEmployee("Test", "User");
-            int ee_id = dt.getEmployeesId().get(0);
-
-            dt.rechargeAccount(ee_id, 1000);
-
             Date startDate = new Date();
-            Date endDate = new Date();
+            Date endDate;
 
             Calendar c = Calendar.getInstance();
             c.setTime(startDate);
@@ -477,11 +467,14 @@ class SystemTesting {
             endDate = c.getTime();
 
             // SCENARIO ACTION
-            report = dt.getEmployeeReport(ee_id, startDate, endDate);
+            report = dt.getReport(startDate, endDate);
 
             fail();
+
         } catch (DateException e) {
-            assertEquals(report.size(), 0);
+
+            assertNull(report);
+
         } catch (Exception e) {
             fail();
         }
@@ -490,5 +483,169 @@ class SystemTesting {
         assertTrue(end - start <= 500);
 
     }
+
+    /**
+     * Test scenario 12 invented by us
+     *
+     * Description: Manager wants to see reports for a non-existent Employee
+     * Pre condition: Employee does not exist, startDate < endDate && startDate < actualDate
+     * Post condition: /
+     *
+     */
+    @Test
+    void testScenario12() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        List<String> report = null;
+
+        try {
+
+            /// PRECONDITION
+            Date startDate;
+            Date endDate = new Date();
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(endDate);
+            c.add(Calendar.DATE, -2);
+            startDate = c.getTime();
+
+            // SCENARIO ACTION
+            report = dt.getEmployeeReport(0, startDate, endDate);
+
+            fail();
+
+        } catch (EmployeeException e) {
+
+            assertNull(report);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 13 invented by us
+     *
+     * Description: Manager wants to buy a capsule box
+     * Pre condition: no capsule registered
+     * Post condition: system account unchanged, no capsule created
+     *
+     */
+    @Test
+    void testScenario13() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            // PRECONDTION
+            assertTrue(dt.getBeverages().isEmpty());
+
+            // SCENARIO ACTION
+            dt.buyBoxes(0, 1);
+
+            fail();
+
+        } catch (BeverageException e) {
+
+            assertTrue(dt.getBeverages().isEmpty());
+            assertEquals(dt.getBalance().intValue(), 0);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 14 invented by us
+     *
+     * Description: Employee uses capsule T non-existent
+     * Pre condition: no capsule registered
+     * Post condition: employee balance unchanged, system account unchanged, no capsule created
+     *
+     */
+    @Test
+    void testScenario14() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            // PRECONDTION
+            dt.createEmployee("System", "Test");
+            int ee_id = dt.getEmployeesId().get(0);
+
+            assertTrue(dt.getBeverages().isEmpty());
+
+            // SCENARIO ACTION
+            try {
+                dt.sellCapsules(ee_id, 0, 1, true);
+            } catch (BeverageException e) {
+                assertTrue(dt.getBeverages().isEmpty());
+                assertEquals(dt.getEmployeeBalance(ee_id).intValue(), 0);
+                assertEquals(dt.getBalance().intValue(), 0);
+            }
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 15 invented by us
+     *
+     * Description: Manager changes employee and capsule info
+     * Pre condition: capsule exists, employee exists
+     * Post condition: employee info changed, capsule info changed
+     *
+     */
+    @Test
+    void testScenario15() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            // PRECONDTION
+            dt.createEmployee("System", "Test");
+            dt.createBeverage("BeverageTest", 1, 1000);
+            int ee_id = dt.getEmployeesId().get(0);
+            int bb_id = dt.getBeveragesId().get(0);
+
+            dt.updateBeverage(bb_id, "NewBeverage", 2, 2000);
+            dt.updateEmployee(ee_id, "NewName", "NewSurname");
+
+            assertEquals(dt.getEmployeeName(ee_id), "NewName");
+            assertEquals(dt.getEmployeeSurname(ee_id), "NewSurname");
+            assertEquals(dt.getBeverageName(bb_id), "NewBeverage");
+            assertEquals(dt.getBeverageCapsulesPerBox(bb_id).intValue(), 2);
+            assertEquals(dt.getBeverageBoxPrice(bb_id).intValue(), 2000);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
 
 }
