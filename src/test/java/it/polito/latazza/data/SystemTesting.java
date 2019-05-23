@@ -3,8 +3,11 @@ package it.polito.latazza.data;
 import it.polito.latazza.exceptions.BeverageException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
-import it.polito.latazza.exceptions.NotEnoughCapsules;
 import org.junit.jupiter.api.Test;
+
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +18,7 @@ class SystemTesting {
      *
      *  Description: Colleague uses one capsule of type T
      *  Pre condition: account of C has enough money to buy capsule T
-     *  Post condition: account of C updated, count of T updated
+     *  Post condition: account of C updated, count of T updated, system balance unchanged
      *
      */
     @Test
@@ -42,6 +45,7 @@ class SystemTesting {
             // POSTCONDITION
             assertEquals(dt.getEmployeeBalance(ee_id).intValue() ,900);
             assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 9);
+            assertEquals(dt.getBalance().intValue() ,0);
 
         }catch (Exception e) {
             fail();
@@ -57,7 +61,7 @@ class SystemTesting {
      *
      * Description: Colleague uses one capsule of type T, account negative
      * Pre condition: account of C has not enough money to buy capsule T
-     * Post condition: account of C updated, count of T updated
+     * Post condition: account of C updated, count of T updated, system balance unchanged
      *
      */
     @Test
@@ -89,6 +93,7 @@ class SystemTesting {
             // POSTCONDITION
             assertEquals(dt.getEmployeeBalance(ee_id).intValue(),  -100);
             assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 9);
+            assertEquals(dt.getBalance().intValue() ,0);
 
         } catch (Exception e) {
             fail();
@@ -215,6 +220,169 @@ class SystemTesting {
             // POSTCONDITION
             assertEquals(dt.getBalance().intValue(), 100);
             assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 9);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 6 invented by us
+     *
+     * Description: Manager wants to buy a capsule box
+     * Pre condition: system account not enough
+     * Post condition: system account unchanged, capsule T unchanged
+     *
+     */
+    @Test
+    void testScenario6() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            // PRECONDTION
+            dt.createBeverage("Test Beverage", 10, 1000);
+
+            int ct_id = dt.getBeveragesId().get(0);
+
+            assertEquals(dt.getBalance().intValue(), 0);
+
+            // SCENARIO ACTION
+            dt.buyBoxes(ct_id, 1);
+
+        } catch (NotEnoughBalance e) {
+
+            try {
+
+                int ct_id = dt.getBeveragesId().get(0);
+                assertEquals(dt.getBalance().intValue(), 0);
+                assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 0);
+
+            } catch (BeverageException ee) {
+                fail();
+            }
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 7 invented by us
+     *
+     * Description: Manager recharges a not-existent employee
+     * Pre condition: Employee does not exists
+     * Post condition: system account unchanged
+     *
+     */
+    @Test
+    void testScenario7() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            // PRECONDTION
+            assertEquals(dt.getEmployeesId().size(), 0);
+
+            // SCENARIO ACTION
+            dt.rechargeAccount(0, 1000);
+
+            fail();
+
+        } catch (EmployeeException e) {
+
+            assertEquals(dt.getBalance().intValue(), 0);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 8 invented by us
+     *
+     * Description: Colleague uses 1 capsule T paying with cash
+     * Pre condition: Colleague exists
+     * Post condition: Colleague balance unchanged, system account updated
+     *
+     */
+    @Test
+    void testScenario8() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            /// PRECONDITION
+            dt.createEmployee("Test", "User");
+            dt.createBeverage("Test Beverage", 10, 1000);
+            int ee_id = dt.getEmployeesId().get(0);
+            int ct_id = dt.getBeveragesId().get(0);
+
+            dt.rechargeAccount(ee_id, 1000);
+            dt.buyBoxes(ct_id, 1);
+
+            // SCENARIO ACTION
+            dt.sellCapsules(ee_id, ct_id, 1, false);
+
+            // POSTCONDITION
+            assertEquals(dt.getEmployeeBalance(ee_id).intValue() ,1000);
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 9);
+            assertEquals(dt.getBalance().intValue() ,100);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 9 invented by us
+     *
+     * Description: Manager wants to see reports of Employee E which has performed just 1 action
+     * Pre condition: Employee E exists, 1 action performed (RECHARGe)
+     * Post condition: /
+     *
+     */
+    @Test
+    void testScenario9() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        try {
+
+            /// PRECONDITION
+            dt.createEmployee("Test", "User");
+            int ee_id = dt.getEmployeesId().get(0);
+
+            dt.rechargeAccount(ee_id, 1000);
+
+            // SCENARIO ACTION
+            List<String> report = dt.getEmployeeReport(ee_id, new GregorianCalendar(2014, 2, 11).getTime(), new Date());
+
+            // POSTCONDITION
+            assertEquals(report.size(), 1);
 
         } catch (Exception e) {
             fail();
