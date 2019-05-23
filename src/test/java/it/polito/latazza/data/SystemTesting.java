@@ -179,27 +179,50 @@ class SystemTesting {
 
     }
 
+    /**
+     * Test scenario 5 invented by us
+     *
+     * Description: Visitor buys capsule
+     * Pre condition: capsule T are enough
+     * Post condition: system account updated, capsule T quantity updated
+     *
+     */
     @Test
-    void testScenario5() throws BeverageException, NotEnoughBalance, NotEnoughCapsules, EmployeeException {
+    void testScenario5() {
+        long start = System.currentTimeMillis(), end;
         DataImpl dt = new DataImpl();
-        dt.reset();                     //clear DataImpl
+        dt.reset();
 
-        // PRECONDTION
-        dt.createEmployee("Manager", "System");
-        int mm_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-        dt.createBeverage("Test Beverage", 10, 10);
-        int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
-        dt.rechargeAccount(mm_id, 110);
-        dt.buyBoxes(ct_id, 1);
+        try {
 
-        assertEquals((int) dt.getBalance(), 100);               // System has balance == 100
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 10);  // T starts with 10 capsules
-        // ========================= //
+            // PRECONDTION
+            dt.createEmployee("Manager", "System");
+            dt.createBeverage("Test Beverage", 10, 1000);
 
-        dt.sellCapsulesToVisitor(ct_id, 1);
+            int mm_id = dt.getEmployeesId().get(0);
+            int ct_id = dt.getBeveragesId().get(0);
 
-        // POSTCONDITION
-        assertEquals((int) dt.getBalance(), 101);               // System balance increased by 1
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);  // Capsules quantity deduced by 1
+            dt.rechargeAccount(mm_id, 1000);
+            assertEquals(dt.getBalance().intValue(), 1000);
+
+            dt.buyBoxes(ct_id, 1);
+            assertEquals(dt.getBalance().intValue(), 0);
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 10);
+
+            // SCENARIO ACTION
+            dt.sellCapsulesToVisitor(ct_id, 1);
+
+            // POSTCONDITION
+            assertEquals(dt.getBalance().intValue(), 100);
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 9);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
     }
+
 }
