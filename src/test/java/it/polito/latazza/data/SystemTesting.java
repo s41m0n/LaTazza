@@ -11,6 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SystemTesting {
 
+    /** Test scenario 1 given by professor
+     *
+     *  Description: Colleague uses one capsule of type T
+     *  Pre condition: account of C has enough money to buy capsule T
+     *  Post condition: account of C updated, count of T updated
+     *
+     */
     @Test
     void testScenario1() {
         long start = System.currentTimeMillis(), end;
@@ -22,8 +29,8 @@ class SystemTesting {
             // PRECONDITION
             dt.createEmployee("Test", "User");
             dt.createBeverage("Test Beverage", 10, 1000);
-            int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-            int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
+            int ee_id = dt.getEmployeesId().get(0);
+            int ct_id = dt.getBeveragesId().get(0);
             dt.rechargeAccount(ee_id, 1000);
             dt.buyBoxes(ct_id, 1);
 
@@ -45,6 +52,14 @@ class SystemTesting {
 
     }
 
+    /**
+     * Test scenario 2 given by professor
+     *
+     * Description: Colleague uses one capsule of type T, account negative
+     * Pre condition: account of C has not enough money to buy capsule T
+     * Post condition: account of C updated, count of T updated
+     *
+     */
     @Test
     void testScenario2() {
         long start = System.currentTimeMillis(), end;
@@ -55,27 +70,28 @@ class SystemTesting {
 
             // PRECONDTION
             dt.createEmployee("Test", "User");
-            int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
             dt.createEmployee("System", "Balance");
-            int sb_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-            dt.createBeverage("Test Beverage", 10, 10);
-            int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
-            dt.rechargeAccount(sb_id, 10);
+            dt.createBeverage("Test Beverage", 10, 1000);
+
+            int ee_id = dt.getEmployeesId().get(0);
+            int sb_id = dt.getEmployeesId().get(1);
+            int ct_id = dt.getBeveragesId().get(0);
+
+            dt.rechargeAccount(sb_id, 1000);
             dt.buyBoxes(ct_id, 1);
 
+            assertEquals(dt.getEmployeeBalance(ee_id).intValue(), 0);
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 10);
 
-            assertEquals((int) dt.getEmployeeBalance(ee_id), 0);
-            assertEquals((int) dt.getBeverageCapsules(ct_id), 10);
-
-            // ========================= //
-
+            // SCENARIO ACTION
             dt.sellCapsules(ee_id, ct_id, 1, true);
 
             // POSTCONDITION
-            assertTrue(dt.getEmployeeBalance(ee_id) < 0);
-            assertEquals((int) dt.getBeverageCapsules(ct_id), 9);
-        }catch (Exception e) {
+            assertEquals(dt.getEmployeeBalance(ee_id).intValue(),  -100);
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 9);
 
+        } catch (Exception e) {
+            fail();
         }
 
         end = System.currentTimeMillis();
@@ -83,44 +99,78 @@ class SystemTesting {
 
     }
 
+    /**
+     * Test scenario 3 invented by us
+     *
+     * Description: Manager buys a capsules box
+     * Pre condition: System account greater than the cost of the capsule box
+     * Post condition: system account updated, count of T updated
+     *
+     */
     @Test
-    void testScenario3() throws EmployeeException, BeverageException, NotEnoughBalance {
+    void testScenario3() {
+        long start = System.currentTimeMillis(), end;
         DataImpl dt = new DataImpl();
-        dt.reset();                     //clear DataImpl
+        dt.reset();
 
-        // PRECONDTION
-        dt.createEmployee("Manager", "System");
-        int mm_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-        dt.createBeverage("Test Beverage", 10, 10);
-        int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
-        dt.rechargeAccount(mm_id, 100);
-        assertEquals((int) dt.getBalance(), 100);               // System has balance == 100
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 0);   // T starts with 0 capsules
+        try {
+            // PRECONDTION
+            dt.createEmployee("Manager", "System");
+            dt.createBeverage("Test Beverage", 10, 1000);
 
-        // ========================= //
+            int mm_id = dt.getEmployeesId().get(0);
+            int ct_id = dt.getBeveragesId().get(0);
 
-        dt.buyBoxes(ct_id, 1);  // manager buys 1 box
+            dt.rechargeAccount(mm_id, 1000);
+            assertEquals(dt.getBalance().intValue(), 1000);
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 0);
 
-        // POSTCONDITION
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 10);  // T ends with 10 capsules
-        assertEquals((int) dt.getBalance(), 90);                // System has balance == 90
+            // SCENARIO ACTION
+            dt.buyBoxes(ct_id, 1);  // manager buys 1 box
+
+            // POSTCONDITION
+            assertEquals(dt.getBeverageCapsules(ct_id).intValue(), 10);
+            assertEquals(dt.getBalance().intValue(), 0);
+
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
     }
 
+    /**
+     *
+     *
+     */
     @Test
-    void testScenario4() throws EmployeeException, BeverageException, NotEnoughBalance {
+    void testScenario4() {
+        long start = System.currentTimeMillis(), end;
         DataImpl dt = new DataImpl();
-        dt.reset();                     //clear DataImpl
+        dt.reset();
 
-        // PRECONDTION
-        dt.createEmployee("Test", "User");
-        int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-        assertEquals((int) dt.getEmployeeBalance(ee_id), 0);   // Employee has balance == 0
-        // ========================= //
+        try {
 
-        dt.rechargeAccount(ee_id, 100);  // recharge employee account with 100 credits
+            // PRECONDTION
+            dt.createEmployee("Test", "User");
+            int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
+            assertEquals((int) dt.getEmployeeBalance(ee_id), 0);   // Employee has balance == 0
 
-        // POSTCONDITION
-        assertEquals((int) dt.getEmployeeBalance(ee_id), 100);  // Employee has balance == 100
+            // SCENARIO ACTION
+
+            dt.rechargeAccount(ee_id, 100);  // recharge employee account with 100 credits
+
+            // POSTCONDITION
+            assertEquals((int) dt.getEmployeeBalance(ee_id), 100);  // Employee has balance == 100
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
     }
 
     @Test
