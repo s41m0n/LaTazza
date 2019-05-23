@@ -1,13 +1,12 @@
 package it.polito.latazza.data;
 
 import it.polito.latazza.exceptions.BeverageException;
+import it.polito.latazza.exceptions.DateException;
 import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -360,7 +359,7 @@ class SystemTesting {
      * Test scenario 9 invented by us
      *
      * Description: Manager wants to see reports of Employee E which has performed just 1 action
-     * Pre condition: Employee E exists, 1 action performed (RECHARGe)
+     * Pre condition: Employee E exists, 1 action performed (RECHARGE)
      * Post condition: /
      *
      */
@@ -384,6 +383,105 @@ class SystemTesting {
             // POSTCONDITION
             assertEquals(report.size(), 1);
 
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 10 invented by us
+     *
+     * Description: Manager wants to see reports
+     * Pre condition: endDate < startDate
+     * Post condition: /
+     *
+     */
+    @Test
+    void testScenario10() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        List<String> report = new ArrayList<>();
+
+        try {
+
+            /// PRECONDITION
+            dt.createEmployee("Test", "User");
+            int ee_id = dt.getEmployeesId().get(0);
+
+            dt.rechargeAccount(ee_id, 1000);
+
+            Date startDate = new Date();
+            Date endDate = new Date();
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(startDate);
+            c.add(Calendar.DATE, -1);
+            startDate = c.getTime();
+            c.add(Calendar.DATE, -1);
+            endDate = c.getTime();
+
+            // SCENARIO ACTION
+            report = dt.getEmployeeReport(ee_id, startDate, endDate);
+
+            fail();
+
+        } catch (DateException e) {
+            assertEquals(report.size(), 0);
+        } catch (Exception e) {
+            fail();
+        }
+
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
+
+    }
+
+    /**
+     * Test scenario 11 invented by us
+     *
+     * Description: Manager wants to see reports
+     * Pre condition: startDate > currentDate
+     * Post condition: /
+     *
+     */
+    @Test
+    void testScenario11() {
+        long start = System.currentTimeMillis(), end;
+        DataImpl dt = new DataImpl();
+        dt.reset();
+
+        List<String> report = new ArrayList<>();
+
+        try {
+
+            /// PRECONDITION
+            dt.createEmployee("Test", "User");
+            int ee_id = dt.getEmployeesId().get(0);
+
+            dt.rechargeAccount(ee_id, 1000);
+
+            Date startDate = new Date();
+            Date endDate = new Date();
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(startDate);
+            c.add(Calendar.DATE, +1);
+            startDate = c.getTime();
+            c.add(Calendar.DATE, +1);
+            endDate = c.getTime();
+
+            // SCENARIO ACTION
+            report = dt.getEmployeeReport(ee_id, startDate, endDate);
+
+            fail();
+        } catch (DateException e) {
+            assertEquals(report.size(), 0);
         } catch (Exception e) {
             fail();
         }
