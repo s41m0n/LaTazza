@@ -12,25 +12,33 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SystemTesting {
 
     @Test
-    void testScenario1() throws EmployeeException, BeverageException, NotEnoughBalance, NotEnoughCapsules {
+    void testScenario1() {
         DataInterface dt = new DataImpl();
         dt.reset();
+        long start = System.currentTimeMillis(), end;
+        try {
+            // PRECONDITION
+            dt.createEmployee("Test", "User");
+            dt.createBeverage("Test Beverage", 10, 10);
+            int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
+            int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
+            dt.rechargeAccount(ee_id, 1000);
+            dt.buyBoxes(ct_id, 1);
 
-        // PRECONDITION
-        dt.createEmployee("Test", "User");
-        int ee_id = dt.getEmployeesId().get(dt.getEmployeesId().size() - 1);
-        dt.createBeverage("Test Beverage", 10, 10);
-        int ct_id = dt.getBeveragesId().get(dt.getBeveragesId().size() - 1);
-        dt.rechargeAccount(ee_id, 1000);
-        dt.buyBoxes(ct_id, 1);
+            assertTrue(dt.getEmployeeBalance(ee_id) >= dt.getBeverageBoxPrice(ct_id));
 
-        assertTrue(dt.getEmployeeBalance(ee_id) >= dt.getBeverageBoxPrice(ct_id));
+            // SCENARIO ACTION
+            dt.sellCapsules(ee_id, ct_id, 1, true);
 
-        dt.sellCapsules(ee_id, ct_id, 1, true);
+            // POSTCONDITION
+            assertTrue(dt.getEmployeeBalance(ee_id) < 1000);
+            assertEquals((int) dt.getBeverageCapsules(ct_id), 9);
+        }catch (Exception e) {
+            fail();
+        }
+        end = System.currentTimeMillis();
+        assertTrue(end - start <= 500);
 
-        // POSTCONDITION
-        assertTrue(dt.getEmployeeBalance(ee_id) >= 0);
-        assertEquals((int) dt.getBeverageCapsules(ct_id), 9);
     }
 
     @Test
