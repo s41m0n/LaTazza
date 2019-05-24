@@ -78,6 +78,103 @@ Version: 0.1
 | 4                | Deduce one for quantity of capsule T                      |
 | 5                | Increase system balance of one capsule cost               |
 
+| Scenario ID: SC6 | Corresponds to UC3 |
+| ---------------- | ------------------ |
+| Description      | Administrator buys a capsule box T, account negative      |
+| Precondition     | system account not enough					               |
+| Postcondition    | system account unchanged, capsule T unchanged             |
+| Step#            | Step description                                          |
+| 1                | Administrator selects capsule type T                      |
+| 2                | Administrator fails to buy 				               |
+
+| Scenario ID: SC7 | Corresponds to UC4 |
+| ---------------- | ------------------ |
+| Description      | Administrator recharges non-existent employee             |
+| Precondition     | The Employee must not exist  						       |
+| Postcondition    | System account unchanged					               |
+| Step#            | Step description                                          |
+| 1                | Administrator selects non-existent employee to recharge   |
+| 2                | Administrator fails to recharge  	                       |
+
+
+| Scenario ID: SC8 | Corresponds to UC1                             		|
+| ---------------- | ------------------------------------------------------ |
+| Description      | Colleague uses 1 capsule T paying with cash    		|
+| Precondition     | Colleague exists 			 				    		|
+| Postcondition    | Colleague balance unchanged, system account updated    |
+| Step#            | Step description                               		|
+| 1                | Administrator selects capsule type T           		|
+| 2                | Administrator selects colleague C              		|
+| 3                | Deduce one for quantity of capsule T           		|
+| 4                | Deduce price of T from cash of C               		|
+
+| Scenario ID: SC9 | Corresponds to UC5                             								 	   |
+| ---------------- | ------------------------------------------------------------------------------------- |
+| Description      | Administrator wants to see reports of Employee E which has performed just 1 action    |
+| Precondition     | Employee E exists, 1 action performed, right dates 							 	   |
+| Postcondition    | /     																			 	   |
+| Step#            | Step description                               								 	   |
+| 1                | Administrator selects colleague ID             								 	   |
+| 2                | Administrator selects dates              										 	   |
+| 3                | Administrator reads the report              									 	   |
+
+| Scenario ID: SC10 | Corresponds to UC6              		|
+| ----------------- | ------------------------------------- |
+| Description       | Administrator wants to see reports    |
+| Precondition      | endDate < startDate 			  		|
+| Postcondition     | /     						  		|
+| Step#             | Step description                		|
+| 1                 | Administrator selects dates     		|
+| 2                 | Administrator receives error    		|
+
+| Scenario ID: SC11 | Corresponds to UC6              		|
+| ----------------- | ------------------------------------- |
+| Description       | Administrator wants to see reports 	|
+| Precondition      | startDate > currentDate    	  		|
+| Postcondition     | /     						  		|
+| Step#             | Step description                		|
+| 1                 | Administrator selects dates     		|
+| 2                 | Administrator receives error    		|
+
+| Scenario ID: SC12 | Corresponds to UC5 			  											|
+| ----------------- | ------------------------------------------------------------------------- |
+| Description       | Administrator wants to see reports for a non-existent Employee  		    |
+| Precondition      | Employee does not exist, startDate < endDate && startDate < actualDate    |
+| Postcondition     | /     						  											|
+| Step#             | Step description                											|
+| 1                 | Administrator selects non-existent employee     							|
+| 2                 | Administrator receives error    				  							|
+
+| Scenario ID: SC13 | Corresponds to UC3 |
+| ----------------- | ------------------ |
+| Description       | Administrator buys a capsule box T, T non-existent   |
+| Precondition      | No capsule Tregistered					           |
+| Postcondition     | system account unchanged, no capsule T created       |
+| Step#             | Step description                                     |
+| 1                 | Administrator selects capsule type T non-existent    |
+| 2                 | Administrator receives error 				           |
+
+| Scenario ID: SC14 | Corresponds to UC1                             								 |
+| ----------------- | ------------------------------------------------------------------------------ |
+| Description       | Employee uses capsule T non-existent           								 |
+| Precondition      | no capsule registered							 								 |
+| Postcondition     | employee balance unchanged, system account unchanged, no capsule created       |
+| Step#             | Step description                               								 |
+| 1                 | Administrator selects capsule type T non-existent           					 |
+| 2                 | Administrator selects colleague C              								 |
+| 3                 | Administrator receives an error		           								 |
+
+| Scenario ID: SC15 | Corresponds to FR7 - FR8                             						 	 |
+| ----------------- | ------------------------------------------------------------------------------ |
+| Description       | Administrator changes employee and capsule info           					 |
+| Precondition      | capsule exists, employee exists							 					 |
+| Postcondition     | employee info changed, capsule info changed  								     |
+| Step#             | Step description                               								 |
+| 1                 | Administrator selects capsule type T 				           					 |
+| 2                 | Administrator updates info of capsule T              							 |
+| 3                 | Administrator selects colleague C		           								 |
+| 4                 | Administrator updates info of colleague T              						 |
+
 
 # Coverage of Scenarios
 
@@ -90,13 +187,21 @@ In the API Tests column, report the name of the method of the API Test JUnit cla
 
 | Scenario ID | Functional Requirements covered | API Test(s) | GUI Test(s) |
 | ----------- | ------------------------------- | ----------- | ----------- |
-| 1           | FR1                             |             |             |
-| 2           | FR1                             |             |             |
-| ...         |                                 |             |             |
-| ...         |                                 |             |             |
-| ...         |                                 |             |             |
-| ...         |                                 |             |             |
-
+| 1           | FR1                             | SystemTesting(testScenario1)  |             |
+| 2           | FR1                             | SystemTesting(testScenario1)  |             |
+| 3	          | FR4                             | SystemTesting(testScenario1)  |             |
+| 4           | FR3                             | SystemTesting(testScenario1)  |             |
+| 5           | FR2                             | SystemTesting(testScenario1)  |             |
+| 6           | FR3                             | SystemTesting(testScenario1)  |             |
+| 7           | FR4                             | SystemTesting(testScenario1)  |             |
+| 8           | FR1                             | SystemTesting(testScenario1)  |             |
+| 9           | FR5                             | SystemTesting(testScenario1)  |             |
+| 10          | FR6                             | SystemTesting(testScenario1)  |             |
+| 11          | FR6                             | SystemTesting(testScenario1)  |             |
+| 12          | FR5                             | SystemTesting(testScenario1)  |             |
+| 13          | FR3                             | SystemTesting(testScenario1)  |             |
+| 14          | FR1                             | SystemTesting(testScenario1)  |             |
+| 15          | FR7, FR8                        | SystemTesting(testScenario1)  |             |
 
 
 # Coverage of Non Functional Requirements
@@ -109,5 +214,5 @@ In the API Tests column, report the name of the method of the API Test JUnit cla
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|                            |           |
+|   2                        |   SystemTesting(testScenario[1-15])    |
 

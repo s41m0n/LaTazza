@@ -104,11 +104,11 @@ class SystemTesting {
     }
 
     /**
-     * Test scenario 3 invented by us
+     * Test scenario 3 given by professor
      *
      * Description: Manager buys a capsules box
-     * Pre condition: System account greater than the cost of the capsule box
-     * Post condition: system account updated, count of T updated
+     * Pre condition: System balance is enough to buy a box
+     * Post condition: System balance updated, count of T updated
      *
      */
     @Test
@@ -146,11 +146,11 @@ class SystemTesting {
     }
 
     /**
-     * Test scenario 4 invented by us
+     * Test scenario 4 given by professor
      *
-     * Description: Employee recharges his account
-     * Pre condition: Employee exists
-     * Post condition: Employee account updated, system balance updated
+     * Description: An employee recharges it's account buying credit
+     * Pre condition: The Employee must have a local account on the system.
+     * Post condition: Requested credits added to employee account
      *
      */
     @Test
@@ -184,11 +184,11 @@ class SystemTesting {
     }
 
     /**
-     * Test scenario 5 invented by us
+     * Test scenario 5 given by professor
      *
-     * Description: Visitor buys capsule
-     * Pre condition: capsule T are enough
-     * Post condition: system account updated, capsule T quantity updated
+     * Description: Administrator sells 1 capsule of type T to a visitor
+     * Pre condition: System balance is enough to buy one capsule
+     * Post condition: System balance updated, count of T updated
      *
      */
     @Test
