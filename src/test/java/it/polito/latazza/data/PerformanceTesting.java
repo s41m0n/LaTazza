@@ -116,7 +116,7 @@ public class PerformanceTesting {
 		
 	}
 	
-	/* Test performance on method getEmployeeReport */
+	/* Test performance on method getEmployeeReport() */
 	@Test
 	void testNFR5() throws EmployeeException, BeverageException, NotEnoughBalance, NotEnoughCapsules, DateException {
 		DataImpl d = new DataImpl();
@@ -144,7 +144,7 @@ public class PerformanceTesting {
 		
 	}
 	
-	/* Test performance on method getReport */
+	/* Test performance on method getReport() */
 	void testNFR6() throws EmployeeException, BeverageException, NotEnoughBalance, NotEnoughCapsules, DateException {
 		DataImpl d = new DataImpl();
 		
@@ -177,7 +177,7 @@ public class PerformanceTesting {
 		assertTrue(avgTime < 500);
 	}
 	
-	/* Test performance on method createBeverage */
+	/* Test performance on method createBeverage() */
 	void testNFR7() throws BeverageException {
 		DataImpl d = new DataImpl();
 		
@@ -195,5 +195,22 @@ public class PerformanceTesting {
 		assertTrue(avgTime < 500);
 		
 	}
-
+	
+	/* Test performance on method createEmployee() */
+	void testNFR8() throws EmployeeException {
+		DataImpl d = new DataImpl();
+		
+		d.reset();
+		
+		long begin, end;
+		long totalTime = 0;
+		for(int i = 0; i < 100; i++) {
+			begin = System.currentTimeMillis();
+			d.createEmployee("Employee", "Test");
+			end = System.currentTimeMillis();
+			totalTime += end - begin;
+		}
+		double avgTime = totalTime/100.0;
+		assertTrue(avgTime < 500);
+	}
 }
