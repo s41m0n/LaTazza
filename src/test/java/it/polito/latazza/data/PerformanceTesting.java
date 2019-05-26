@@ -11,8 +11,9 @@ import it.polito.latazza.exceptions.NotEnoughCapsules;
 
 public class PerformanceTesting {
 	
+	/* Test performance on method sellCapsules() */
 	@Test
-	void testFR1() throws EmployeeException, BeverageException, NotEnoughCapsules, NotEnoughBalance {
+	void testNFR1() throws EmployeeException, BeverageException, NotEnoughCapsules, NotEnoughBalance {
 		DataImpl d = new DataImpl();
 		
 		d.reset();
@@ -34,6 +35,33 @@ public class PerformanceTesting {
 		}
 		double avgTime = totalTime/100.0;
 		assertTrue(avgTime < 500);
+	}
+	
+	/* Test performance on method sellCapsulesToVisitor() */
+	@Test
+	void testNFR2() throws BeverageException, NotEnoughBalance, NotEnoughCapsules, EmployeeException {
+		DataImpl d = new DataImpl();
+		
+		d.reset();
+		
+		d.createEmployee("Manager", "System");
+		d.createBeverage("Beverage2", 100, 20);
+		int manId = d.getEmployeesId().get(0);
+		int bevId = d.getBeveragesId().get(0);
+		d.rechargeAccount(manId, 1000);
+		d.buyBoxes(bevId, 1);
+		
+		long begin, end;
+		long totalTime = 0;
+		for(int i = 0; i < 100; i++) {
+			begin = System.currentTimeMillis();
+			d.sellCapsulesToVisitor(bevId, 1);
+			end = System.currentTimeMillis();
+			totalTime += end - begin;
+		}
+		double avgTime = totalTime/100.0;
+		assertTrue(avgTime < 500);
+		
 	}
 
 }
