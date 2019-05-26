@@ -1,8 +1,9 @@
 Click "{ImageFolder}/1558780670011.png" 42 41
-Click "{ImageFolder}/1558833029686.png" 36 17
-Click "{ImageFolder}/1558832864192.png" 55 55
-Click "{ImageFolder}/1558832904748.png" 48 64
-Click "{ImageFolder}/1558780812031.png" 59 37
-Click "{ImageFolder}/1558780889703.png" 50 51
-Click "{ImageFolder}/1558780918696.png" 12 92
-Click "{ImageFolder}/1558780969384.png" 49 80
+Click "{ImageFolder}/1558835523939.png" 21 78
+Click "{ImageFolder}/1558835555869.png" 47 61
+Click "{ImageFolder}/1558835601723.png" 41 22
+Click "{ImageFolder}/1558835682769.png" 30 39
+Click "{ImageFolder}/1558835723517.png" 76 78
+Click "{ImageFolder}/1558835754912.png" 72 97
+Click "{ImageFolder}/1558835784973.png" 31 93
+Check "{ImageFolder}/1558835849722.png"
