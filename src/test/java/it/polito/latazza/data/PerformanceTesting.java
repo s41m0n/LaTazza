@@ -143,5 +143,38 @@ public class PerformanceTesting {
 		assertTrue(avgTime < 500);
 		
 	}
+	
+	/* Test performance on method getReport */
+	void testNFR6() throws EmployeeException, BeverageException, NotEnoughBalance, NotEnoughCapsules, DateException {
+		DataImpl d = new DataImpl();
+		
+		d.reset();
+		
+		d.createEmployee("First", "User");
+		d.createEmployee("Second", "User");
+		d.createBeverage("Beverage1", 100, 20);
+		d.createBeverage("Beverage2", 100, 20);
+		int emp1Id = d.getEmployeesId().get(0);
+		int bev1Id = d.getBeveragesId().get(0);
+		int emp2Id = d.getEmployeesId().get(1);
+		int bev2Id = d.getBeveragesId().get(1);
+		d.rechargeAccount(emp1Id, 5000);
+		d.rechargeAccount(emp2Id, 5000);
+		d.buyBoxes(bev1Id, 1);
+		d.buyBoxes(bev2Id, 1);
+		d.sellCapsules(emp1Id, bev1Id, 1, true);
+		d.sellCapsules(emp2Id, bev2Id, 1, true);
+		
+		long begin, end;
+		long totalTime = 0;
+		for(int i = 0; i < 100; i++) {
+			begin = System.currentTimeMillis();
+			d.getReport(new Date(System.currentTimeMillis()-24*60*60*1000), new Date(System.currentTimeMillis()+24*60*60*1000));
+			end = System.currentTimeMillis();
+			totalTime += end - begin;
+		}
+		double avgTime = totalTime/100.0;
+		assertTrue(avgTime < 500);
+	}
 
 }
