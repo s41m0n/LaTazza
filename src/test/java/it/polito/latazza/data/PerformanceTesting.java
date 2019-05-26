@@ -145,6 +145,7 @@ public class PerformanceTesting {
 	}
 	
 	/* Test performance on method getReport() */
+	@Test
 	void testNFR6() throws EmployeeException, BeverageException, NotEnoughBalance, NotEnoughCapsules, DateException {
 		DataImpl d = new DataImpl();
 		
@@ -178,6 +179,7 @@ public class PerformanceTesting {
 	}
 	
 	/* Test performance on method createBeverage() */
+	@Test
 	void testNFR7() throws BeverageException {
 		DataImpl d = new DataImpl();
 		
@@ -197,6 +199,7 @@ public class PerformanceTesting {
 	}
 	
 	/* Test performance on method createEmployee() */
+	@Test
 	void testNFR8() throws EmployeeException {
 		DataImpl d = new DataImpl();
 		
