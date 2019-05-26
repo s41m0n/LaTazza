@@ -4,7 +4,7 @@ Authors: Magnani Simone, Marchi Riccardo, Palumbo Daniele, Postolov Enrico
 
 Date: 23/05/2019
 
-Version: 0.1
+Version: 1.0
 
 # Contents
 
@@ -14,12 +14,7 @@ Version: 0.1
 - [Coverage of non-functional requirements](#nfr-coverage)
 
 
-
 # Scenarios
-
-```
-<Define here additional scenarios for the application. The two original scenarios in the Requirements Document are reported here.>
-```
 
 | Scenario ID: SC1 | Corresponds to UC1                             |
 | ---------------- | ---------------------------------------------- |
@@ -87,17 +82,7 @@ Version: 0.1
 | 1                | Administrator selects capsule type T                      |
 | 2                | Administrator fails to buy 				               |
 
-| Scenario ID: SC7 | Corresponds to UC4 |
-| ---------------- | ------------------ |
-| Description      | Administrator recharges non-existent employee             |
-| Precondition     | The Employee must not exist  						       |
-| Postcondition    | System account unchanged					               |
-| Step#            | Step description                                          |
-| 1                | Administrator selects non-existent employee to recharge   |
-| 2                | Administrator fails to recharge  	                       |
-
-
-| Scenario ID: SC8 | Corresponds to UC1                             		|
+| Scenario ID: SC7 | Corresponds to UC1                             		|
 | ---------------- | ------------------------------------------------------ |
 | Description      | Colleague uses 1 capsule T paying with cash    		|
 | Precondition     | Colleague exists 			 				    		|
@@ -108,7 +93,7 @@ Version: 0.1
 | 3                | Deduce one for quantity of capsule T           		|
 | 4                | Deduce price of T from cash of C               		|
 
-| Scenario ID: SC9 | Corresponds to UC5                             								 	   |
+| Scenario ID: SC8 | Corresponds to UC5                             								 	   |
 | ---------------- | ------------------------------------------------------------------------------------- |
 | Description      | Administrator wants to see reports of Employee E which has performed just 1 action    |
 | Precondition     | Employee E exists, 1 action performed, right dates 							 	   |
@@ -118,7 +103,7 @@ Version: 0.1
 | 2                | Administrator selects dates              										 	   |
 | 3                | Administrator reads the report              									 	   |
 
-| Scenario ID: SC10 | Corresponds to UC6              		|
+| Scenario ID: SC9  | Corresponds to UC6              		|
 | ----------------- | ------------------------------------- |
 | Description       | Administrator wants to see reports    |
 | Precondition      | endDate < startDate 			  		|
@@ -127,7 +112,7 @@ Version: 0.1
 | 1                 | Administrator selects dates     		|
 | 2                 | Administrator receives error    		|
 
-| Scenario ID: SC11 | Corresponds to UC6              		|
+| Scenario ID: SC10 | Corresponds to UC6              		|
 | ----------------- | ------------------------------------- |
 | Description       | Administrator wants to see reports 	|
 | Precondition      | startDate > currentDate    	  		|
@@ -136,35 +121,7 @@ Version: 0.1
 | 1                 | Administrator selects dates     		|
 | 2                 | Administrator receives error    		|
 
-| Scenario ID: SC12 | Corresponds to UC5 			  											|
-| ----------------- | ------------------------------------------------------------------------- |
-| Description       | Administrator wants to see reports for a non-existent Employee  		    |
-| Precondition      | Employee does not exist, startDate < endDate && startDate < actualDate    |
-| Postcondition     | /     						  											|
-| Step#             | Step description                											|
-| 1                 | Administrator selects non-existent employee     							|
-| 2                 | Administrator receives error    				  							|
-
-| Scenario ID: SC13 | Corresponds to UC3 |
-| ----------------- | ------------------ |
-| Description       | Administrator buys a capsule box T, T non-existent   |
-| Precondition      | No capsule Tregistered					           |
-| Postcondition     | system account unchanged, no capsule T created       |
-| Step#             | Step description                                     |
-| 1                 | Administrator selects capsule type T non-existent    |
-| 2                 | Administrator receives error 				           |
-
-| Scenario ID: SC14 | Corresponds to UC1                             								 |
-| ----------------- | ------------------------------------------------------------------------------ |
-| Description       | Employee uses capsule T non-existent           								 |
-| Precondition      | no capsule registered							 								 |
-| Postcondition     | employee balance unchanged, system account unchanged, no capsule created       |
-| Step#             | Step description                               								 |
-| 1                 | Administrator selects capsule type T non-existent           					 |
-| 2                 | Administrator selects colleague C              								 |
-| 3                 | Administrator receives an error		           								 |
-
-| Scenario ID: SC15 | Corresponds to FR7	                             						 	 |
+| Scenario ID: SC11 | Corresponds to FR7	                             						 	 |
 | ----------------- | ------------------------------------------------------------------------------ |
 | Description       | Administrator changes capsule info           					 				 |
 | Precondition      | capsule exists											 					 |
@@ -173,7 +130,7 @@ Version: 0.1
 | 1                 | Administrator selects capsule type T 				           					 |
 | 2                 | Administrator updates info of capsule T              							 |
 
-| Scenario ID: SC16 | Corresponds to FR8                             							 	 |
+| Scenario ID: SC12 | Corresponds to FR8                             							 	 |
 | ----------------- | ------------------------------------------------------------------------------ |
 | Description       | Administrator changes employee info           								 |
 | Precondition      | employee exists							 									 |
@@ -185,42 +142,25 @@ Version: 0.1
 
 # Coverage of Scenarios
 
-```
-<Report in the following table the coverage of the scenarios listed above. Report at least an API test (defined on the functions of DataImpl only) and a GUI test (created with EyeAutomate) for each of the scenarios. For each scenario, report the functional requirements it covers.
-In the API Tests column, report the name of the method of the API Test JUnit class you created. In the GUI Test column, report the name of the .txt file with the test case you created.>
-```
-
-### 
-
 | Scenario ID | Functional Requirements covered | API Test(s) | GUI Test(s) |
 | ----------- | ------------------------------- | ----------- | ----------- |
-| 1           | FR1                             | SystemTesting(testScenario1)  | sc1.txt     |
-| 2           | FR1                             | SystemTesting(testScenario1)  | sc2.txt     |
-| 3	          | FR4                             | SystemTesting(testScenario1)  | sc3.txt     |
-| 4           | FR3                             | SystemTesting(testScenario1)  | sc4.txt     |
-| 5           | FR2                             | SystemTesting(testScenario1)  | sc5.txt     |
-| 6           | FR3                             | SystemTesting(testScenario1)  | sc6.txt     |
-| 7           | FR4                             | SystemTesting(testScenario1)  |             |
-| 8           | FR1                             | SystemTesting(testScenario1)  | sc8.txt     |
-| 9           | FR5                             | SystemTesting(testScenario1)  | sc9.txt     |
-| 10          | FR6                             | SystemTesting(testScenario1)  | sc10.txt    |
-| 11          | FR6                             | SystemTesting(testScenario1)  | sc11.txt    |
-| 12          | FR5                             | SystemTesting(testScenario1)  |             |
-| 13          | FR3                             | SystemTesting(testScenario1)  |             |
-| 14          | FR1                             | SystemTesting(testScenario1)  | 		      |
-| 15          | FR7		                        | SystemTesting(testScenario1)  | sc15.txt    |
-| 16          | FR8                       		| SystemTesting(testScenario1)  | sc16.txt    |
+| 1           | FR1                             | SystemTesting(testScenario1)   | sc1.txt     |
+| 2           | FR1                             | SystemTesting(testScenario2)   | sc2.txt     |
+| 3	          | FR4                             | SystemTesting(testScenario3)   | sc3.txt     |
+| 4           | FR3                             | SystemTesting(testScenario4)   | sc4.txt     |
+| 5           | FR2                             | SystemTesting(testScenario5)   | sc5.txt     |
+| 6           | FR3                             | SystemTesting(testScenario6)   | sc6.txt     |
+| 7           | FR1                             | SystemTesting(testScenario7)   | sc7.txt     |
+| 8           | FR5                             | SystemTesting(testScenario8)   | sc8.txt     |
+| 9           | FR6                             | SystemTesting(testScenario9)   | sc9.txt     |
+| 10          | FR6                             | SystemTesting(testScenario10)  | sc10.txt    |
+| 11          | FR7		                        | SystemTesting(testScenario11)  | sc11.txt    |
+| 12          | FR8                       		| SystemTesting(testScenario12)  | sc12.txt    |
 
 
 # Coverage of Non Functional Requirements
 
-```
-<Report in the following table the coverage of the Non Functional Requirements of the application - only those that can be tested with automated testing frameworks.>
-```
-
-### 
-
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|   2                        |   SystemTesting(testScenario[1-15])    |
+|   2                        |   PerformanceTesting(testNFR[1-8])    |
 
