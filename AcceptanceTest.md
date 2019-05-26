@@ -164,14 +164,21 @@ Version: 0.1
 | 2                 | Administrator selects colleague C              								 |
 | 3                 | Administrator receives an error		           								 |
 
-| Scenario ID: SC15 | Corresponds to FR7 - FR8                             						 	 |
+| Scenario ID: SC15 | Corresponds to FR7	                             						 	 |
 | ----------------- | ------------------------------------------------------------------------------ |
-| Description       | Administrator changes employee and capsule info           					 |
-| Precondition      | capsule exists, employee exists							 					 |
-| Postcondition     | employee info changed, capsule info changed  								     |
+| Description       | Administrator changes capsule info           					 				 |
+| Precondition      | capsule exists											 					 |
+| Postcondition     | capsule info changed  													     |
 | Step#             | Step description                               								 |
 | 1                 | Administrator selects capsule type T 				           					 |
 | 2                 | Administrator updates info of capsule T              							 |
+
+| Scenario ID: SC16 | Corresponds to FR8                             							 	 |
+| ----------------- | ------------------------------------------------------------------------------ |
+| Description       | Administrator changes employee info           								 |
+| Precondition      | employee exists							 									 |
+| Postcondition     | employee info changed  								 					     |
+| Step#             | Step description                               								 |
 | 3                 | Administrator selects colleague C		           								 |
 | 4                 | Administrator updates info of colleague T              						 |
 
@@ -187,21 +194,22 @@ In the API Tests column, report the name of the method of the API Test JUnit cla
 
 | Scenario ID | Functional Requirements covered | API Test(s) | GUI Test(s) |
 | ----------- | ------------------------------- | ----------- | ----------- |
-| 1           | FR1                             | SystemTesting(testScenario1)  |             |
-| 2           | FR1                             | SystemTesting(testScenario1)  |             |
-| 3	          | FR4                             | SystemTesting(testScenario1)  |             |
-| 4           | FR3                             | SystemTesting(testScenario1)  |             |
-| 5           | FR2                             | SystemTesting(testScenario1)  |             |
-| 6           | FR3                             | SystemTesting(testScenario1)  |             |
+| 1           | FR1                             | SystemTesting(testScenario1)  | sc1.txt     |
+| 2           | FR1                             | SystemTesting(testScenario1)  | sc2.txt     |
+| 3	          | FR4                             | SystemTesting(testScenario1)  | sc3.txt     |
+| 4           | FR3                             | SystemTesting(testScenario1)  | sc4.txt     |
+| 5           | FR2                             | SystemTesting(testScenario1)  | sc5.txt     |
+| 6           | FR3                             | SystemTesting(testScenario1)  | sc6.txt     |
 | 7           | FR4                             | SystemTesting(testScenario1)  |             |
-| 8           | FR1                             | SystemTesting(testScenario1)  |             |
-| 9           | FR5                             | SystemTesting(testScenario1)  |             |
-| 10          | FR6                             | SystemTesting(testScenario1)  |             |
-| 11          | FR6                             | SystemTesting(testScenario1)  |             |
+| 8           | FR1                             | SystemTesting(testScenario1)  | sc8.txt     |
+| 9           | FR5                             | SystemTesting(testScenario1)  | sc9.txt     |
+| 10          | FR6                             | SystemTesting(testScenario1)  | sc10.txt    |
+| 11          | FR6                             | SystemTesting(testScenario1)  | sc11.txt    |
 | 12          | FR5                             | SystemTesting(testScenario1)  |             |
 | 13          | FR3                             | SystemTesting(testScenario1)  |             |
-| 14          | FR1                             | SystemTesting(testScenario1)  |             |
-| 15          | FR7, FR8                        | SystemTesting(testScenario1)  |             |
+| 14          | FR1                             | SystemTesting(testScenario1)  | 		      |
+| 15          | FR7		                        | SystemTesting(testScenario1)  | sc15.txt    |
+| 16          | FR8                       		| SystemTesting(testScenario1)  | sc16.txt    |
 
 
 # Coverage of Non Functional Requirements

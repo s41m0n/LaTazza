@@ -1,0 +1,10 @@
+Click "{ImageFolder}/1558780670011.png" 42 41
+Click "{ImageFolder}/1558836867254.png" 58 74
+Click "{ImageFolder}/1558836893063.png" 64 60
+Click "{ImageFolder}/1558836921267.png" 50 19
+DoubleClick "{ImageFolder}/1558836966970.png" 55 68
+Type "Tea"
+
+DoubleClick "{ImageFolder}/1558836999973.png" 55 78
+Click "{ImageFolder}/1558837065593.png" 59 97
+Type "50"

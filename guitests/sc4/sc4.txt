@@ -1,0 +1,7 @@
+Click "{ImageFolder}/1558780670011.png"
+Click "{ImageFolder}/1558834252497.png" 51 31
+Click "{ImageFolder}/1558834282291.png" 50 40
+Click "{ImageFolder}/1558834301691.png" 41 63
+Type "50"
+Click "{ImageFolder}/1558834348236.png" 19 89
+Click "{ImageFolder}/1558834374432.png" 50 79
