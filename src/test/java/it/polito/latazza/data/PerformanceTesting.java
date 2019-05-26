@@ -176,5 +176,24 @@ public class PerformanceTesting {
 		double avgTime = totalTime/100.0;
 		assertTrue(avgTime < 500);
 	}
+	
+	/* Test performance on method createBeverage */
+	void testNFR7() throws BeverageException {
+		DataImpl d = new DataImpl();
+		
+		d.reset();
+		
+		long begin, end;
+		long totalTime = 0;
+		for(int i = 0; i < 100; i++) {
+			begin = System.currentTimeMillis();
+			d.createBeverage("Beverage", 100, 20);
+			end = System.currentTimeMillis();
+			totalTime += end - begin;
+		}
+		double avgTime = totalTime/100.0;
+		assertTrue(avgTime < 500);
+		
+	}
 
 }
