@@ -1,0 +1,39 @@
+package it.polito.latazza.data;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import it.polito.latazza.exceptions.BeverageException;
+import it.polito.latazza.exceptions.EmployeeException;
+import it.polito.latazza.exceptions.NotEnoughBalance;
+import it.polito.latazza.exceptions.NotEnoughCapsules;
+
+public class PerformanceTesting {
+	
+	@Test
+	void testFR1() throws EmployeeException, BeverageException, NotEnoughCapsules, NotEnoughBalance {
+		DataImpl d = new DataImpl();
+		
+		d.reset();
+		
+		d.createEmployee("First", "User");
+		d.createBeverage("Beverage1", 100, 20);
+		int empId = d.getEmployeesId().get(0);
+		int bevId = d.getBeveragesId().get(0);
+		d.rechargeAccount(empId, 1000);
+        d.buyBoxes(bevId, 1);
+		
+		long begin, end;
+		long totalTime = 0;
+		for(int i = 0; i < 100; i++) {
+			begin = System.currentTimeMillis();
+			d.sellCapsules(empId, bevId, 1, true);
+			end = System.currentTimeMillis();
+			totalTime += end - begin;
+		}
+		double avgTime = totalTime/100.0;
+		assertTrue(avgTime < 500);
+	}
+
+}
