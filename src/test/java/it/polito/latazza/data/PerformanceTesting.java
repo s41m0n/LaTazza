@@ -63,5 +63,28 @@ public class PerformanceTesting {
 		assertTrue(avgTime < 500);
 		
 	}
+	
+	/* Test performance on method rechargeAccount() */
+	@Test
+	void testNFR3() throws EmployeeException {
+		DataImpl d = new DataImpl();
+		
+		d.reset();
+		
+		d.createEmployee("Employee", "Test");
+		int empId = d.getEmployeesId().get(0);
+		
+		long begin, end;
+		long totalTime = 0;
+		for(int i = 0; i < 100; i++) {
+			begin = System.currentTimeMillis();
+			d.rechargeAccount(empId, 1000);
+			end = System.currentTimeMillis();
+			totalTime += end - begin;
+		}
+		double avgTime = totalTime/100.0;
+		assertTrue(avgTime < 500);
+		
+	}
 
 }
