@@ -144,18 +144,18 @@ Version: 1.0
 
 | Scenario ID | Functional Requirements covered | API Test(s) | GUI Test(s) |
 | ----------- | ------------------------------- | ----------- | ----------- |
-| 1           | FR1                             | SystemTesting(testScenario1)   | sc1.txt     |
-| 2           | FR1                             | SystemTesting(testScenario2)   | sc2.txt     |
-| 3	          | FR4                             | SystemTesting(testScenario3)   | sc3.txt     |
-| 4           | FR3                             | SystemTesting(testScenario4)   | sc4.txt     |
-| 5           | FR2                             | SystemTesting(testScenario5)   | sc5.txt     |
-| 6           | FR3                             | SystemTesting(testScenario6)   | sc6.txt     |
-| 7           | FR1                             | SystemTesting(testScenario7)   | sc7.txt     |
-| 8           | FR5                             | SystemTesting(testScenario8)   | sc8.txt     |
-| 9           | FR6                             | SystemTesting(testScenario9)   | sc9.txt     |
-| 10          | FR6                             | SystemTesting(testScenario10)  | sc10.txt    |
-| 11          | FR7		                        | SystemTesting(testScenario11)  | sc11.txt    |
-| 12          | FR8                       		| SystemTesting(testScenario12)  | sc12.txt    |
+| 1           | FR1                             | AcceptanceTesting(testScenario1)   | sc1.txt     |
+| 2           | FR1                             | AcceptanceTesting(testScenario2)   | sc2.txt     |
+| 3	          | FR4                             | AcceptanceTesting(testScenario3)   | sc3.txt     |
+| 4           | FR3                             | AcceptanceTesting(testScenario4)   | sc4.txt     |
+| 5           | FR2                             | AcceptanceTesting(testScenario5)   | sc5.txt     |
+| 6           | FR3                             | AcceptanceTesting(testScenario6)   | sc6.txt     |
+| 7           | FR1                             | AcceptanceTesting(testScenario7)   | sc7.txt     |
+| 8           | FR5                             | AcceptanceTesting(testScenario8)   | sc8.txt     |
+| 9           | FR6                             | AcceptanceTesting(testScenario9)   | sc9.txt     |
+| 10          | FR6                             | AcceptanceTesting(testScenario10)  | sc10.txt    |
+| 11          | FR7		                        | AcceptanceTesting(testScenario11)  | sc11.txt    |
+| 12          | FR8                       		| AcceptanceTesting(testScenario12)  | sc12.txt    |
 
 
 # Coverage of Non Functional Requirements
