@@ -41,8 +41,6 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(employeeId))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
 		if(numberOfCapsules == null || numberOfCapsules < 0)
 			throw new NotEnoughCapsules();
 		if (numberOfCapsules == 0)
@@ -51,11 +49,6 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent())
-			throw new BeverageException();
-		//If requested number is less then one the operation should not be executed-> exception
-		if(numberOfCapsules < 1)
-			throw new BeverageException();
 		//If there are less capsules than the requested number we can't complete the operation -> exception
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
@@ -63,9 +56,7 @@ public class DataImpl implements DataInterface {
 		try {
 			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 					fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
-		} catch (DateException e) {
-			e.printStackTrace();
-		}
+		} catch (DateException e) {}
 		ct.get().updateQuantity(-numberOfCapsules); //Decrease the quantity of the capsule type
 		if(fromAccount) {
 			c.get().updateBalance(-numberOfCapsules * ct.get().getPrice()); //Update the balance of the account if the transaction was made through the account
@@ -97,9 +88,7 @@ public class DataImpl implements DataInterface {
 			//Create the transaction -> necessarily by cash for visitors
 			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 					Transaction.Type.CONSUMPTION_CASH, ct.get().getId()));
-		} catch (DateException e) {
-			e.printStackTrace();
-		}
+		} catch (DateException e) {}
 		ct.get().updateQuantity(-numberOfCapsules); //Update quantity of capsules for the beverage
 		this.sysBalance.add(numberOfCapsules * ct.get().getPrice()); //Update the system balance
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
@@ -117,9 +106,7 @@ public class DataImpl implements DataInterface {
 		try {
 			//Create the recharge transaction
 			this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
-		} catch (DateException e) {
-			e.printStackTrace();
-		}
+		} catch (DateException e) {}
 		c.get().updateBalance(amountInCents); //Update the balance of the employee
 		this.sysBalance.add(amountInCents);
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
@@ -146,9 +133,7 @@ public class DataImpl implements DataInterface {
 		this.sysBalance.add(-boxQuantity*ct.get().getBoxPrice()); //Decrease the system balance
 		try {
 			this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getId()));
-		} catch (DateException e) {
-			e.printStackTrace();
-		}
+		} catch (DateException e) {}
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 	}
 
@@ -181,18 +166,22 @@ public class DataImpl implements DataInterface {
 				.map(x -> {
 					String employee = this.colleagues.stream().filter(y -> y.getId().equals(employeeId)).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining()); //For each transaction retrieve a string with employee's name and surame
 					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining()); //For each transaction retrieve the name of the beverage
+					String toReturn = "Error";
 					switch(x.getType()) { //Depending on the transaction type print differently
 						case RECHARGE:
-							return "" + dateFormat.format(x.getDate()) + " RECHARGE " + employee +
+							toReturn = "" + dateFormat.format(x.getDate()) + " RECHARGE " + employee +
 									" " + String.format("%.2f \u20ac",0.01*x.getAmount());
+							break;
 						case CONSUMPTION_BALANCE:
-							return "" + dateFormat.format(x.getDate()) + " BALANCE " + employee +
+							toReturn = "" + dateFormat.format(x.getDate()) + " BALANCE " + employee +
 									" " + capsuleType + " " + x.getAmount();
+							break;
 						case CONSUMPTION_CASH:
-							return "" + dateFormat.format(x.getDate()) + " CASH " + employee +
+							toReturn = "" + dateFormat.format(x.getDate()) + " CASH " + employee +
 									" " + capsuleType + " " + x.getAmount();
-						default: return "Error";
+							break;
 					}
+					return toReturn;
 				}).collect(Collectors.toList());
 	}
 
@@ -215,23 +204,28 @@ public class DataImpl implements DataInterface {
 				.map(x -> {
 					String employee = this.colleagues.stream().filter(y -> y.getId().equals(x.getObject())).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining()); //String with employee's name and surname
 					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining()); //String with the beverage name
+					String toReturn = "Error";
 					switch(x.getType()) { //Depending on the transaction type print differently
 						case CONSUMPTION_CASH:
-							if(x.getObject() == null)  return "" + dateFormat.format(x.getDate()) + " VISITOR " +
+							if(x.getObject() == null)  toReturn = "" + dateFormat.format(x.getDate()) + " VISITOR " +
 									capsuleType + " " + x.getAmount();
-							else return "" + dateFormat.format(x.getDate()) + " CASH " +
+							else toReturn = "" + dateFormat.format(x.getDate()) + " CASH " +
 									employee + " " + capsuleType + " " + x.getAmount();
+							break;
 						case CONSUMPTION_BALANCE:
-							return "" + dateFormat.format(x.getDate()) + " BALANCE " +
+							toReturn =  "" + dateFormat.format(x.getDate()) + " BALANCE " +
 									employee + " " + capsuleType + " " + x.getAmount();
+							break;
 						case RECHARGE:
-							return "" + dateFormat.format(x.getDate()) + " RECHARGE " + employee +
+							toReturn = "" + dateFormat.format(x.getDate()) + " RECHARGE " + employee +
 									" " + String.format("%.2f \u20ac",0.01*x.getAmount());
+							break;
 						case BOX_PURCHASE:
-							return "" + dateFormat.format(x.getDate()) + " BUY " +
+							toReturn = "" + dateFormat.format(x.getDate()) + " BUY " +
 									capsuleType + " " + x.getAmount();
-						default: return "Error";
+							break;
 					}
+					return toReturn;
 				}).collect(Collectors.toList());
 	}
 
@@ -329,8 +323,6 @@ public class DataImpl implements DataInterface {
 				.map(Colleague::getId)
 				.reduce(Integer::max)
 				.orElse(0);
-		if (maxId.longValue() + 1 > Integer.MAX_VALUE)
-			throw new EmployeeException();
 		this.colleagues.add(new ColleagueImpl(maxId + 1, name, surname));
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 		return maxId + 1;
