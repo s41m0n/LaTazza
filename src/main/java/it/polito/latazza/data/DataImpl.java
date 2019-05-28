@@ -32,13 +32,21 @@ public class DataImpl implements DataInterface {
 	//Method for selling a given number of capsules of a given type to a given employee
 	@Override
 	public Integer sellCapsules(Integer employeeId, Integer beverageId, Integer numberOfCapsules, Boolean fromAccount)
-			throws EmployeeException, BeverageException, NotEnoughCapsules { 
+			throws EmployeeException, BeverageException, NotEnoughCapsules {
 		//Search for the employee corresponding to the passed ID
+		if (employeeId == null || employeeId < 0)
+			throw new EmployeeException();
+		else if (beverageId == null || beverageId < 0)
+			throw new BeverageException();
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(employeeId))
 				.findFirst();
 		if(!c.isPresent())
 			throw new EmployeeException();
+		if(numberOfCapsules == null || numberOfCapsules < 0)
+			throw new NotEnoughCapsules();
+		if (numberOfCapsules == 0)
+			return c.get().getBalance();
 		//Search for the capsule type corresponding to the passed ID
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
@@ -73,10 +81,14 @@ public class DataImpl implements DataInterface {
 	public void sellCapsulesToVisitor(Integer beverageId, Integer numberOfCapsules)
 			throws BeverageException, NotEnoughCapsules {
 		//Retrieve the capsule type (beverage)
+		if(numberOfCapsules == null || numberOfCapsules < 0)
+			throw new NotEnoughCapsules();
+		if (numberOfCapsules == 0)
+			return;
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent() || numberOfCapsules < 1)
+		if(!ct.isPresent())
 			throw new BeverageException();
 		//Check if there are enough capsules for the beverage
 		if(ct.get().getQuantity() < numberOfCapsules)
@@ -92,7 +104,7 @@ public class DataImpl implements DataInterface {
 		this.sysBalance.add(numberOfCapsules * ct.get().getPrice()); //Update the system balance
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 	}
-	
+
 	//Method for recharging an account
 	@Override
 	public Integer rechargeAccount(Integer id, Integer amountInCents) throws EmployeeException {
@@ -118,10 +130,14 @@ public class DataImpl implements DataInterface {
 	@Override
 	public void buyBoxes(Integer beverageId, Integer boxQuantity) throws BeverageException, NotEnoughBalance {
 		//Search for the beverage
+		if (boxQuantity == null || boxQuantity < 0)
+			throw new BeverageException();
+		if (boxQuantity == 0)
+			return;
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent() || boxQuantity < 1)
+		if(!ct.isPresent())
 			throw new BeverageException();
 		//Check if the system balance is enough for buying the amount of boxes of that beverage
 		if(this.sysBalance.getValue() < ct.get().getBoxPrice()*boxQuantity)
@@ -140,6 +156,10 @@ public class DataImpl implements DataInterface {
 	@Override
 	public List<String> getEmployeeReport(Integer employeeId, Date startDate, Date endDate)
 			throws EmployeeException, DateException {
+		if (startDate == null || endDate == null)
+			throw new DateException();
+		if (employeeId == null)
+			throw new EmployeeException();
 		//Throw exception if dates are not coherent
 		if(endDate.before(startDate) || startDate.after(new Date()))
 			throw new DateException();
@@ -179,6 +199,8 @@ public class DataImpl implements DataInterface {
 	//Method for getting the transaction report in a given date range
 	@Override
 	public List<String> getReport(Date startDate, Date endDate) throws DateException {
+		if (startDate == null || endDate == null)
+			throw new DateException();
 		//Check dates coherence
 		if(endDate.before(startDate) || startDate.after(new Date()))
 			throw new DateException();
@@ -196,7 +218,7 @@ public class DataImpl implements DataInterface {
 					switch(x.getType()) { //Depending on the transaction type print differently
 						case CONSUMPTION_CASH:
 							if(x.getObject() == null)  return "" + dateFormat.format(x.getDate()) + " VISITOR " +
-															capsuleType + " " + x.getAmount();
+									capsuleType + " " + x.getAmount();
 							else return "" + dateFormat.format(x.getDate()) + " CASH " +
 									employee + " " + capsuleType + " " + x.getAmount();
 						case CONSUMPTION_BALANCE:
@@ -207,7 +229,7 @@ public class DataImpl implements DataInterface {
 									" " + String.format("%.2f \u20ac",0.01*x.getAmount());
 						case BOX_PURCHASE:
 							return "" + dateFormat.format(x.getDate()) + " BUY " +
-								capsuleType + " " + x.getAmount();
+									capsuleType + " " + x.getAmount();
 						default: return "Error";
 					}
 				}).collect(Collectors.toList());
@@ -216,6 +238,8 @@ public class DataImpl implements DataInterface {
 	//Method for creating a new beverage
 	@Override
 	public Integer createBeverage(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
+		if (name == null || name.isEmpty() || capsulesPerBox == null || boxPrice == null)
+			throw new BeverageException();
 		Integer newId = this.capsuleTypes.stream()
 				.map(x -> x.getId() + 1)
 				.reduce(Integer::max)
@@ -229,6 +253,8 @@ public class DataImpl implements DataInterface {
 	@Override
 	public void updateBeverage(Integer id, String name, Integer capsulesPerBox, Integer boxPrice)
 			throws BeverageException {
+		if (name == null || name.isEmpty() || capsulesPerBox == null || boxPrice == null)
+			throw new BeverageException();
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
@@ -275,14 +301,14 @@ public class DataImpl implements DataInterface {
 				.map(CapsuleType::getId)
 				.collect(Collectors.toList());
 	}
-	
+
 	//Method for getting a Map of IDs and related names of all the beverages
 	@Override
 	public Map<Integer, String> getBeverages() {
 		return this.capsuleTypes.stream()
 				.collect(Collectors.toMap(CapsuleType::getId, CapsuleType::getName));
 	}
-	
+
 	//Method for getting the quantity of capsules of a given beverage
 	@Override
 	public Integer getBeverageCapsules(Integer id) throws BeverageException {
@@ -297,6 +323,8 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public Integer createEmployee(String name, String surname) throws EmployeeException {
+		if (name == null || name.isEmpty() || surname == null || surname.isEmpty())
+			throw new EmployeeException();
 		Integer maxId = this.colleagues.stream()
 				.map(Colleague::getId)
 				.reduce(Integer::max)
@@ -310,6 +338,8 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public void updateEmployee(Integer id, String name, String surname) throws EmployeeException {
+		if (name == null || name.isEmpty() || surname == null || surname.isEmpty())
+			throw new EmployeeException();
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
