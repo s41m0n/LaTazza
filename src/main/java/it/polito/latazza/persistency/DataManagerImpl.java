@@ -52,37 +52,28 @@ public class DataManagerImpl implements DataManager{
             Map dataset = objectMapper.readValue(new File(filename+maxFileNumber+extension), Map.class);
 
             sysBalance.setValue((Integer) dataset.get("sysBalance"));
-            if(sysBalance.getValue() < 0)
-                throw new IllegalArgumentException("Negative System Balance");
+            if(sysBalance.getValue() < 0) throw new IllegalArgumentException("Negative System Balance");
 
             for (Map colleague: (List<Map>)dataset.get("colleagues"))
-                if(colleagues.stream().anyMatch(x -> x.getId().equals(colleague.get("id"))))
-                    throw new IllegalArgumentException("Duplicate colleague id");
+                if(colleagues.stream().anyMatch(x -> x.getId().equals(colleague.get("id")))) throw new IllegalArgumentException("Duplicate colleague id");
                 else
                     colleagues.add(new ColleagueImpl(colleague));
 
             for (Map capsuleType : (List<Map>)dataset.get("capsuleTypes"))
-                if(capsuleTypes.stream().anyMatch(x -> x.getId().equals(capsuleType.get("id"))))
-                    throw new IllegalArgumentException("Duplicate capsule id");
+                if(capsuleTypes.stream().anyMatch(x -> x.getId().equals(capsuleType.get("id")))) throw new IllegalArgumentException("Duplicate capsule id");
                 else
                     capsuleTypes.add(new CapsuleTypeImpl(capsuleType));
                 
             for (Map transaction: (List<Map>)dataset.get("transactions"))
                 transactions.add(new TransactionImpl(transaction));
 
-            System.out.println("File `" + filename + maxFileNumber + extension + "` found, restored dataset");
-
         } catch (FileNotFoundException e) {
 
             //Creating new file with the same name since it does not exist yet
-            System.out.println("File `" + filename + maxFileNumber + extension + "`, not found, creating new dataset");
             this.store(sysBalance, capsuleTypes, colleagues, transactions);
 
         } catch (Exception e) {
             //Creating new file with name += 1 since we don't want to wipe present data
-            System.out.println("Found problem in the file `" + filename + maxFileNumber + extension + "`, creating new dataset" +
-                    "\n|->\tException: " + e.getClass().getName() +
-                    "\n|->\tMessage: " + e.getMessage());
             maxFileNumber++;
             if(!(e instanceof IOException)) {
                 sysBalance = new MutableInt(0);
@@ -111,9 +102,7 @@ public class DataManagerImpl implements DataManager{
 
                 mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filename+maxFileNumber+extension), dataset);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) {}
         }).run();
 
     }
