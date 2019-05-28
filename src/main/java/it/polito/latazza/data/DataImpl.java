@@ -22,9 +22,9 @@ public class DataImpl implements DataInterface {
 	private List<Transaction> transactions;		/* List of all transactions*/
 
 	public DataImpl() { //Constructor
-		this.sysBalance = new MutableInt(0);
+		this.sysBalance   = new MutableInt(0);
 		this.capsuleTypes = new ArrayList<>();
-		this.colleagues = new ArrayList<>();
+		this.colleagues   = new ArrayList<>();
 		this.transactions = new ArrayList<>();
 		DataManagerImpl.getDataManager().load(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Call the DataManager to fill the data structures from the JSON file
 	}
