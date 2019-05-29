@@ -18,12 +18,12 @@ Version: 0.1
 
 ###
 
-|         Total person days worked by your  team, considering period March 5 to April 26 (1 person day == 8 person hours)     |   |             
+|         Total person days worked by your  team, considering period March 5 to May 26 (1 person day == 8 person hours)     |   |             
 | ----------- | ------------------------------- | 
-|Total Java LoC delivered on April 26 (only code, no Junit code) | |
-| Total number of Java classes delivered on April 26 (only code, no Junit code)| |
-| Productivity P =| |
-|Average size of Java class A = | |
+|Total Java LoC delivered on April 26 (only code, no Junit code) | 619 |
+| Total number of Java classes delivered on April 26 (only code, no Junit code)| 5 |
+| Productivity P | 5 |
+|Average size of Java class A  | 124 |
 
 # Estimate by product decomposition
 
@@ -33,10 +33,10 @@ Version: 0.1
 
 |             | Estimate                        |             
 | ----------- | ------------------------------- |  
-| Estimated n classes   |                             |             
-| Estimated LOC per class  (Here use Average A computed above )      |                            |                
-| Estimated effort  (person days) (Here use productivity P)  |                                      |      
-| Estimated calendar time (calendar weeks) (Assume team of 4 people, 8 hours per day, 5 days per week ) |                    |               
+| Estimated n classes   |            10                 |             
+| Estimated LOC per class  (Here use Average A computed above )      |           124                 |                
+| Estimated effort  (person days) (Here use productivity P)  |             248                         |      
+| Estimated calendar time (calendar weeks) (Assume team of 4 people, 8 hours per day, 5 days per week ) |        2            |               
 
 
 # Estimate by activity decomposition
@@ -47,9 +47,21 @@ Version: 0.1
 
 |         Activity name    | Estimated effort    |             
 | ----------- | ------------------------------- | 
-| | |
+|Requirements| 30 |
+|Design | 16 |
+|Coding | 120 |
+|Testing | 50 |
+|Acceptance Testing | 30 |
 
 
-###
-Insert here Gantt chart with above activities
+### Estimated Gantt
 
+
+![Estimated Gantt Table](Gantt_table.png)
+
+*Figure 1: Estimated Gantt Table*
+
+
+![Estimated Gantt Chart](Gantt_chart.png)
+
+*Figure 2: Estimated Gantt Chart*
