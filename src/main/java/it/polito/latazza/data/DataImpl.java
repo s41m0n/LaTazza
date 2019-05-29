@@ -26,7 +26,8 @@ public class DataImpl implements DataInterface {
 		this.capsuleTypes = new ArrayList<>();
 		this.colleagues   = new ArrayList<>();
 		this.transactions = new ArrayList<>();
-		DataManagerImpl.getDataManager().load(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Call the DataManager to fill the data structures from the JSON file
+		//Call the DataManager to fill the data structures from the JSON file
+		if(!DataManagerImpl.getDataManager().load(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions)) this.reset();
 	}
 
 	//Method for selling a given number of capsules of a given type to a given employee
@@ -34,21 +35,19 @@ public class DataImpl implements DataInterface {
 	public Integer sellCapsules(Integer employeeId, Integer beverageId, Integer numberOfCapsules, Boolean fromAccount)
 			throws EmployeeException, BeverageException, NotEnoughCapsules {
 		//Search for the employee corresponding to the passed ID
-		if (employeeId == null || employeeId < 0)
-			throw new EmployeeException();
-		else if (beverageId == null || beverageId < 0)
-			throw new BeverageException();
+		if (employeeId == null || employeeId < 0) throw new EmployeeException();
+		if (beverageId == null || beverageId < 0) throw new BeverageException();
+		if(numberOfCapsules == null || numberOfCapsules < 0) throw new NotEnoughCapsules();
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(employeeId))
 				.findFirst();
-		if(numberOfCapsules == null || numberOfCapsules < 0)
-			throw new NotEnoughCapsules();
-		if (numberOfCapsules == 0)
-			return c.get().getBalance();
+		if(!c.isPresent()) throw new EmployeeException();
+		if (numberOfCapsules == 0) return c.get().getBalance();
 		//Search for the capsule type corresponding to the passed ID
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
+		if(!ct.isPresent()) throw new BeverageException();
 		//If there are less capsules than the requested number we can't complete the operation -> exception
 		if(ct.get().getQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
@@ -56,13 +55,12 @@ public class DataImpl implements DataInterface {
 		try {
 			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 					fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
-		} catch (DateException e) {}
+		} catch (DateException e) { e.printStackTrace();}
 		ct.get().updateQuantity(-numberOfCapsules); //Decrease the quantity of the capsule type
-		if(fromAccount) {
+		if(fromAccount)
 			c.get().updateBalance(-numberOfCapsules * ct.get().getPrice()); //Update the balance of the account if the transaction was made through the account
-		} else {
+		else
 			this.sysBalance.add(numberOfCapsules * ct.get().getPrice());
-		}
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Update the JSON file
 		return c.get().getBalance(); //Return new balance of the employee
 	}
@@ -72,23 +70,19 @@ public class DataImpl implements DataInterface {
 	public void sellCapsulesToVisitor(Integer beverageId, Integer numberOfCapsules)
 			throws BeverageException, NotEnoughCapsules {
 		//Retrieve the capsule type (beverage)
-		if(numberOfCapsules == null || numberOfCapsules < 0)
-			throw new NotEnoughCapsules();
-		if (numberOfCapsules == 0)
-			return;
+		if(numberOfCapsules == null || numberOfCapsules < 0)  throw new NotEnoughCapsules();
+		if (numberOfCapsules == 0)  return;
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent())
-			throw new BeverageException();
+		if(!ct.isPresent()) throw new BeverageException();
 		//Check if there are enough capsules for the beverage
-		if(ct.get().getQuantity() < numberOfCapsules)
-			throw new NotEnoughCapsules();
+		if(ct.get().getQuantity() < numberOfCapsules) throw new NotEnoughCapsules();
 		try {
 			//Create the transaction -> necessarily by cash for visitors
 			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 					Transaction.Type.CONSUMPTION_CASH, ct.get().getId()));
-		} catch (DateException e) {}
+		} catch (DateException e) { e.printStackTrace();}
 		ct.get().updateQuantity(-numberOfCapsules); //Update quantity of capsules for the beverage
 		this.sysBalance.add(numberOfCapsules * ct.get().getPrice()); //Update the system balance
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
@@ -101,12 +95,11 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
+		if(!c.isPresent() || amountInCents <= 0) throw new EmployeeException();
 		try {
 			//Create the recharge transaction
 			this.transactions.add(new TransactionImpl(new Date(), amountInCents, Transaction.Type.RECHARGE, c.get().getId()));
-		} catch (DateException e) {}
+		} catch (DateException e) { e.printStackTrace();}
 		c.get().updateBalance(amountInCents); //Update the balance of the employee
 		this.sysBalance.add(amountInCents);
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
@@ -117,23 +110,19 @@ public class DataImpl implements DataInterface {
 	@Override
 	public void buyBoxes(Integer beverageId, Integer boxQuantity) throws BeverageException, NotEnoughBalance {
 		//Search for the beverage
-		if (boxQuantity == null || boxQuantity < 0)
-			throw new BeverageException();
-		if (boxQuantity == 0)
-			return;
+		if (boxQuantity == null || boxQuantity < 0) throw new BeverageException();
+		if (boxQuantity == 0) return;
 		Optional<CapsuleType> ct = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(beverageId))
 				.findFirst();
-		if(!ct.isPresent())
-			throw new BeverageException();
+		if(!ct.isPresent()) throw new BeverageException();
 		//Check if the system balance is enough for buying the amount of boxes of that beverage
-		if(this.sysBalance.getValue() < ct.get().getBoxPrice()*boxQuantity)
-			throw new NotEnoughBalance();
+		if(this.sysBalance.getValue() < ct.get().getBoxPrice()*boxQuantity) throw new NotEnoughBalance();
 		ct.get().updateQuantity(boxQuantity*ct.get().getCapsulesPerBox()); //Update the quantity of capsules of the beverage
 		this.sysBalance.add(-boxQuantity*ct.get().getBoxPrice()); //Decrease the system balance
 		try {
 			this.transactions.add(new TransactionImpl(new Date(), boxQuantity, Transaction.Type.BOX_PURCHASE, ct.get().getId()));
-		} catch (DateException e) {}
+		} catch (DateException e) { e.printStackTrace();}
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 	}
 
@@ -141,13 +130,9 @@ public class DataImpl implements DataInterface {
 	@Override
 	public List<String> getEmployeeReport(Integer employeeId, Date startDate, Date endDate)
 			throws EmployeeException, DateException {
-		if (startDate == null || endDate == null)
-			throw new DateException();
-		if (employeeId == null)
-			throw new EmployeeException();
+		if (startDate == null || endDate == null || endDate.before(startDate) || startDate.after(new Date())) throw new DateException();
+		if (employeeId == null) throw new EmployeeException();
 		//Throw exception if dates are not coherent
-		if(endDate.before(startDate) || startDate.after(new Date()))
-			throw new DateException();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(endDate);
 		cal.add(Calendar.DATE, 1);
@@ -156,8 +141,7 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(employeeId))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
+		if(!c.isPresent()) throw new EmployeeException();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//From the list of transactions get the ones in the date range and related to the given employee
 		return this.transactions.stream()
@@ -188,11 +172,8 @@ public class DataImpl implements DataInterface {
 	//Method for getting the transaction report in a given date range
 	@Override
 	public List<String> getReport(Date startDate, Date endDate) throws DateException {
-		if (startDate == null || endDate == null)
-			throw new DateException();
 		//Check dates coherence
-		if(endDate.before(startDate) || startDate.after(new Date()))
-			throw new DateException();
+		if(startDate == null || endDate == null || endDate.before(startDate) || startDate.after(new Date())) throw new DateException();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(endDate);
 		cal.add(Calendar.DATE, 1);
@@ -232,8 +213,7 @@ public class DataImpl implements DataInterface {
 	//Method for creating a new beverage
 	@Override
 	public Integer createBeverage(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException {
-		if (name == null || name.isEmpty() || capsulesPerBox == null || boxPrice == null)
-			throw new BeverageException();
+		if (name == null || name.isEmpty() || capsulesPerBox == null || boxPrice == null) throw new BeverageException();
 		Integer newId = this.capsuleTypes.stream()
 				.map(x -> x.getId() + 1)
 				.reduce(Integer::max)
@@ -247,13 +227,11 @@ public class DataImpl implements DataInterface {
 	@Override
 	public void updateBeverage(Integer id, String name, Integer capsulesPerBox, Integer boxPrice)
 			throws BeverageException {
-		if (name == null || name.isEmpty() || capsulesPerBox == null || boxPrice == null)
-			throw new BeverageException();
+		if (name == null || name.isEmpty() || capsulesPerBox == null || boxPrice == null) throw new BeverageException();
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new BeverageException();
+		if(!c.isPresent()) throw new BeverageException();
 		c.get().update(name, capsulesPerBox, boxPrice);
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
@@ -263,8 +241,7 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new BeverageException();
+		if(!c.isPresent()) throw new BeverageException();
 		return c.get().getName();
 	}
 
@@ -273,8 +250,7 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new BeverageException();
+		if(!c.isPresent()) throw new BeverageException();
 		return c.get().getCapsulesPerBox();
 	}
 
@@ -283,8 +259,7 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new BeverageException();
+		if(!c.isPresent()) throw new BeverageException();
 		return c.get().getBoxPrice();
 	}
 
@@ -310,15 +285,13 @@ public class DataImpl implements DataInterface {
 		Optional<CapsuleType> c = this.capsuleTypes.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new BeverageException();
+		if(!c.isPresent()) throw new BeverageException();
 		return c.get().getQuantity();
 	}
 
 	@Override
 	public Integer createEmployee(String name, String surname) throws EmployeeException {
-		if (name == null || name.isEmpty() || surname == null || surname.isEmpty())
-			throw new EmployeeException();
+		if (name == null || name.isEmpty() || surname == null || surname.isEmpty()) throw new EmployeeException();
 		Integer maxId = this.colleagues.stream()
 				.map(Colleague::getId)
 				.reduce(Integer::max)
@@ -330,13 +303,11 @@ public class DataImpl implements DataInterface {
 
 	@Override
 	public void updateEmployee(Integer id, String name, String surname) throws EmployeeException {
-		if (name == null || name.isEmpty() || surname == null || surname.isEmpty())
-			throw new EmployeeException();
+		if (name == null || name.isEmpty() || surname == null || surname.isEmpty()) throw new EmployeeException();
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
+		if(!c.isPresent()) throw new EmployeeException();
 		c.get().update(name ,surname);
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions);
 	}
@@ -346,8 +317,7 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
+		if(!c.isPresent()) throw new EmployeeException();
 		return c.get().getName();
 	}
 
@@ -356,8 +326,7 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
+		if(!c.isPresent()) throw new EmployeeException();
 		return c.get().getSurname();
 	}
 
@@ -366,8 +335,7 @@ public class DataImpl implements DataInterface {
 		Optional<Colleague> c = this.colleagues.stream()
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
-		if(!c.isPresent())
-			throw new EmployeeException();
+		if(!c.isPresent()) throw new EmployeeException();
 		return c.get().getBalance();
 	}
 
