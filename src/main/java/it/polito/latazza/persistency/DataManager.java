@@ -17,8 +17,9 @@ public interface DataManager {
      * @param colleagues        the colleagues to be loaded
      * @param transactions      the transactions to be loaded
      *
+     * @return true if correctly loaded, false otherwise
      */
-    void load(MutableInt sysBalance, List<CapsuleType> capsuleTypes, List<Colleague> colleagues, List<Transaction> transactions);
+    boolean load(MutableInt sysBalance, List<CapsuleType> capsuleTypes, List<Colleague> colleagues, List<Transaction> transactions);
 
     /**
      * Method to store into the file the dataset
