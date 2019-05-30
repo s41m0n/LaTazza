@@ -4,7 +4,7 @@ Authors: Magnani Simone, Marchi Riccardo, Palumbo Daniele, Postolov Enrico
 
 Date: 28/05/2019
 
-Version: 0.1
+Version: 1.0
 
 # Contents
 
@@ -20,8 +20,8 @@ Version: 0.1
 
 |         Total person days worked by your  team, considering period March 5 to May 26 (1 person day == 8 person hours)     |   |             
 | ----------- | ------------------------------- | 
-|Total Java LoC delivered on April 26 (only code, no Junit code) | 619 |
-| Total number of Java classes delivered on April 26 (only code, no Junit code)| 5 |
+|Total Java LoC delivered on May 26 (only code, no Junit code) | 619 |
+| Total number of Java classes delivered on May 26 (only code, no Junit code)| 5 |
 | Productivity P | 5 |
 |Average size of Java class A  | 124 |
 
