@@ -33,11 +33,11 @@ Version: 1.0
 
 |             | Estimate                        |             
 | ----------- | ------------------------------- |  
-| Estimated n classes NC (no Exception classes) |            10                 |             
+| Estimated n classes NC (no Exception classes) |            20                  |             
 | Estimated LOC per class  (Here use Average A computed above )      |           124                 |                
-| Estimated LOC (= NC * A) | 1240 |
-| Estimated effort  (person days) (Here use productivity P)  |             248                         |      
-| Estimated calendar time (calendar weeks) (Assume team of 4 people, 8 hours per day, 5 days per week ) |        2            |               
+| Estimated LOC (= NC * A) | 2480 |
+| Estimated effort  (person days) (Here use productivity P)  |             496                         |      
+| Estimated calendar time (calendar weeks) (Assume team of 4 people, 8 hours per day, 5 days per week ) |        4            |               
 
 
 # Estimate by activity decomposition
@@ -50,9 +50,8 @@ Version: 1.0
 | ----------- | ------------------------------- | 
 |Requirements| 30 |
 |Design | 16 |
-|Coding | 120 |
-|Testing | 50 |
-|Acceptance Testing | 30 |
+|Coding | 240 |
+|Testing | 160 |
 
 
 ###
