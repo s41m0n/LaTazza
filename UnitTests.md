@@ -880,7 +880,7 @@ Version: 1.0
 
 ### Code coverage report
 
-![Code coverage](LaTazzaCodeCoverage.png)
+![Code coverage](FinalCodeCoverage.png)
 
 The low coverage in DataManagerImpl is due to the impossibility to recreate certain situations that are system related.
 

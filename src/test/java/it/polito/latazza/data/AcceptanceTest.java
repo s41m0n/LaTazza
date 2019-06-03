@@ -10,7 +10,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class AcceptanceTesting {
+class AcceptanceTest {
 
     /** Test scenario 1 given by professor
      *

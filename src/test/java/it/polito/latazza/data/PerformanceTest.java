@@ -12,7 +12,7 @@ import it.polito.latazza.exceptions.EmployeeException;
 import it.polito.latazza.exceptions.NotEnoughBalance;
 import it.polito.latazza.exceptions.NotEnoughCapsules;
 
-public class PerformanceTesting {
+public class PerformanceTest {
 	
 	/* Test performance on method sellCapsules() */
 	@Test

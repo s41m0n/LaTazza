@@ -8,8 +8,7 @@ Version:
 
 # Contents
 
-- [[Data from your LaTazza project]
-
+- [Data from your LaTazza project]
 - [Estimate by product decomposition]
 - [Estimate by activity decomposition ]
 
