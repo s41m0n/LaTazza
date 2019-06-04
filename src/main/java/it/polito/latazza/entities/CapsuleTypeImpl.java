@@ -84,7 +84,6 @@ public class CapsuleTypeImpl implements CapsuleType {
 
     @Override
     public void updateQuantity(Integer toAdd) throws BeverageException { //Update quantity
-        System.out.println("toAdd: " + toAdd);
         if (this.quantity.longValue() + toAdd.longValue() > Integer.MAX_VALUE
                 || ((this.quantity + this.oldQuantity + toAdd) < 0))
             throw new BeverageException();
@@ -97,10 +96,6 @@ public class CapsuleTypeImpl implements CapsuleType {
                 this.oldQuantity += toAdd;
         else
             this.quantity += toAdd;
-        System.out.println("Quantity: " + quantity);
-        System.out.println("Price: " + getPrice());
-        System.out.println("Old quantity: " + oldQuantity);
-        System.out.println("Old price: " + oldPrice);
     }
 
     @Override

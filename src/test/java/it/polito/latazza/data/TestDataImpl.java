@@ -162,9 +162,10 @@ class TestDataImpl {
     @Test
     void buyBoxes() {
         try {
+            initial_capsules = dt.getBeverageCapsules(ct_id);
             dt.buyBoxes(ct_id, 1);
             int final_capsules = initial_capsules + dt.getBeverageCapsulesPerBox(ct_id);
-            assertEquals(final_capsules, (int) dt.getBeverageCapsules(ct_id));
+            assertEquals(final_capsules, dt.getBeverageCapsules(ct_id).intValue());
         } catch (Exception e) {
             fail();
         }

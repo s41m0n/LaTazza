@@ -39,6 +39,8 @@ public class TestCapsuleTypeImpl {
         map.put("capsulesPerBox", 100);
         map.put("boxPrice", 200);
         map.put("quantity", 99);
+        map.put("oldQuantity", 0);
+        map.put("oldPrice", 0);
         try {
             ct2 = new CapsuleTypeImpl(map);
         } catch (BeverageException e) {
@@ -87,6 +89,8 @@ public class TestCapsuleTypeImpl {
         map2.put("capsulesPerBox", 100);
         map2.put("boxPrice", 200);
         map2.put("quantity", 99);
+        map.put("oldQuantity", 0);
+        map.put("oldPrice", 0);
         try {
             ct3 = new CapsuleTypeImpl(map2);
             fail();
@@ -100,6 +104,8 @@ public class TestCapsuleTypeImpl {
         map2.put("capsulesPerBox", -100);
         map2.put("boxPrice", -200);
         map2.put("quantity", -99);
+        map.put("oldQuantity", 0);
+        map.put("oldPrice", 0);
         try {
             ct3 = new CapsuleTypeImpl(map2);
             fail();
