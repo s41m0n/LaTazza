@@ -76,6 +76,7 @@ public class CapsuleTypeImpl implements CapsuleType {
             throw new BeverageException(); 
         this.name = name;
         this.oldQuantity = this.quantity;
+        this.quantity = 0;
         this.oldPrice = this.getPrice();
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
@@ -83,17 +84,23 @@ public class CapsuleTypeImpl implements CapsuleType {
 
     @Override
     public void updateQuantity(Integer toAdd) throws BeverageException { //Update quantity
+        System.out.println("toAdd: " + toAdd);
         if (this.quantity.longValue() + toAdd.longValue() > Integer.MAX_VALUE
                 || ((this.quantity + this.oldQuantity + toAdd) < 0))
             throw new BeverageException();
         if (toAdd < 0 && this.oldQuantity > 0)
             if (this.oldQuantity + toAdd < 0) {
                 toAdd += this.oldQuantity;
+                this.oldQuantity = 0;
                 this.quantity += toAdd;
             } else
                 this.oldQuantity += toAdd;
         else
             this.quantity += toAdd;
+        System.out.println("Quantity: " + quantity);
+        System.out.println("Price: " + getPrice());
+        System.out.println("Old quantity: " + oldQuantity);
+        System.out.println("Old price: " + oldPrice);
     }
 
     @Override
