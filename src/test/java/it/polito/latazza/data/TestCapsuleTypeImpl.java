@@ -18,6 +18,7 @@ public class TestCapsuleTypeImpl {
     static CapsuleType ct3 = null;
     static CapsuleType ct4 = null;
     static CapsuleType ct5 = null;
+    static CapsuleType ct6 = null;
 
     @BeforeAll
     static void testCapsuleTypeImpl() {
@@ -58,6 +59,20 @@ public class TestCapsuleTypeImpl {
         map3.put("oldPrice", 0);
         try {
         	ct5 = new CapsuleTypeImpl(map3);
+        } catch(BeverageException e) {
+        	fail();
+        }
+        
+        Map<String, Object> map4 = new HashMap<>();
+        map4.put("id", 3);
+        map4.put("name", "Tea3");
+        map4.put("capsulesPerBox", 100);
+        map4.put("boxPrice", 200);
+        map4.put("quantity", 99);
+        map4.put("oldQuantity", 50);
+        map4.put("oldPrice", 0);
+        try {
+        	ct6 = new CapsuleTypeImpl(map3);
         } catch(BeverageException e) {
         	fail();
         }
@@ -290,7 +305,19 @@ public class TestCapsuleTypeImpl {
         }
         
         try {
+        	ct2.updateQuantity(1); //toAdd > 0 && oldQuantity = 0
+        } catch(BeverageException e) {
+        	fail();
+        }
+        
+        try {
         	ct5.updateQuantity(-50); //toAdd < 0 and oldQuantity > 0, but not generating exception
+        } catch(BeverageException e) {
+        	fail();
+        }
+        
+        try {
+        	ct6.updateQuantity(40); //toAdd > 0 and oldQuantity > 0
         } catch(BeverageException e) {
         	fail();
         }
