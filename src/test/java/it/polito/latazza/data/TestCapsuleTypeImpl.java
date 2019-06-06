@@ -17,6 +17,7 @@ public class TestCapsuleTypeImpl {
     static CapsuleType ct2 = null;
     static CapsuleType ct3 = null;
     static CapsuleType ct4 = null;
+    static CapsuleType ct5 = null;
 
     @BeforeAll
     static void testCapsuleTypeImpl() {
@@ -45,6 +46,20 @@ public class TestCapsuleTypeImpl {
             ct2 = new CapsuleTypeImpl(map);
         } catch (BeverageException e) {
             fail();
+        }
+        
+        Map<String, Object> map3 = new HashMap<>();
+        map3.put("id", 2);
+        map3.put("name", "Tea2");
+        map3.put("capsulesPerBox", 100);
+        map3.put("boxPrice", 200);
+        map3.put("quantity", 99);
+        map3.put("oldQuantity", 1);
+        map3.put("oldPrice", 0);
+        try {
+        	ct5 = new CapsuleTypeImpl(map3);
+        } catch(BeverageException e) {
+        	fail();
         }
         
         /* WHITEBOX TESTS */
@@ -272,6 +287,12 @@ public class TestCapsuleTypeImpl {
         	fail();
         } catch(BeverageException e) {
         	assertTrue(true);
+        }
+        
+        try {
+        	ct5.updateQuantity(-50); //toAdd < 0 and oldQuantity > 0, but not generating exception
+        } catch(BeverageException e) {
+        	fail();
         }
     }
 
