@@ -72,12 +72,14 @@ public class CapsuleTypeImpl implements CapsuleType {
 
     @Override
     public void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException { //Update all fields except quantity
-        if (capsulesPerBox <= 0 || boxPrice <= 0)
-            throw new BeverageException(); 
+        if ((capsulesPerBox <= 0 || boxPrice <= 0) || (!this.getPrice().equals(boxPrice/capsulesPerBox) && this.oldQuantity > 0))
+            throw new BeverageException();
         this.name = name;
-        this.oldQuantity = this.quantity;
-        this.quantity = 0;
-        this.oldPrice = this.getPrice();
+        if (!this.getPrice().equals(boxPrice/capsulesPerBox)) {
+            this.oldQuantity = this.quantity;
+            this.quantity = 0;
+            this.oldPrice = this.getPrice();
+        }
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
     }
