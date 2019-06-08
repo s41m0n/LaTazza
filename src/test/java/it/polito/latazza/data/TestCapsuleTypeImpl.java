@@ -55,7 +55,7 @@ public class TestCapsuleTypeImpl {
         map3.put("capsulesPerBox", 100);
         map3.put("boxPrice", 200);
         map3.put("quantity", 99);
-        map3.put("oldQuantity", 1);
+        map3.put("oldQuantity", 2);
         map3.put("oldPrice", 0);
         try {
         	ct5 = new CapsuleTypeImpl(map3);
@@ -309,9 +309,14 @@ public class TestCapsuleTypeImpl {
         } catch(BeverageException e) {
         	fail();
         }
-        
+
         try {
-        	ct5.updateQuantity(-50); //toAdd < 0 and oldQuantity > 0, but not generating exception
+            ct5.updateQuantity(-1); //toAdd <0 and oldQuantity >0, but will still be >0
+        } catch (BeverageException e) {
+            fail();
+        }
+        try {
+        	ct5.updateQuantity(-50); //toAdd < 0 and oldQuantity > 0, will be = 0 and not generating exception
         } catch(BeverageException e) {
         	fail();
         }
