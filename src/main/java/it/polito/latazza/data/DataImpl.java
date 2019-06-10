@@ -49,18 +49,19 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!ct.isPresent()) throw new BeverageException();
 		//If there are less capsules than the requested number we can't complete the operation -> exception
-		if(ct.get().getQuantity() < numberOfCapsules)
+		if(ct.get().getQuantity() + ct.get().getOldQuantity() < numberOfCapsules)
 			throw new NotEnoughCapsules();
 		//In the opposite case we can try to create the transaction (checking also if it can be done through the balance, in opposite case use cash)
 		try {
 			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 					fromAccount? Transaction.Type.CONSUMPTION_BALANCE : Transaction.Type.CONSUMPTION_CASH, c.get().getId(), ct.get().getId()));
 		} catch (DateException e) { e.printStackTrace();}
+		int oldQuant = ct.get().getOldQuantity() - numberOfCapsules < 0 ? ct.get().getOldQuantity() : ct.get().getOldQuantity() - numberOfCapsules;
 		ct.get().updateQuantity(-numberOfCapsules); //Decrease the quantity of the capsule type
 		if(fromAccount)
-			c.get().updateBalance(-numberOfCapsules * ct.get().getPrice()); //Update the balance of the account if the transaction was made through the account
+			c.get().updateBalance(- oldQuant * ct.get().getOldPrice() - (numberOfCapsules - oldQuant) * ct.get().getPrice());
 		else
-			this.sysBalance.add(numberOfCapsules * ct.get().getPrice());
+			this.sysBalance.add(oldQuant * ct.get().getOldPrice() + (numberOfCapsules - oldQuant) * ct.get().getPrice());
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Update the JSON file
 		return c.get().getBalance(); //Return new balance of the employee
 	}
@@ -77,14 +78,15 @@ public class DataImpl implements DataInterface {
 				.findFirst();
 		if(!ct.isPresent()) throw new BeverageException();
 		//Check if there are enough capsules for the beverage
-		if(ct.get().getQuantity() < numberOfCapsules) throw new NotEnoughCapsules();
+		if(ct.get().getOldQuantity() + ct.get().getQuantity() < numberOfCapsules) throw new NotEnoughCapsules();
 		try {
 			//Create the transaction -> necessarily by cash for visitors
 			this.transactions.add(new TransactionImpl(new Date(), numberOfCapsules,
 					Transaction.Type.CONSUMPTION_CASH, ct.get().getId()));
 		} catch (DateException e) { e.printStackTrace();}
+		int oldQuant = ct.get().getOldQuantity() - numberOfCapsules < 0 ? ct.get().getOldQuantity() : ct.get().getOldQuantity() - numberOfCapsules;
 		ct.get().updateQuantity(-numberOfCapsules); //Update quantity of capsules for the beverage
-		this.sysBalance.add(numberOfCapsules * ct.get().getPrice()); //Update the system balance
+		this.sysBalance.add(oldQuant * ct.get().getOldPrice() + (numberOfCapsules - oldQuant) * ct.get().getPrice()); //Update the system balance
 		DataManagerImpl.getDataManager().store(this.sysBalance, this.capsuleTypes, this.colleagues, this.transactions); //Store in the JSON file
 	}
 
@@ -148,8 +150,8 @@ public class DataImpl implements DataInterface {
 				.filter(x -> x.getObject() != null && x.getObject().equals(employeeId)
 						&& x.getDate().after(startDate) && x.getDate().before(endDayDate))
 				.map(x -> {
-					String employee = this.colleagues.stream().filter(y -> y.getId().equals(employeeId)).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining()); //For each transaction retrieve a string with employee's name and surame
-					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining()); //For each transaction retrieve the name of the beverage
+					String employee = this.colleagues.stream().filter(y -> y.getId().equals(employeeId)).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining());
+					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining());
 					String toReturn = "Error";
 					switch(x.getType()) { //Depending on the transaction type print differently
 						case RECHARGE:
@@ -183,8 +185,8 @@ public class DataImpl implements DataInterface {
 		return this.transactions.stream()
 				.filter(x -> x.getDate().after(startDate) && x.getDate().before(endDayDate))
 				.map(x -> {
-					String employee = this.colleagues.stream().filter(y -> y.getId().equals(x.getObject())).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining()); //String with employee's name and surname
-					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining()); //String with the beverage name
+					String employee = this.colleagues.stream().filter(y -> y.getId().equals(x.getObject())).map(y -> y.getName() + " " +y.getSurname()).collect(Collectors.joining());
+					String capsuleType = this.capsuleTypes.stream().filter(y -> y.getId().equals(x.getDirectObject())).map(CapsuleType::getName).collect(Collectors.joining());
 					String toReturn = "Error";
 					switch(x.getType()) { //Depending on the transaction type print differently
 						case CONSUMPTION_CASH:
@@ -286,7 +288,7 @@ public class DataImpl implements DataInterface {
 				.filter(x -> x.getId().equals(id))
 				.findFirst();
 		if(!c.isPresent()) throw new BeverageException();
-		return c.get().getQuantity();
+		return c.get().getQuantity() + c.get().getOldQuantity();
 	}
 
 	@Override

@@ -47,6 +47,20 @@ public interface CapsuleType {
     Integer getCapsulesPerBox();
 
     /**
+     * Return the beverage quantity before last update
+     *
+     * @return the beverage quantity before last update
+     */
+    Integer getOldQuantity();
+
+    /**
+     * Return the beverage price before last update
+     *
+     * @return the beverage price before last update
+     */
+    Integer getOldPrice();
+
+    /**
      * Update the beverage name, capsulesPerBox and boxPrice
      *
      * @param name           the new name of the beverage

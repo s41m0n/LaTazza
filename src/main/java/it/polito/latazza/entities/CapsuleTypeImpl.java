@@ -11,6 +11,8 @@ public class CapsuleTypeImpl implements CapsuleType {
     private Integer quantity;
     private Integer capsulesPerBox;
     private Integer boxPrice;
+    private Integer oldQuantity;
+    private Integer oldPrice;
     private String name;
 
     public CapsuleTypeImpl(Integer id, String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException { //Basic contructor
@@ -21,6 +23,8 @@ public class CapsuleTypeImpl implements CapsuleType {
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
         this.quantity = 0;
+        this.oldQuantity = 0;
+        this.oldPrice = 0;
     }
 
     public CapsuleTypeImpl(Map m) throws BeverageException { //Constructor with Map data structure passed as argument
@@ -32,6 +36,8 @@ public class CapsuleTypeImpl implements CapsuleType {
         this.capsulesPerBox = (Integer) m.get("capsulesPerBox");
         this.boxPrice = (Integer) m.get("boxPrice");
         this.name = (String) m.get("name");
+        this.oldQuantity = (Integer) m.get("oldQuantity");
+        this.oldPrice = (Integer) m.get("oldPrice");
     }
 
     @Override
@@ -55,10 +61,25 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     @Override
+    public Integer getOldQuantity() {
+        return this.oldQuantity;
+    }
+
+    @Override
+    public Integer getOldPrice() {
+        return this.oldPrice;
+    }
+
+    @Override
     public void update(String name, Integer capsulesPerBox, Integer boxPrice) throws BeverageException { //Update all fields except quantity
-        if (capsulesPerBox <= 0 || boxPrice <= 0)
-            throw new BeverageException(); 
+        if ((capsulesPerBox <= 0 || boxPrice <= 0) || (!this.getPrice().equals(boxPrice/capsulesPerBox) && this.oldQuantity > 0))
+            throw new BeverageException();
         this.name = name;
+        if (!this.getPrice().equals(boxPrice/capsulesPerBox)) {
+            this.oldQuantity = this.quantity;
+            this.quantity = 0;
+            this.oldPrice = this.getPrice();
+        }
         this.capsulesPerBox = capsulesPerBox;
         this.boxPrice = boxPrice;
     }
@@ -66,9 +87,17 @@ public class CapsuleTypeImpl implements CapsuleType {
     @Override
     public void updateQuantity(Integer toAdd) throws BeverageException { //Update quantity
         if (this.quantity.longValue() + toAdd.longValue() > Integer.MAX_VALUE
-                || ((this.quantity + toAdd) < 0))
+                || ((this.quantity + this.oldQuantity + toAdd) < 0))
             throw new BeverageException();
-        this.quantity += toAdd;
+        if (toAdd < 0 && this.oldQuantity > 0)
+            if (this.oldQuantity + toAdd < 0) {
+                toAdd += this.oldQuantity;
+                this.oldQuantity = 0;
+                this.quantity += toAdd;
+            } else
+                this.oldQuantity += toAdd;
+        else
+            this.quantity += toAdd;
     }
 
     @Override

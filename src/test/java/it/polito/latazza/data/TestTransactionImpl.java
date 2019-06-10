@@ -75,7 +75,6 @@ public class TestTransactionImpl {
 
     @Test
     void getDate() {
-        System.out.println(t.toString());
         assertEquals(t.getDate(), d);
     }
 
