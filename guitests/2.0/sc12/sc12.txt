@@ -1,0 +1,7 @@
+Click "{ImageFolder}/1560583897289.png" 29 19
+Click "{ImageFolder}/1560588435709.png" 55 61
+Click "{ImageFolder}/1560588476933.png" 55 75
+Click "{ImageFolder}/1560589186701.png" 48 28
+DoubleClick "{ImageFolder}/1560589219686.png" 55 78
+Type "Carogna"
+Click "{ImageFolder}/1560589251940.png" 59 97
