@@ -28,16 +28,20 @@ public class CapsuleTypeImpl implements CapsuleType {
     }
 
     public CapsuleTypeImpl(Map m) throws BeverageException { //Constructor with Map data structure passed as argument
-        if ((Integer) m.get("id") < 0 || (Integer) m.get("quantity") < 0
-                || (Integer) m.get("capsulesPerBox") <= 0 || (Integer) m.get("boxPrice") <= 0)
-            throw  new BeverageException();
+        if (!m.containsKey("id") || !m.containsKey("name") || !m.containsKey("capsulesPerBox") ||
+                !m.containsKey("boxPrice") || !m.containsKey("quantity") || !m.containsKey("oldQuantity") ||
+                !m.containsKey("oldPrice"))
+            throw new BeverageException(); //Custom exception for beverages
         this.id = (Integer) m.get("id");
-        this.quantity = (Integer) m.get("quantity");
+        this.name = (String) m.get("name");
         this.capsulesPerBox = (Integer) m.get("capsulesPerBox");
         this.boxPrice = (Integer) m.get("boxPrice");
-        this.name = (String) m.get("name");
+        this.quantity = (Integer) m.get("quantity");
         this.oldQuantity = (Integer) m.get("oldQuantity");
         this.oldPrice = (Integer) m.get("oldPrice");
+
+        if(capsulesPerBox <= 0 || boxPrice <= 0 || id < 0 || quantity < 0)
+            throw new BeverageException();
     }
 
     @Override
