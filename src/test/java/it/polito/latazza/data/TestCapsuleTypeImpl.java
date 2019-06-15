@@ -19,6 +19,7 @@ public class TestCapsuleTypeImpl {
     static CapsuleType ct4 = null;
     static CapsuleType ct5 = null;
     static CapsuleType ct6 = null;
+    static CapsuleType ct7 = null;
 
     @BeforeAll
     static void testCapsuleTypeImpl() {
@@ -213,8 +214,21 @@ public class TestCapsuleTypeImpl {
         } catch (BeverageException e) {
             assertTrue(true);
         }
-       
-        
+
+        try {
+            map4.put("capsulesPerBox", -100);
+            ct7 = new CapsuleTypeImpl(map4);
+        } catch (BeverageException e) {
+            assertNull(ct7);
+        }
+
+        try {
+            map4.remove("quantity");
+            ct7 = new CapsuleTypeImpl(map4);
+            fail();
+        } catch (BeverageException e) {
+            assertNull(ct7);
+        }
     }
  
 
