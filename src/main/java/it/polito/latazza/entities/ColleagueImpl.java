@@ -22,12 +22,17 @@ public class ColleagueImpl implements Colleague {
     }
 
     public ColleagueImpl(Map m) throws EmployeeException { //Constructor with Map data structure passed as argument
-        if ((Integer) m.get("id") < 0)
+        Integer id = (Integer) m.get("id"), balance = (Integer) m.get("balance");
+        String name = (String) m.get("name"), surname = (String) m.get("surname");
+        if (!m.containsKey("id") || !m.containsKey("balance") ||
+                !m.containsKey("surname") || !m.containsKey("name"))
             throw new EmployeeException();
-        this.id = (Integer) m.get("id");
-        this.balance = (Integer) m.get("balance");
-        this.name = (String) m.get("name");
-        this.surname = (String) m.get("surname");
+        this.id = id;
+        this.balance = balance;
+        this.name = name;
+        this.surname = surname;
+        if(id < 0)
+            throw new EmployeeException();
     }
 
     @Override
@@ -72,7 +77,6 @@ public class ColleagueImpl implements Colleague {
                 ", \"balance\":" + this.balance +
                 ", \"name\":\"" + this.name + "\"" +
                 ", \"surname\":\"" + this.surname + "\"" +
-                /*", \"transactions\":[" + this.transactions +*/
                 "]}";
     }
 }
