@@ -17,6 +17,7 @@ public class TestColleagueImpl {
     static Colleague ci2 = null;
     static Colleague cf = null;
     static Colleague cf2 = null;
+    static Colleague cf3 = null;
 
     @BeforeAll
     static void testColleagueImpl() {
@@ -55,6 +56,14 @@ public class TestColleagueImpl {
             fail();
         } catch (EmployeeException e) {
             assertTrue(true);
+        }
+
+        try {
+            map2.remove("name");
+            cf3 = new ColleagueImpl(map2);
+            fail();
+        } catch (EmployeeException e) {
+            assertNull(cf3);
         }
     }
 
