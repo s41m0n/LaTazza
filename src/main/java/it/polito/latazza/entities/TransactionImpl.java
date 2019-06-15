@@ -30,14 +30,16 @@ public class TransactionImpl implements Transaction {
     }
 
     public TransactionImpl(Map m) throws DateException { //Constructor with Map data structure passed as argument
-        Date d = new Date((Long) m.get("date"));
-        if (d.after(new Date()))
+        if (!m.containsKey("date")|| !m.containsKey("amount")|| !m.containsKey("type")||
+                !m.containsKey("object")|| !m.containsKey("directObject"))
             throw new DateException();
-        this.date = d;
+        this.date = new Date((Long)m.get("date"));
         this.amount = (Integer) m.get("amount");
         this.type = Type.valueOf(m.get("type").toString());
         this.object = (Integer) m.get("object");
         this.directObject = (Integer) m.get("directObject");
+        if(date.after(new Date()))
+            throw new DateException();
     }
 
     @Override
