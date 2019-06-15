@@ -8,30 +8,24 @@ Version: 1.0
 
 # Contents
 
-- [Regression Report for Visual Test Cases](#fragility)
+- [Regression Report for Visual Test Cases](#regression-report-for-visual-test-cases)
 
 
 
 # Regression Report for Visual Test Cases
 
-```
-<Report here the changes that you had to perform on the Visual test cases, indicating for each one:
-- if the Visual test case was still working after the modification (non-fragile test case)
-- if the Visual test case was not working after the modifications in the GUI (fragile test case)
-- the number of screen captures that you had to adapt to the modification, and the percentage of changed captures (computed as the ratio: changed screen captures / total screen captures, for each test case)>
-```
 
 | Scenario | Fragile / Non-Fragile | Number of changed screen captures | Percentage of changed screen captures |
 | -------- | --------------------- | --------------------------------- | ------------------------------------- |
-|   SC1    |        Fragile        |                                   |                                       |
-|   SC2    |                       |                                   |                                       |
-|   SC3    |                       |                                   |                                       |
-|   SC4    |                       |                                   |                                       |
-|   SC5    |                       |                                   |                                       |
-|   SC6    |                       |                                   |                                       |
-|   SC7    |                       |                                   |                                       |
-|   SC8    |                       |                                   |                                       |
-|   SC9    |                       |                                   |                                       |
-|   SC10   |                       |                                   |                                       |
-|   SC11   |                       |                                   |                                       |
-|   SC12   |                       |                                   |                                       |
+|   SC1    |        Fragile        |                 7                 |                  87.5%                |
+|   SC2    |        Fragile        |                 8                 |                  88.8%                |
+|   SC3    |        Fragile        |                 5                 |                  71.4%                |
+|   SC4    |      Non-Fragile      |                 0                 |                    0%                 |
+|   SC5    |        Fragile        |                 7                 |                  77.7%                |
+|   SC6    |        Fragile        |                 6                 |                  85.7%                |
+|   SC7    |        Fragile        |                 7                 |                  87.5%                |
+|   SC8    |      Non-Fragile      |                 0                 |                    0%                 |
+|   SC9    |      Non-Fragile      |                 0                 |                    0%                 |
+|   SC10   |      Non-Fragile      |                 0                 |                    0%                 |
+|   SC11   |      Non-Fragile      |                 0                 |                    0%                 |
+|   SC12   |      Non-Fragile      |                 0                 |                    0%                 |
