@@ -24,7 +24,7 @@ public class DataManagerImpl implements DataManager{
         maxFileNumber = 0;
         try (Stream<Path> files = Files.walk(Paths.get("."))){
 
-            final Pattern pattern = Pattern.compile(filename + "(\\d)+" + extension);
+            final Pattern pattern = Pattern.compile(filename + "(\\d+)" + extension);
             files.forEach(x -> {
                 Matcher m = pattern.matcher(x.getFileName().toString());
                 int maxTmp;

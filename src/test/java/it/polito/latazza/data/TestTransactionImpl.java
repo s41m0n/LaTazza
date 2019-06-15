@@ -19,6 +19,7 @@ public class TestTransactionImpl {
     static Transaction t = null;
     static Transaction t2 = null;
     static Transaction t3 = null;
+    static Transaction t4 = null;
     static Date d = null;
     static Date d2 = null;
     static Map<String, Object> map = null;
@@ -69,6 +70,14 @@ public class TestTransactionImpl {
             fail();
         } catch (DateException e) {
             assertTrue(true);
+        }
+
+        try {
+            map2.remove("date");
+            t4 = new TransactionImpl(map2);
+            fail();
+        } catch (DateException e) {
+            assertNull(t4);
         }
         
     }
