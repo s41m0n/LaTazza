@@ -1,9 +1,0 @@
-Click "{ImageFolder}/1560583897289.png" 29 19
-Click "{ImageFolder}/1560588435709.png" 55 61
-Click "{ImageFolder}/1560588476933.png" 52 55
-Click "{ImageFolder}/1560588505773.png" 51 29
-DoubleClick "{ImageFolder}/1560588523074.png" 56 88
-Type "100"
-DoubleClick "{ImageFolder}/1560588578530.png" 56 78
-Type "100"
-Click "{ImageFolder}/1560588598715.png" 58 97
